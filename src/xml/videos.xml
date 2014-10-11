@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<videos>
+	<video title="Video1" plays="345" length="30" company="Chipotle" />
+	<video title="Video2" plays="307" length="60" company="Duke Barber Shop"/>
+	<video title="Video3" plays="412" length="45" company="Bali Hai" />
+	<video title="Video4" plays="245" length="60" company="Loop"/>
+</videos>
