@@ -1,10 +1,11 @@
 package gui;
 public class Video {
 
+	private String myCompany;
 	private String myName;
+	private int myPlaysPurchased;
 	private int myPlaysRemaining;
 	private int myLength;
-	private String myCompany;
 
 	/**
 	 * Video constructor
@@ -13,11 +14,12 @@ public class Video {
 	 * @param length
 	 * @param company
 	 */
-	public Video(String company, String name, int playsRemaining, int length){
+	public Video(String company, String name, int playsPurchased, int playsRemaining, int length){
+		myCompany = company;
 		myName = name;
+		myPlaysPurchased  = playsPurchased;
 		myPlaysRemaining = playsRemaining;
 		myLength = length;
-		myCompany = company;
 	}
 
 	public String getMyName() {
@@ -32,16 +34,8 @@ public class Video {
 		return myPlaysRemaining;
 	}
 
-	public void setMyPlaysRemaining(int myPlaysRemaining) {
-		this.myPlaysRemaining = myPlaysRemaining;
-	}
-
 	public int getMyLength() {
 		return myLength;
-	}
-
-	public void setMyLength(int myLength) {
-		this.myLength = myLength;
 	}
 
 	public String getMyCompany() {
@@ -50,5 +44,9 @@ public class Video {
 
 	public void setMyCompany(String myCompany) {
 		this.myCompany = myCompany;
+	}
+	
+	public int getMyPlaysPurchased() {
+		return myPlaysPurchased;
 	}
 }

@@ -16,9 +16,9 @@ public class Main extends Application {
 		VBox centerContainer = new VBox(10);
 		final ObservableList<Video> videoList = FXCollections.observableArrayList();
 		pane.setCenter(centerContainer);
-		XMLParser videoParser = new XMLParser(videoList, stage);
+		XMLParser videoParser = new XMLParser(videoList);
 		XMLWriter xmlWriter = new XMLWriter();
-		NewVideoPrompt newVideoPrompt = new NewVideoPrompt(videoList, xmlWriter);
-		centerContainer.getChildren().addAll(new VideoTable(videoList, xmlWriter), newVideoPrompt);
+		centerContainer.getChildren().addAll(new VideoTable(videoList, xmlWriter),
+											 new NewVideoPrompt(videoList, xmlWriter));
 	}
 }

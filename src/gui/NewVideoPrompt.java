@@ -20,7 +20,7 @@ public class NewVideoPrompt extends HBox {
 	private XMLWriter myXMLWriter;
 	private TextField myCompanyField;
 	private TextField myTitleField;
-	private TextField myPlaysField;
+	private TextField myPurchasedPlaysField;
 	private TextField myLengthField;
 	
 	public NewVideoPrompt(ObservableList<Video> videoList, XMLWriter writer) throws FileNotFoundException, SAXException, IOException, ParserConfigurationException{
@@ -28,11 +28,11 @@ public class NewVideoPrompt extends HBox {
 		
 		myCompanyField = makeTextField("Company");		
 		myTitleField = makeTextField("Video Title");
-		myPlaysField = makeTextField("Num Plays");
+		myPurchasedPlaysField = makeTextField("Plays Purchased");
 		myLengthField = makeTextField("Length");
 
 		this.getChildren().addAll(myCompanyField, myTitleField, 
-				myPlaysField, myLengthField, makeNewVideoButton(videoList));
+				myPurchasedPlaysField, myLengthField, makeNewVideoButton(videoList));
 		this.setSpacing(3);
 	}
 
@@ -50,7 +50,9 @@ public class NewVideoPrompt extends HBox {
 				Video video = new Video(
 						myCompanyField.getText(),
 						myTitleField.getText(),
-						Integer.parseInt(myPlaysField.getText()),
+						//purchased plays and plays remaining are the same.
+						Integer.parseInt(myPurchasedPlaysField.getText()),
+						Integer.parseInt(myPurchasedPlaysField.getText()),
 						Integer.parseInt(myLengthField.getText()));
 				videoList.add(video);
 				try {
@@ -68,7 +70,7 @@ public class NewVideoPrompt extends HBox {
 	private void clearFields() {
 		myCompanyField.clear();
 		myTitleField.clear();
-		myPlaysField.clear();
+		myPurchasedPlaysField.clear();
 		myLengthField.clear();
 	}
 }

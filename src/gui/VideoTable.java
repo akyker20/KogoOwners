@@ -1,6 +1,6 @@
 package gui;
-import javax.xml.transform.TransformerException;
 
+import javax.xml.transform.TransformerException;
 import editingcells.StringEditingCell;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -13,6 +13,8 @@ import javafx.util.Callback;
 
 public class VideoTable extends TableView<Video> {
 	
+	public static int NUM_COLS = 5;
+	
 	public VideoTable(ObservableList<Video> data, XMLWriter writer){
 		
 		Callback<TableColumn<Video, String>, TableCell<Video, String>> stringCellFactory =
@@ -24,7 +26,7 @@ public class VideoTable extends TableView<Video> {
 		
 		TableColumn<Video, String> companyName = new TableColumn<Video, String>("Company");
 		companyName.setCellValueFactory(new PropertyValueFactory("myCompany"));
-		companyName.prefWidthProperty().bind(this.widthProperty().divide(4));
+		companyName.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
 		companyName.setCellFactory(stringCellFactory);
 		companyName.setOnEditCommit(
 	            new EventHandler<CellEditEvent<Video, String>>() {
@@ -46,18 +48,22 @@ public class VideoTable extends TableView<Video> {
 
 		TableColumn<Video,String> nameCol = new TableColumn<Video,String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory("myName"));
-		nameCol.prefWidthProperty().bind(this.widthProperty().divide(4));
+		nameCol.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
 
-		TableColumn<Video, Integer> numPlaysCol = new TableColumn<Video, Integer>("Plays");
-		numPlaysCol.setCellValueFactory(new PropertyValueFactory("myPlaysRemaining"));
-		numPlaysCol.prefWidthProperty().bind(this.widthProperty().divide(4));
+		TableColumn<Video, Integer> numPlaysPurchasedCol = new TableColumn<Video, Integer>("Plays Purchased");
+		numPlaysPurchasedCol.setCellValueFactory(new PropertyValueFactory("myPlaysPurchased"));
+		numPlaysPurchasedCol.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
+		
+		TableColumn<Video, Integer> numPlaysRemainingCol = new TableColumn<Video, Integer>("Plays Remaining");
+		numPlaysRemainingCol.setCellValueFactory(new PropertyValueFactory("myPlaysRemaining"));
+		numPlaysRemainingCol.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
 
 		TableColumn<Video, Integer> lengthCol = new TableColumn<Video, Integer>("Length");
 		lengthCol.setCellValueFactory(new PropertyValueFactory("myLength"));
-		lengthCol.prefWidthProperty().bind(this.widthProperty().divide(4));
+		lengthCol.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
 
 
-		this.getColumns().setAll(companyName, nameCol, numPlaysCol, lengthCol);
+		this.getColumns().setAll(companyName, nameCol, numPlaysPurchasedCol, numPlaysRemainingCol, lengthCol);
 		this.setId("table");
 		this.setPrefHeight(300);
 		this.setItems(data);

@@ -1,49 +1,32 @@
 package gui;
-import javafx.collections.ObservableList;
 
+import javafx.collections.ObservableList;
 import java.io.File;
 import java.io.IOException;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-
 public class XMLParser extends DefaultHandler {
 
-	private ObservableList<Video> myVideoList;
-	private FileChooser chooser = new FileChooser();
-	private SAXParser saxParser;
-	private Stage myStage;
+	public static final String FILE_PATH = 
+			"src"+File.separator+"xml"+File.separator+"videos.xml";
 
-	public XMLParser(ObservableList<Video> list, Stage stage) throws ParserConfigurationException, SAXException, IOException{
+	private ObservableList<Video> myVideoList;
+	private SAXParser saxParser;
+
+	public XMLParser(ObservableList<Video> list) 
+			throws ParserConfigurationException, SAXException, IOException{
 		SAXParserFactory docFactory = SAXParserFactory.newInstance();
 		saxParser = docFactory.newSAXParser();
 		myVideoList = list;
-		myStage = stage;
-		configureFileChooser(chooser);
-		parseFile();
+		parseFile(new File(FILE_PATH));
 	}
 
-	private static void configureFileChooser (FileChooser fileChooser) {
-		fileChooser.setTitle("Open XML File");
-		fileChooser.setInitialDirectory(new File(System.getProperty("user.dir") +
-				System.getProperty("file.separator") + "src" +
-				System.getProperty("file.separator") + "xml"));
-		fileChooser.getExtensionFilters()
-		.addAll(
-				new FileChooser.ExtensionFilter("All Files", "*.*"),
-				new FileChooser.ExtensionFilter("XML", "*.xml"));
-	}
-
-	private void parseFile () throws SAXException, IOException {
-		File xmlFile = chooser.showOpenDialog(myStage);
+	private void parseFile(File xmlFile) throws SAXException, IOException {
 		try {
 			saxParser.parse(xmlFile, this);
 		}
@@ -61,8 +44,9 @@ public class XMLParser extends DefaultHandler {
 			String title = attributes.getValue("title");
 			String company = attributes.getValue("company");
 			int length = Integer.parseInt(attributes.getValue("length"));
-			int numPlaysRemaining = Integer.parseInt(attributes.getValue("plays"));
-			myVideoList.add(new Video(company, title, numPlaysRemaining, length));
+			int numPlaysPurchased = Integer.parseInt(attributes.getValue("playsPurchased"));
+			int numPlaysRemaining = Integer.parseInt(attributes.getValue("playsRemaining"));
+			myVideoList.add(new Video(company, title, numPlaysPurchased, numPlaysRemaining, length));
 		}
 	}
 }

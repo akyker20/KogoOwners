@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <videos>
-<video company="Chipotle" length="30" plays="345" title="Video1"/>
-<video company="Barber Shop" length="60" plays="307" title="Video2"/>
-<video company="Shooters" length="30" plays="145" title="Vid1"/>
+<video company="Chipotle" length="30" playsPurchased="345" playsRemaining="330" title="Video1"/>
+<video company="Barber Shop" length="60" playsPurchased="307" playsRemaining="145" title="Video2"/>
+<video company="Bali Hai" length="30" playsPurchased="123" playsRemaining="123" title="Vid1"/>
 </videos>

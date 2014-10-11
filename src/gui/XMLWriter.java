@@ -3,9 +3,7 @@ package gui;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import javafx.collections.ObservableList;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,7 +13,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -37,7 +34,8 @@ public class XMLWriter {
 			Element videoNode = document.createElement("video");
 			videoNode.setAttributeNode(makeNode(document, "title", video.getMyName()));
 			videoNode.setAttributeNode(makeNode(document, "company", video.getMyCompany()));
-			videoNode.setAttributeNode(makeNode(document, "plays", ""+ video.getMyPlaysRemaining()));
+			videoNode.setAttributeNode(makeNode(document, "playsPurchased", ""+ video.getMyPlaysPurchased()));
+			videoNode.setAttributeNode(makeNode(document, "playsRemaining", ""+ video.getMyPlaysRemaining()));
 			videoNode.setAttributeNode(makeNode(document, "length", ""+video.getMyLength()));
 			document.getDocumentElement().appendChild(videoNode);	
 		}
@@ -58,7 +56,7 @@ public class XMLWriter {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        StreamResult result = new StreamResult(new File("src"+File.separator+"xml"+File.separator+"videos.xml"));
+        StreamResult result = new StreamResult(new File(XMLParser.FILE_PATH));
         transformer.transform(new DOMSource(document), result);
         System.out.println("File saved!");
     }
