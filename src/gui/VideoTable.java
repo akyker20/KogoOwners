@@ -13,7 +13,7 @@ import javafx.util.Callback;
 
 public class VideoTable extends TableView<Video> {
 	
-	public static int NUM_COLS = 5;
+	public static int NUM_COLS = 6;
 	
 	public VideoTable(ObservableList<Video> data, XMLWriter writer){
 		
@@ -61,9 +61,14 @@ public class VideoTable extends TableView<Video> {
 		TableColumn<Video, Integer> lengthCol = new TableColumn<Video, Integer>("Length");
 		lengthCol.setCellValueFactory(new PropertyValueFactory("myLength"));
 		lengthCol.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
+		
+		TableColumn<Video, Double> revenueCol = new TableColumn<Video, Double>("Revenue ($)");
+		revenueCol.setCellValueFactory(new PropertyValueFactory("myRevenue"));
+		revenueCol.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
 
 
-		this.getColumns().setAll(companyName, nameCol, numPlaysPurchasedCol, numPlaysRemainingCol, lengthCol);
+		this.getColumns().setAll(companyName, nameCol, lengthCol, numPlaysPurchasedCol, 
+				numPlaysRemainingCol, revenueCol);
 		this.setId("table");
 		this.setPrefHeight(300);
 		this.setItems(data);

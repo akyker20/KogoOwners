@@ -1,11 +1,14 @@
 package gui;
 public class Video {
+	
+	public static final double CENTS_PER_SECOND = 0.01;
 
 	private String myCompany;
 	private String myName;
 	private int myPlaysPurchased;
 	private int myPlaysRemaining;
 	private int myLength;
+	private double myRevenue;
 
 	/**
 	 * Video constructor
@@ -20,6 +23,7 @@ public class Video {
 		myPlaysPurchased  = playsPurchased;
 		myPlaysRemaining = playsRemaining;
 		myLength = length;
+		myRevenue = myLength*CENTS_PER_SECOND*(myPlaysPurchased - myPlaysRemaining);
 	}
 
 	public String getMyName() {
@@ -48,5 +52,9 @@ public class Video {
 	
 	public int getMyPlaysPurchased() {
 		return myPlaysPurchased;
+	}
+	
+	public double getMyRevenue(){
+		return myRevenue;
 	}
 }
