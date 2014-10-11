@@ -12,7 +12,6 @@ public class StringEditingCell extends EditingCell {
 		textField = new TextField(super.getString());
 		textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override public void handle(KeyEvent t) {
-				System.out.println("HI");
 				if (t.getCode() == KeyCode.ENTER) {
 					commitEdit(textField.getText());
 				} else if (t.getCode() == KeyCode.ESCAPE) {

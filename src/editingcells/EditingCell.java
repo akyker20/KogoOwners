@@ -45,7 +45,6 @@ public abstract class EditingCell extends TableCell<Video, String> {
 					setText(null);
 					setGraphic(textField);
 				} else {
-					System.out.println(getString());
 					setText(getString());
 					setGraphic(null);
 				}

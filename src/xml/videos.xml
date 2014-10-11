@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <videos>
-	<video title="Video1" plays="345" length="30" company="Chipotle" />
-	<video title="Video2" plays="307" length="60" company="Duke Barber Shop"/>
-	<video title="Video3" plays="412" length="45" company="Bali Hai" />
-	<video title="Video4" plays="245" length="60" company="Loop"/>
+	<video company="Chipotle" length="30" plays="345" title="Video1"/>
+	<video company="Duke Barber Shop" length="60" plays="307" title="Video2"/>
+	<video company="Bali Hai" length="45" plays="412" title="Video3"/>
+	<video company="Loop" length="60" plays="245" title="Video4"/>
+<video company="S" length="2" plays="1" title="w"/>
 </videos>

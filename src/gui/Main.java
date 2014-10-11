@@ -23,36 +23,8 @@ public class Main extends Application {
 		final ObservableList<Video> videoList = FXCollections.observableArrayList();
 		pane.setCenter(centerContainer);
 		XMLParser videoParser = new XMLParser(videoList, stage);
-
-		HBox h = new HBox();
-		final TextField addCompany = new TextField();
-		addCompany.setPromptText("Company");
-		final TextField addTitle = new TextField();
-		addTitle.setPromptText("Video Title");
-		final TextField addPlays = new TextField();
-		addPlays.setPromptText("Num Plays");
-		final TextField addLength = new TextField();
-		addLength.setPromptText("Length");
-
-		final Button addButton = new Button("Add");
-		addButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				videoList.add(new Video(
-						addCompany.getText(),
-						addTitle.getText(),
-						Integer.parseInt(addPlays.getText()),
-						Integer.parseInt(addLength.getText())));
-				addCompany.clear();
-				addTitle.clear();
-				addPlays.clear();
-				addLength.clear();
-			}
-		});
-
-		h.getChildren().addAll(addCompany, addTitle, addPlays, addLength, addButton);
-		h.setSpacing(3);
-		centerContainer.getChildren().addAll(new VideoTable(videoList), h);
+		NewVideoPrompt newVideoPrompt = new NewVideoPrompt(videoList);
+		centerContainer.getChildren().addAll(new VideoTable(videoList), newVideoPrompt);
 	}
 
 }
