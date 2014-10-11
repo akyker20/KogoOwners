@@ -1,4 +1,6 @@
 package gui;
+import javax.xml.transform.TransformerException;
+
 import editingcells.StringEditingCell;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -10,9 +12,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
 public class VideoTable extends TableView<Video> {
-
-	public VideoTable(ObservableList<Video> data){
-
+	
+	public VideoTable(ObservableList<Video> data, XMLWriter writer){
+		
 		Callback<TableColumn<Video, String>, TableCell<Video, String>> stringCellFactory =
 				new Callback<TableColumn<Video, String>, TableCell<Video, String>>() {
 			public TableCell call(TableColumn<Video, String> p) {
@@ -20,13 +22,6 @@ public class VideoTable extends TableView<Video> {
 			}
 		};
 		
-//		Callback<TableColumn, TableCell> integerCellFactory =
-//				new Callback<TableColumn, TableCell>() {
-//			public TableCell call(TableColumn p) {
-//				return new StringEditingCell();
-//			}
-//		};
-
 		TableColumn<Video, String> companyName = new TableColumn<Video, String>("Company");
 		companyName.setCellValueFactory(new PropertyValueFactory("myCompany"));
 		companyName.prefWidthProperty().bind(this.widthProperty().divide(4));
@@ -37,7 +32,13 @@ public class VideoTable extends TableView<Video> {
 	                public void handle(CellEditEvent<Video, String> t) {
 	                    ((Video) t.getTableView().getItems().get(
 	                        t.getTablePosition().getRow())
-	                        ).setMyCompany(t.getNewValue());
+	                        ).setMyCompany(t.getNewValue());	  
+	                    try {
+							writer.writeToFile(data);
+						} catch (TransformerException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 	                }
 	             }
 	        );

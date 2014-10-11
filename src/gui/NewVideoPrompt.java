@@ -23,8 +23,8 @@ public class NewVideoPrompt extends HBox {
 	private TextField myPlaysField;
 	private TextField myLengthField;
 	
-	public NewVideoPrompt(ObservableList<Video> videoList) throws FileNotFoundException, SAXException, IOException, ParserConfigurationException{
-		myXMLWriter = new XMLWriter();
+	public NewVideoPrompt(ObservableList<Video> videoList, XMLWriter writer) throws FileNotFoundException, SAXException, IOException, ParserConfigurationException{
+		myXMLWriter = writer;
 		
 		myCompanyField = makeTextField("Company");		
 		myTitleField = makeTextField("Video Title");
@@ -54,7 +54,7 @@ public class NewVideoPrompt extends HBox {
 						Integer.parseInt(myLengthField.getText()));
 				videoList.add(video);
 				try {
-					myXMLWriter.writeToFile(video);
+					myXMLWriter.writeToFile(videoList);
 				} catch (TransformerException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
