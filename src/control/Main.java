@@ -1,4 +1,10 @@
-package gui;
+package control;
+import gui.NewVideoPrompt;
+import gui.StageInitializer;
+import gui.VideoTable;
+import video.Video;
+import xmlcontrol.XMLParser;
+import xmlcontrol.XMLWriter;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

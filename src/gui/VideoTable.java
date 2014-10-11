@@ -1,6 +1,9 @@
 package gui;
 
 import javax.xml.transform.TransformerException;
+
+import video.Video;
+import xmlcontrol.XMLWriter;
 import editingcells.StringEditingCell;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;

@@ -1,5 +1,5 @@
 package editingcells;
-import gui.Video;
+import video.Video;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 

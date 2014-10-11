@@ -1,4 +1,4 @@
-package gui;
+package video;
 public class Video {
 	
 	public static final double CENTS_PER_SECOND = 0.01;
