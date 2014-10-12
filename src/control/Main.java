@@ -1,4 +1,5 @@
 package control;
+import menus.MenuFeature;
 import gui.NewVideoPrompt;
 import gui.StageInitializer;
 import gui.VideoTable;
@@ -18,13 +19,15 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		final ObservableList<Video> videoList = FXCollections.observableArrayList();
 		BorderPane pane = StageInitializer.init(stage);
 		VBox centerContainer = new VBox(10);
-		final ObservableList<Video> videoList = FXCollections.observableArrayList();
 		pane.setCenter(centerContainer);
 		XMLParser videoParser = new XMLParser(videoList);
 		XMLWriter xmlWriter = new XMLWriter();
-		centerContainer.getChildren().addAll(new VideoTable(videoList, xmlWriter),
-											 new NewVideoPrompt(videoList, xmlWriter));
+		VideoTable videoTable = new VideoTable(videoList, xmlWriter);
+		NewVideoPrompt videoPrompt = new NewVideoPrompt(videoList, xmlWriter);
+		centerContainer.getChildren().addAll(videoTable, videoPrompt);
+		pane.setTop(new MenuFeature(videoTable));
 	}
 }
