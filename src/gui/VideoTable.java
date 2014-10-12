@@ -1,6 +1,5 @@
 package gui;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 import javax.xml.transform.TransformerException;
@@ -49,7 +48,7 @@ public class VideoTable extends TableView<Video> {
 								t.getTablePosition().getRow())
 								).setMyCompany(t.getNewValue());	  
 						try {
-							myWriter.writeToFile(myVideos);
+							myWriter.editMasterFile(myVideos);
 						} catch (TransformerException e) {
 							e.printStackTrace();
 						}
@@ -89,7 +88,7 @@ public class VideoTable extends TableView<Video> {
 	public boolean removeSelectedItem() throws TransformerException {
 		Video videoToRemove = getSelectionModel().getSelectedItem();
 		if(myVideos.remove(videoToRemove)){
-			myWriter.writeToFile(myVideos);
+			myWriter.editMasterFile(myVideos);
 			if(!myRemovedVideos.contains(videoToRemove)){
 				myRemovedVideos.push(videoToRemove);
 			}
@@ -105,7 +104,7 @@ public class VideoTable extends TableView<Video> {
 	public void undoRemovedVideo() throws TransformerException{
 		if(!myRemovedVideos.isEmpty()){
 			myVideos.add(myRemovedVideos.pop());
-			myWriter.writeToFile(myVideos);
+			myWriter.editMasterFile(myVideos);
 		}
 	}
 	

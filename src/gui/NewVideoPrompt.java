@@ -58,7 +58,7 @@ public class NewVideoPrompt extends HBox {
 						Integer.parseInt(myLengthField.getText()));
 				videoList.add(video);
 				try {
-					myXMLWriter.writeToFile(videoList);
+					myXMLWriter.editMasterFile(videoList);
 				} catch (TransformerException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

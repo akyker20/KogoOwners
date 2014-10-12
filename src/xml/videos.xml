@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <videos>
 <video company="Bali Hai" length="50" playsPurchased="134" playsRemaining="134" title="Video2"/>
-<video company="John" length="30" playsPurchased="120" playsRemaining="120" title="James"/>
-<video company="Shooters" length="60" playsPurchased="340" playsRemaining="340" title="Video1"/>
 </videos>
