@@ -1,5 +1,6 @@
 package menus;
 
+import xmlcontrol.XMLWriter;
 import gui.VideoTable;
 import javafx.scene.control.MenuBar;
 

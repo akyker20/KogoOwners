@@ -8,17 +8,14 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
 import video.Video;
 
 public class XMLParser extends DefaultHandler {
 
-	public static final String FILE_PATH = 
-			"src"+File.separator+"xml"+File.separator+"videos.xml";
+	public static final String FILE_PATH = "./src/xml/videos.xml";
 
 	private ObservableList<Video> myVideoList;
 	private SAXParser saxParser;

@@ -2,15 +2,12 @@ package menus;
 
 import javax.xml.transform.TransformerException;
 
+import xmlcontrol.XMLWriter;
 import gui.VideoTable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 /**
  * Class will be used to load files such as previously saved commands or
@@ -55,6 +52,18 @@ public class FileMenu extends Menu {
             }
         });
         
-        this.getItems().addAll(removeVideo, undoRemoveVideo);
+        MenuItem generateDriverFiles = new MenuItem("Make Driver Files");
+        generateDriverFiles.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+            	try {
+					table.buildDriverFile();
+				} catch (TransformerException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            }
+        });
+        
+        this.getItems().addAll(removeVideo, undoRemoveVideo, generateDriverFiles);
     }
 }

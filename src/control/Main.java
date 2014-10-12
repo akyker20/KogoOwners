@@ -9,12 +9,15 @@ import xmlcontrol.XMLWriter;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	public static final int NUM_DRIVERS = 8;
+	
 	public static void main(String[] args){ launch(args); }
 
 	@Override
@@ -22,6 +25,7 @@ public class Main extends Application {
 		final ObservableList<Video> videoList = FXCollections.observableArrayList();
 		BorderPane pane = StageInitializer.init(stage);
 		VBox centerContainer = new VBox(10);
+		centerContainer.setPadding(new Insets(10));
 		pane.setCenter(centerContainer);
 		XMLParser videoParser = new XMLParser(videoList);
 		XMLWriter xmlWriter = new XMLWriter();

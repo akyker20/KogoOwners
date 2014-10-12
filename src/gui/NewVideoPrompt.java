@@ -35,7 +35,7 @@ public class NewVideoPrompt extends HBox {
 
 		this.getChildren().addAll(myCompanyField, myTitleField, 
 				myPurchasedPlaysField, myLengthField, makeNewVideoButton(videoList));
-		this.setSpacing(3);
+		this.setSpacing(15);
 	}
 
 	private TextField makeTextField(String name) {

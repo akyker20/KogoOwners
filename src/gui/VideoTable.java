@@ -32,13 +32,13 @@ public class VideoTable extends TableView<Video> {
 
 		Callback<TableColumn<Video, String>, TableCell<Video, String>> stringCellFactory =
 				new Callback<TableColumn<Video, String>, TableCell<Video, String>>() {
-			public TableCell call(TableColumn<Video, String> p) {
+			public TableCell<Video, String> call(TableColumn<Video, String> p) {
 				return new StringEditingCell();
 			}
 		};
 
 		TableColumn<Video, String> companyName = new TableColumn<Video, String>("Company");
-		companyName.setCellValueFactory(new PropertyValueFactory("myCompany"));
+		companyName.setCellValueFactory(new PropertyValueFactory<Video, String>("myCompany"));
 		companyName.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
 		companyName.setCellFactory(stringCellFactory);
 		companyName.setOnEditCommit(
@@ -51,27 +51,25 @@ public class VideoTable extends TableView<Video> {
 						try {
 							myWriter.writeToFile(myVideos);
 						} catch (TransformerException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
 				}
 				);
 
-
 		TableColumn<Video,String> nameCol = new TableColumn<Video,String>("Name");
-		nameCol.setCellValueFactory(new PropertyValueFactory("myName"));
+		nameCol.setCellValueFactory(new PropertyValueFactory<Video,String>("myName"));
 		nameCol.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
 
 		TableColumn<Video, Integer> numPlaysPurchasedCol = new TableColumn<Video, Integer>("Plays Purchased");
-		numPlaysPurchasedCol.setCellValueFactory(new PropertyValueFactory("myPlaysPurchased"));
+		numPlaysPurchasedCol.setCellValueFactory(new PropertyValueFactory<Video, Integer>("myPlaysPurchased"));
 		numPlaysPurchasedCol.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
 
 		TableColumn<Video, Integer> numPlaysRemainingCol = new TableColumn<Video, Integer>("Plays Remaining");
-		numPlaysRemainingCol.setCellValueFactory(new PropertyValueFactory("myPlaysRemaining"));
+		numPlaysRemainingCol.setCellValueFactory(new PropertyValueFactory<Video, Integer>("myPlaysRemaining"));
 		numPlaysRemainingCol.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
 
-		TableColumn<Video, Integer> lengthCol = new TableColumn<Video, Integer>("Length");
+		TableColumn<Video, Integer> lengthCol = new TableColumn<Video, Integer>("Length (sec)");
 		lengthCol.setCellValueFactory(new PropertyValueFactory<Video, Integer>("myLength"));
 		lengthCol.prefWidthProperty().bind(this.widthProperty().divide(NUM_COLS));
 
@@ -116,5 +114,10 @@ public class VideoTable extends TableView<Video> {
 	 */
 	public boolean areRemovedVideosRemaining(){
 		return !myRemovedVideos.isEmpty();
+	}
+
+	
+	public void buildDriverFile() throws TransformerException {
+		myWriter.buildDriverFile(myVideos);	
 	}
 }
