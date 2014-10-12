@@ -61,8 +61,11 @@ public class XMLWriter {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        StreamResult result = new StreamResult(new File(XMLParser.FILE_PATH));
+        File xmlFile = new File(XMLParser.FILE_PATH);
+        xmlFile.setWritable(true);
+        StreamResult result = new StreamResult(xmlFile);
         transformer.transform(new DOMSource(document), result);
+        xmlFile.setReadOnly();
         System.out.println("File saved!");
     }
     
