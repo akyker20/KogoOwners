@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <videos>
-<video company="2" length="50" playsPurchased="100" playsRemaining="56" title="1"/>
 <video company="Shooters" length="50" playsPurchased="100" playsRemaining="16" title="1"/>
 <video company="Tijuana Flats" length="30" playsPurchased="500" playsRemaining="500" title="five"/>
-<video company="2" length="30" playsPurchased="300" playsRemaining="300" title="1"/>
+<video company="2" length="50" playsPurchased="100" playsRemaining="56" title="1"/>
 </videos>
