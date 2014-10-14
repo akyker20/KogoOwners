@@ -26,6 +26,13 @@ import org.xml.sax.SAXException;
 import control.Main;
 import video.Video;
 
+/**
+ * The purpose of this class is to provide a means for generating driver
+ * xml files, and also be able to edit, remove, and add advertisements to
+ * the master file.
+ * @author Austin Kyker
+ *
+ */
 public class XMLWriter {
 
 	public static final String DRIVER_PATH = "./src/xml/driver_info.xml";
@@ -36,7 +43,8 @@ public class XMLWriter {
 	private DocumentBuilder myBuilder;
 	private Transformer myTransformer;
 
-	public XMLWriter() throws FileNotFoundException, SAXException, IOException, ParserConfigurationException, TransformerConfigurationException{
+	public XMLWriter() throws FileNotFoundException, SAXException, IOException, 
+	ParserConfigurationException, TransformerConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		myBuilder = factory.newDocumentBuilder();
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -44,15 +52,29 @@ public class XMLWriter {
 		myTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
 	}
 
+	/**
+	 * Builds a new document based on the contents of the input observable 
+	 * list (the videos in the TableView), and overwrites the master file
+	 * with these changes.
+	 * @param videoList
+	 * @throws TransformerException
+	 */
 	public void editMasterFile(ObservableList<Video> videoList) throws TransformerException{
 		Document document = buildMasterDocument(videoList);
 		writeFile(document, new File(XMLParser.FILE_PATH));
 	}
-
-	private Attr makeNode(Document document, String name, String value) {
-		Attr attr = document.createAttribute(name);
-		attr.setValue(value);
-		return attr;
+	
+	/**
+	 * Builds a new document based on the video instances provided.
+	 * @param videoList
+	 * @return
+	 */
+	private Document buildMasterDocument(ObservableList<Video> videoList){
+		Document document = myBuilder.newDocument();
+		Element videosTag = document.createElement("videos");
+		document.appendChild(videosTag);
+		createVideoNodeList(document, videoList, videosTag, NOT_FOR_DRIVER);
+		return document;
 	}
 
 	/**
@@ -65,7 +87,14 @@ public class XMLWriter {
 	}
 
 
-	//add code to make this for driver...
+	/**
+	 * Sets up the elements required by the Kogo Driver XML Parser.
+	 * The status element is given an attribute initialized which is
+	 * set to false. The method uses the createVideoNodeList method to
+	 * populate its videos node.
+	 * @param videoList
+	 * @return
+	 */
 	private Document buildDriverDocument(ObservableList<Video> videoList){
 		Document document = myBuilder.newDocument();
 		Element driverTag = document.createElement("driver");
@@ -79,6 +108,15 @@ public class XMLWriter {
 		return document;
 	}
 
+	/**
+	 * Creates a video node list that is different depending on whether this
+	 * method is called in the process of generating a driver xml file or 
+	 * simply editing the master file.
+	 * @param document
+	 * @param videoList
+	 * @param videosTag
+	 * @param forDriver
+	 */
 	private void createVideoNodeList(Document document, ObservableList<Video> videoList, 
 			Element videosTag, boolean forDriver) {
 		for(Video video:videoList){
@@ -96,17 +134,27 @@ public class XMLWriter {
 			videoNode.setAttributeNode(makeNode(document, "length", ""+video.getMyLength()));
 			videosTag.appendChild(videoNode);	
 		}
-		
+	}
+	
+	/**
+	 * A helper method to create a new attribute with a name and value.
+	 * @param document
+	 * @param name
+	 * @param value
+	 * @return
+	 */
+	private Attr makeNode(Document document, String name, String value) {
+		Attr attr = document.createAttribute(name);
+		attr.setValue(value);
+		return attr;
 	}
 
-	private Document buildMasterDocument(ObservableList<Video> videoList){
-		Document document = myBuilder.newDocument();
-		Element videosTag = document.createElement("videos");
-		document.appendChild(videosTag);
-		createVideoNodeList(document, videoList, videosTag, NOT_FOR_DRIVER);
-		return document;
-	}
-
+	/**
+	 * Writes the contents of the document to the XML file specified.
+	 * @param document
+	 * @param xmlFile
+	 * @throws TransformerException
+	 */
 	private void writeFile(Document document, File xmlFile) throws TransformerException {
 		xmlFile.setWritable(true);
 		StreamResult result = new StreamResult(xmlFile);

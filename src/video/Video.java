@@ -1,4 +1,10 @@
 package video;
+
+/**
+ * Model that represents an advertising video and holds information about this video.
+ * @author Austin Kyker
+ *
+ */
 public class Video {
 	
 	public static final double CENTS_PER_SECOND = 0.01;
@@ -15,6 +21,14 @@ public class Video {
 		this(company, name, playsPurchased, playsPurchased, length);
 	}
 	
+	/**
+	 * 
+	 * @param company
+	 * @param name - the name of the video
+	 * @param playsPurchased - the number of plays purchased 
+	 * @param playsRemaining - the number of plays remaining
+	 * @param length - the length of the clip
+	 */
 	public Video(String company, String name, int playsPurchased, int playsRemaining, int length){
 		myCompany = company;
 		myName = name;

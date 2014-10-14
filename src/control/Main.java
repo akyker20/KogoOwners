@@ -33,7 +33,7 @@ public class Main extends Application {
 		VBox centerContainer = new VBox(10);
 		centerContainer.setPadding(new Insets(10));
 		pane.setCenter(centerContainer);
-		XMLParser videoParser = new XMLParser(videoList);
+		new XMLParser(videoList);
 		XMLWriter xmlWriter = new XMLWriter();
 		VideoTable videoTable = new VideoTable(videoList, xmlWriter);
 		NewVideoPrompt videoPrompt = new NewVideoPrompt(videoList, xmlWriter);
