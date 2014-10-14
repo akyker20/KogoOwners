@@ -3,7 +3,7 @@ MasterKogoAds
 
 A friend and I are interested in starting an advertisement business named Kogo.
 
-This application is one of three applications created to make our lives easier.
+This application is one of three applications created to make things easier for us, our employees, and our clients.
 
 This particular application will allow the owner (me) to add, edit, and remove advertisments.
 After we make a contract with a business looking to advertise through us, we maintain
