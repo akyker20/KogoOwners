@@ -3,7 +3,10 @@ package xmlcontrol;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javafx.collections.ObservableList;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,10 +17,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
 import control.Main;
 import video.Video;
 
@@ -25,6 +30,9 @@ public class XMLWriter {
 
 	public static final String DRIVER_PATH = "./src/xml/driver_info.xml";
 	
+	private static final boolean FOR_DRIVER = true;
+	private static final boolean NOT_FOR_DRIVER = false;
+
 	private DocumentBuilder myBuilder;
 	private Transformer myTransformer;
 
@@ -55,34 +63,47 @@ public class XMLWriter {
 		Document document = buildDriverDocument(videoList);
 		writeFile(document, new File("./src/xml/driver_info.xml"));
 	}
-	
-	
-	
+
+
+	//add code to make this for driver...
 	private Document buildDriverDocument(ObservableList<Video> videoList){
-		return buildDocument(videoList, true);
-	}
-	
-	private Document buildMasterDocument(ObservableList<Video> videoList){
-		return buildDocument(videoList, false);
+		Document document = myBuilder.newDocument();
+		Element driverTag = document.createElement("driver");
+		Element statusTag = document.createElement("status");
+		statusTag.setAttribute("initialized", "false");
+		driverTag.appendChild(statusTag);
+		Element videosTag = document.createElement("videos");
+		createVideoNodeList(document, videoList, videosTag, FOR_DRIVER);
+		driverTag.appendChild(videosTag);
+		document.appendChild(driverTag);
+		return document;
 	}
 
-	private Document buildDocument(ObservableList<Video> videoList, boolean forDriver) {
-		Document document = myBuilder.newDocument();
-		document.appendChild(document.createElement("videos"));
+	private void createVideoNodeList(Document document, ObservableList<Video> videoList, 
+			Element videosTag, boolean forDriver) {
 		for(Video video:videoList){
 			Element videoNode = document.createElement("video");
 			videoNode.setAttributeNode(makeNode(document, "title", video.getMyName()));
 			videoNode.setAttributeNode(makeNode(document, "company", video.getMyCompany()));
 			if(forDriver){
-				videoNode.setAttributeNode(makeNode(document, "playsRemaining", ""+ video.getMyPlaysRemaining()/Main.NUM_DRIVERS));
+			videoNode.setAttributeNode(makeNode(document, "maxPlays", ""+ video.getMyPlaysRemaining()/Main.NUM_DRIVERS));
 			}
 			else{
 				videoNode.setAttributeNode(makeNode(document, "playsPurchased", ""+ video.getMyPlaysPurchased()));
 				videoNode.setAttributeNode(makeNode(document, "playsRemaining", ""+ video.getMyPlaysRemaining()));
+				
 			}
 			videoNode.setAttributeNode(makeNode(document, "length", ""+video.getMyLength()));
-			document.getDocumentElement().appendChild(videoNode);	
+			videosTag.appendChild(videoNode);	
 		}
+		
+	}
+
+	private Document buildMasterDocument(ObservableList<Video> videoList){
+		Document document = myBuilder.newDocument();
+		Element videosTag = document.createElement("videos");
+		document.appendChild(videosTag);
+		createVideoNodeList(document, videoList, videosTag, NOT_FOR_DRIVER);
 		return document;
 	}
 

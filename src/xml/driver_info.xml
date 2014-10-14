@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<driver>
+<status initialized="false"/>
 <videos>
-<video company="Bali Hai" length="50" playsRemaining="16" title="Video2"/>
+<video company="Bali Hai" length="50" maxPlays="7" title="1"/>
+<video company="Jimmy Johns" length="50" maxPlays="2" title="1"/>
+<video company="Shooters" length="50" maxPlays="2" title="1"/>
 </videos>
+</driver>
