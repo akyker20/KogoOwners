@@ -79,7 +79,7 @@ public class FileMenu extends Menu {
 				@Override public void handle(ActionEvent e) {
 					String fileName = dateStr[index].replace('/', '_');
 					try {
-						table.buildDriverFile("kogo_" + fileName);
+						table.buildDriverFile("kogo_" + fileName + ".xml");
 					} catch (TransformerException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
