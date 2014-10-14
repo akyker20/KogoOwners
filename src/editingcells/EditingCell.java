@@ -3,6 +3,14 @@ import video.Video;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 
+/**
+ *This class is a super class for different types of editing cells.
+ *For now, there will only be a StringEditingCell because the integer
+ *fields should not be editable, but this provides a means for future
+ *extension.
+ * @author Austin Kyker
+ *
+ */
 public abstract class EditingCell extends TableCell<Video, String> {
 
 		protected TextField textField;
@@ -17,7 +25,6 @@ public abstract class EditingCell extends TableCell<Video, String> {
 			if (!isEmpty()) {
 				super.startEdit();
 				createTextField();
-				setText(null);
 				setGraphic(textField);
 				textField.selectAll();
 			}
@@ -26,7 +33,6 @@ public abstract class EditingCell extends TableCell<Video, String> {
 		@Override
 		public void cancelEdit() {
 			super.cancelEdit();
-
 			setText((String) getItem());
 			setGraphic(null);
 		}
@@ -51,6 +57,9 @@ public abstract class EditingCell extends TableCell<Video, String> {
 			}
 		}
 
+		/**
+		 * Method must be implemented by the subclasses.
+		 */
 		public abstract void createTextField();
 
 		protected String getString() {

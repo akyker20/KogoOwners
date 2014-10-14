@@ -10,13 +10,11 @@ public class Video {
 	private int myLength;
 	private double myRevenue;
 
-	/**
-	 * Video constructor
-	 * @param name
-	 * @param playsRemaining
-	 * @param length
-	 * @param company
-	 */
+	
+	public Video(String company, String name, int playsPurchased, int length){
+		this(company, name, playsPurchased, playsPurchased, length);
+	}
+	
 	public Video(String company, String name, int playsPurchased, int playsRemaining, int length){
 		myCompany = company;
 		myName = name;

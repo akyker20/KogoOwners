@@ -14,6 +14,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * The purpose of this class is to create the video table view,
+ * initialize the parsers, and add the menu.
+ * @author Austin Kyker
+ *
+ */
 public class Main extends Application {
 
 	public static final int NUM_DRIVERS = 8;

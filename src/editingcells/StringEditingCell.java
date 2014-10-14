@@ -4,7 +4,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-
+/**
+ * The purpose of this class is to provide a means for
+ * editing the company name and title of a video.
+ * @author Austin Kyker
+ *
+ */
 public class StringEditingCell extends EditingCell {
 
 	@Override
