@@ -116,7 +116,7 @@ public class VideoTable extends TableView<Video> {
 	}
 
 	
-	public void buildDriverFile() throws TransformerException {
-		myWriter.buildDriverFile(myVideos);	
+	public void buildDriverFile(String fileName) throws TransformerException {
+		myWriter.buildDriverFile(myVideos, fileName);	
 	}
 }

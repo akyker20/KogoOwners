@@ -59,9 +59,9 @@ public class XMLWriter {
 	 * Generates the xml file for the drivers.
 	 * @throws TransformerException 
 	 */
-	public void buildDriverFile(ObservableList<Video> videoList) throws TransformerException {
+	public void buildDriverFile(ObservableList<Video> videoList, String fileName) throws TransformerException {
 		Document document = buildDriverDocument(videoList);
-		writeFile(document, new File("./src/xml/driver_info.xml"));
+		writeFile(document, new File("./src/xml/" + fileName));
 	}
 
 
