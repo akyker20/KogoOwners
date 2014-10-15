@@ -1,5 +1,6 @@
 package menus;
 
+import gui.GUIController;
 import gui.VideoTable;
 import javafx.scene.control.MenuBar;
 
@@ -9,7 +10,7 @@ import javafx.scene.control.MenuBar;
  *
  */
 public class MenuFeature extends MenuBar {
-	public MenuFeature(VideoTable table){
-		this.getMenus().add(new FileMenu(table));
+	public MenuFeature(VideoTable table, GUIController controller){
+		this.getMenus().add(new FileMenu(table, controller));
 	}
 }

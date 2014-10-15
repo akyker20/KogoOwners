@@ -5,6 +5,8 @@ import javax.xml.transform.TransformerException;
 import menus.filemenuitems.GenerateDriverFileMenu;
 import menus.filemenuitems.RemoveVideoItem;
 import menus.filemenuitems.UndoRemoveVideoItem;
+import menus.filemenuitems.UploadDriverFiles;
+import gui.GUIController;
 import gui.VideoTable;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -21,9 +23,11 @@ public class FileMenu extends Menu {
 	private MenuItem myUndoRemoveVideo;
 	private MenuItem myRemoveVideo;
 	private GenerateDriverFileMenu myGenerateDriverFileMenu;
+	private UploadDriverFiles myUploadDriverFiles;
+	private GUIController myGUIController;
 
-	public FileMenu(VideoTable table){
-
+	public FileMenu(VideoTable table, GUIController controller){
+		myGUIController = controller;
 		myVideoTable = table;
 
 		this.setText("File");
@@ -31,8 +35,10 @@ public class FileMenu extends Menu {
 		myUndoRemoveVideo = new UndoRemoveVideoItem(this);
 		myRemoveVideo = new RemoveVideoItem(this);
 		myGenerateDriverFileMenu = new GenerateDriverFileMenu(this);
+		myUploadDriverFiles = new UploadDriverFiles(controller);
 
-		this.getItems().addAll(myRemoveVideo, myUndoRemoveVideo, myGenerateDriverFileMenu);
+		this.getItems().addAll(myRemoveVideo, myUndoRemoveVideo, 
+				myGenerateDriverFileMenu, myUploadDriverFiles);
 	}
 
 	/**
@@ -81,5 +87,9 @@ public class FileMenu extends Menu {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+
+	public void uploadDriverFiles() {
+		
 	}
 }

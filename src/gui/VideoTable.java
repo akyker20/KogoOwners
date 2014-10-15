@@ -28,14 +28,13 @@ public class VideoTable extends TableView<Video> {
 	public static int NUM_COLS = 6;
 
 	private ObservableList<Video> myVideos;
-	private XMLWriter myWriter;
 	private Stack<Video> myRemovedVideos;
+	private GUIController myGUIController;
 
 	@SuppressWarnings("unchecked")
-	public VideoTable(ObservableList<Video> data, XMLWriter writer){
-
+	public VideoTable(ObservableList<Video> data, GUIController controller){
+		myGUIController = controller;
 		myVideos = data;
-		myWriter = writer;
 		myRemovedVideos = new Stack<Video>();
 
 		Callback<TableColumn<Video, String>, TableCell<Video, String>> stringCellFactory =
@@ -88,7 +87,7 @@ public class VideoTable extends TableView<Video> {
 	 */
 	protected void editMasterFile() {
 		try {
-			myWriter.editMasterFile(myVideos);
+			myGUIController.editMasterFile();
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}	
@@ -104,7 +103,7 @@ public class VideoTable extends TableView<Video> {
 	public boolean removeSelectedItem() throws TransformerException {
 		Video videoToRemove = getSelectionModel().getSelectedItem();
 		if(myVideos.remove(videoToRemove)){
-			myWriter.editMasterFile(myVideos);
+			myGUIController.editMasterFile();
 			if(!myRemovedVideos.contains(videoToRemove)){
 				myRemovedVideos.push(videoToRemove);
 			}
@@ -121,7 +120,7 @@ public class VideoTable extends TableView<Video> {
 	public void undoRemovedVideo() throws TransformerException{
 		if(!myRemovedVideos.isEmpty()){
 			myVideos.add(myRemovedVideos.pop());
-			myWriter.editMasterFile(myVideos);
+			myGUIController.editMasterFile();
 		}
 	}
 
@@ -138,6 +137,6 @@ public class VideoTable extends TableView<Video> {
 	 * @throws TransformerException
 	 */
 	public void buildDriverFile(String fileName) throws TransformerException {
-		myWriter.buildDriverFile(myVideos, fileName);	
+		myGUIController.buildDriverFile(fileName);	
 	}
 }

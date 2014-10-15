@@ -23,7 +23,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import control.Main;
+import control.Controller;
 import video.Video;
 
 /**
@@ -124,7 +124,7 @@ public class XMLWriter {
 			videoNode.setAttributeNode(makeNode(document, "title", video.getMyName()));
 			videoNode.setAttributeNode(makeNode(document, "company", video.getMyCompany()));
 			if(forDriver){
-			videoNode.setAttributeNode(makeNode(document, "maxPlays", ""+ video.getMyPlaysRemaining()/Main.NUM_DRIVERS));
+			videoNode.setAttributeNode(makeNode(document, "maxPlays", ""+ video.getMyPlaysRemaining()/Controller.NUM_DRIVERS));
 			}
 			else{
 				videoNode.setAttributeNode(makeNode(document, "playsPurchased", ""+ video.getMyPlaysPurchased()));

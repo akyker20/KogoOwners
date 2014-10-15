@@ -1,7 +1,9 @@
 package control;
+import javax.xml.transform.TransformerException;
+
 import menus.MenuFeature;
 import gui.NewVideoPrompt;
-import gui.StageInitializer;
+import gui.GUIController;
 import gui.VideoTable;
 import video.Video;
 import xmlcontrol.XMLParser;
@@ -20,24 +22,30 @@ import javafx.stage.Stage;
  * @author Austin Kyker
  *
  */
-public class Main extends Application {
+public class Controller extends Application {
 
 	public static final int NUM_DRIVERS = 8;
+	
+	private GUIController myGUIController;
+	private XMLWriter myWriter;
+	private ObservableList<Video> myVideosList;
 	
 	public static void main(String[] args){ launch(args); }
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		final ObservableList<Video> videoList = FXCollections.observableArrayList();
-		BorderPane pane = StageInitializer.init(stage);
-		VBox centerContainer = new VBox(10);
-		centerContainer.setPadding(new Insets(10));
-		pane.setCenter(centerContainer);
-		new XMLParser(videoList);
-		XMLWriter xmlWriter = new XMLWriter();
-		VideoTable videoTable = new VideoTable(videoList, xmlWriter);
-		NewVideoPrompt videoPrompt = new NewVideoPrompt(videoList, xmlWriter);
-		centerContainer.getChildren().addAll(videoTable, videoPrompt);
-		pane.setTop(new MenuFeature(videoTable));
+		myVideosList = FXCollections.observableArrayList();
+		myGUIController = new GUIController(stage, myVideosList, this);
+		new XMLParser(myVideosList);
+		myWriter = new XMLWriter();
+	}
+
+	public void editMasterFile() throws TransformerException {
+		myWriter.editMasterFile(myVideosList);	
+	}
+
+	public void buildDriverFile(String fileName) throws TransformerException {
+		myWriter.buildDriverFile(myVideosList, fileName);
+		
 	}
 }
