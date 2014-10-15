@@ -1,14 +1,14 @@
-package gui;
+package gui.tableviews;
 
 import java.util.Stack;
 
 import javax.xml.transform.TransformerException;
 
 import video.Video;
-import xmlcontrol.XMLWriter;
 import editingcells.StringEditingCell;
+import gui.GUIController;
 import gui.tablecolumns.VideoIntTableCol;
-import gui.tablecolumns.VideoStringTableCol;
+import gui.tablecolumns.EditableVideoStringTableCol;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableCell;
@@ -44,7 +44,7 @@ public class VideoTable extends TableView<Video> {
 			}
 		};
 
-		VideoStringTableCol companyName = new VideoStringTableCol(this, stringCellFactory, "Company", "myCompany");
+		EditableVideoStringTableCol companyName = new EditableVideoStringTableCol(this, stringCellFactory, "Company", "myCompany");
 		companyName.setOnEditCommit(
 				new EventHandler<CellEditEvent<Video, String>>() {
 					@Override
@@ -56,7 +56,7 @@ public class VideoTable extends TableView<Video> {
 					}
 				});
 
-		VideoStringTableCol nameCol = new VideoStringTableCol(this, stringCellFactory, "Title", "myName");
+		EditableVideoStringTableCol nameCol = new EditableVideoStringTableCol(this, stringCellFactory, "Title", "myName");
 		nameCol.setOnEditCommit(
 				new EventHandler<CellEditEvent<Video, String>>() {
 					@Override

@@ -4,9 +4,11 @@ import javax.xml.transform.TransformerException;
 import menus.MenuFeature;
 import gui.NewVideoPrompt;
 import gui.GUIController;
-import gui.VideoTable;
+import gui.tableviews.VideoTable;
+import video.PlayedVideo;
 import video.Video;
-import xmlcontrol.XMLParser;
+import xmlcontrol.DriverXMLParser;
+import xmlcontrol.MasterXMLParser;
 import xmlcontrol.XMLWriter;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -29,14 +31,17 @@ public class Controller extends Application {
 	private GUIController myGUIController;
 	private XMLWriter myWriter;
 	private ObservableList<Video> myVideosList;
+	private ObservableList<PlayedVideo> myImportedVideos;
 	
 	public static void main(String[] args){ launch(args); }
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		myVideosList = FXCollections.observableArrayList();
-		myGUIController = new GUIController(stage, myVideosList, this);
-		new XMLParser(myVideosList);
+		myImportedVideos = FXCollections.observableArrayList();
+		myGUIController = new GUIController(stage, myVideosList, this, 
+				new DriverXMLParser(myImportedVideos), myImportedVideos);
+		new MasterXMLParser(myVideosList);
 		myWriter = new XMLWriter();
 	}
 

@@ -3,7 +3,7 @@ package gui.scenes;
 import menus.MenuFeature;
 import gui.GUIController;
 import gui.NewVideoPrompt;
-import gui.VideoTable;
+import gui.tableviews.VideoTable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;

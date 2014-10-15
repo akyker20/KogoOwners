@@ -8,7 +8,7 @@ import menus.filemenuitems.RemoveVideoItem;
 import menus.filemenuitems.UndoRemoveVideoItem;
 import menus.filemenuitems.ImportDriverFiles;
 import gui.GUIController;
-import gui.VideoTable;
+import gui.tableviews.VideoTable;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 

@@ -61,7 +61,7 @@ public class XMLWriter {
 	 */
 	public void editMasterFile(ObservableList<Video> videoList) throws TransformerException{
 		Document document = buildMasterDocument(videoList);
-		writeFile(document, new File(XMLParser.FILE_PATH));
+		writeFile(document, new File(MasterXMLParser.FILE_PATH));
 	}
 	
 	/**

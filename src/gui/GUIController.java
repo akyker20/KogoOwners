@@ -1,6 +1,7 @@
 package gui;
 import gui.scenes.ImportFilesScene;
 import gui.scenes.TableScene;
+import gui.tableviews.VideoTable;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,8 +12,11 @@ import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 
 import control.Controller;
+import video.PlayedVideo;
 import video.Video;
+import xmlcontrol.DriverXMLParser;
 import menus.MenuFeature;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -39,14 +43,14 @@ public class GUIController {
     private TableScene myTableScene;
     private ImportFilesScene myImportFilesScene;
     
-    public GUIController(Stage stage, ObservableList<Video> videoList, Controller control) throws FileNotFoundException, SAXException, IOException, ParserConfigurationException{
+    public GUIController(Stage stage, ObservableList<Video> videoList, Controller control,
+    		DriverXMLParser parser, ObservableList<PlayedVideo> importedVideos) throws FileNotFoundException, SAXException, IOException, ParserConfigurationException{
     	myStage = stage;
     	myControl = control;
     	VideoTable videoTable = new VideoTable(videoList, this);	
 		NewVideoPrompt videoPrompt = new NewVideoPrompt(videoList, this);
-		MenuFeature menuFeature = new MenuFeature(videoTable, this);
-		myTableScene = new TableScene(new BorderPane(), videoTable, videoPrompt, menuFeature);
-		myImportFilesScene = new ImportFilesScene(new Group());
+		myTableScene = new TableScene(new BorderPane(), videoTable, videoPrompt, new MenuFeature(videoTable, this));
+		myImportFilesScene = new ImportFilesScene(new BorderPane(),  new MenuFeature(videoTable, this), parser, importedVideos);
 		configureAndShowStage();
     }
 

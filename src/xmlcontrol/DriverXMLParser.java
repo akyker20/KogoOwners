@@ -4,14 +4,18 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import video.Video;
+
+import video.PlayedVideo;
+
 
 /**
  * XMLParser that uses the SAX library to parse the master file and
@@ -20,26 +24,25 @@ import video.Video;
  * @author Austin Kyker
  *
  */
-public class XMLParser extends DefaultHandler {
+public class DriverXMLParser extends DefaultHandler {
 
-	public static final String FILE_PATH = "./src/xml/videos.xml";
 	public static final String VIDEO = "video";
 	public static final String TITLE = "title";
 	public static final String COMPANY = "company";
 	public static final String LENGTH = "length";
-	public static final String PLAYS_PURCHASED = "playsPurchased";
-	public static final String PLAYS_REMAINING = "playsRemaining";
-	
+	public static final String PLAYS = "plays";
 
-	private ObservableList<Video> myVideoList;
+
+	private ObservableList<PlayedVideo> myImportedVideos;
 	private SAXParser saxParser;
+	private ArrayList<PlayedVideo> videosToRefresh;
 
-	public XMLParser(ObservableList<Video> list) 
+	public DriverXMLParser(ObservableList<PlayedVideo> importedVideos) 
 			throws ParserConfigurationException, SAXException, IOException{
 		SAXParserFactory docFactory = SAXParserFactory.newInstance();
 		saxParser = docFactory.newSAXParser();
-		myVideoList = list;
-		parseFile(new File(FILE_PATH));
+		myImportedVideos = importedVideos;
+		videosToRefresh = new ArrayList<PlayedVideo>();
 	}
 
 	/**
@@ -48,18 +51,28 @@ public class XMLParser extends DefaultHandler {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	private void parseFile(File xmlFile) throws SAXException, IOException {
+	public void parseFile(File xmlFile) throws SAXException, IOException {
 		try {
 			saxParser.parse(xmlFile, this);
+			refreshTable();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	private void refreshTable() {
+		if(!videosToRefresh.isEmpty()){
+			myImportedVideos.removeAll(videosToRefresh);
+			myImportedVideos.addAll(videosToRefresh);
+			videosToRefresh.clear();
+		}
+
+	}
+
 	/**
 	 * When a video element is found, it is found and a video instance is
-	 * created and added to the observanble list so that it can be displayed
+	 * created and added to the observable list so that it can be displayed
 	 * in the TableView.
 	 */
 	@Override
@@ -71,9 +84,15 @@ public class XMLParser extends DefaultHandler {
 			String title = attributes.getValue(TITLE);
 			String company = attributes.getValue(COMPANY);
 			int length = Integer.parseInt(attributes.getValue(LENGTH));
-			int numPlaysPurchased = Integer.parseInt(attributes.getValue(PLAYS_PURCHASED));
-			int numPlaysRemaining = Integer.parseInt(attributes.getValue(PLAYS_REMAINING));
-			myVideoList.add(new Video(company, title, numPlaysPurchased, numPlaysRemaining, length));
+			int playsCompleted = Integer.parseInt(attributes.getValue(PLAYS));
+			for(PlayedVideo video:myImportedVideos){
+				if(company.equalsIgnoreCase(video.getMyCompany()) && title.equalsIgnoreCase(video.getMyName())){
+					video.incrementCompletedViews(playsCompleted);
+					videosToRefresh.add(video);
+					return;
+				}
+			}
+			myImportedVideos.add(new PlayedVideo(company, title, playsCompleted, length));
 		}
 	}
 }

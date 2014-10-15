@@ -1,23 +1,51 @@
 package gui.scenes;
 
+import gui.GUIController;
+import gui.tableviews.DrivingSessionTable;
+import gui.tableviews.ImportedFilesTable;
+import gui.tableviews.VideoTable;
+
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import menus.MenuFeature;
+
 import org.xml.sax.SAXException;
 
+import video.PlayedVideo;
+import video.Video;
+import xmlcontrol.DriverXMLParser;
 import control.Controller;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Callback;
 
 /**
  * Scene for dragging and dropping master XML File.
@@ -28,66 +56,48 @@ import javafx.scene.paint.Color;
  *
  */
 public class ImportFilesScene extends Scene {
-	
-	private static final String DROP_INSTRUCTIONS = "Drop the driver files here...";
 
-	public ImportFilesScene(Group root) {
-		super(root);
+	private TableView<File> myImportedFilesView;
+	private TableView<PlayedVideo> myDriverSessionTable;
+	private LocalDate myDateSelected;
+	private BorderPane myPane;
+	private VBox myLeftContainer;
+	private VBox myRightContainer;
+
+	public ImportFilesScene(BorderPane root, MenuFeature menuBar, DriverXMLParser parser, ObservableList<PlayedVideo> importedVideos) {
+		super(root, GUIController.SCREEN_WIDTH, GUIController.SCREEN_HEIGHT);
+		getStylesheets().add(GUIController.STYLESHEET_PACKAGE + "style.css");
+		myPane = root;
+		final DatePicker datePicker = new DatePicker();
+		datePicker.setPrefWidth(260);
+		datePicker.setOnAction(event -> removeDatePickerAddListView(datePicker));
+		root.setTop(menuBar);
+		myLeftContainer = new VBox(10);
+		myLeftContainer.setPadding(new Insets(10));
+		root.setLeft(myLeftContainer);
+
+		ObservableList<File> files = FXCollections.observableArrayList();
 		
-		LocalDateTime now = LocalDateTime.now(); 
-	    String date = now.getMonthValue() + "_" + now.getDayOfMonth() + "_" + now.getYear();
-	    String fileName = "kogo_" + date + ".xml";
-
-		Label label = new Label(DROP_INSTRUCTIONS);
-		label.setLayoutX(210);
-		label.setLayoutY(170);
-		root.getChildren().add(label);
+		myDriverSessionTable = new DrivingSessionTable(importedVideos);
+		myImportedFilesView = new ImportedFilesTable(files, parser, myDriverSessionTable);
+		
+		
+		myLeftContainer.getChildren().addAll(datePicker, myImportedFilesView);
+		
+		
+		myRightContainer = new VBox();
+		myRightContainer.getChildren().add(myDriverSessionTable);
+		myRightContainer.setPadding(new Insets(10, 10, 10, 0));
+		root.setCenter(myRightContainer);
 		
 
-		// When a file is dragged over the scene, the background becomes
-		// green and a copy message is displayed near the mouse.
-		this.setOnDragOver(new EventHandler<DragEvent>() {
-			@Override
-			public void handle(DragEvent event) {
-				Dragboard db = event.getDragboard();
-				if (db.hasFiles()) {
-					event.acceptTransferModes(TransferMode.COPY);
-					ImportFilesScene.this.setFill(Color.LIGHTGREEN);
-				} else {
-					event.consume();
-				}
-			}
-		});
-		
-		// Upon exiting, the background of the scene returns to White.
-		this.setOnDragExited(new EventHandler<DragEvent>() {
-			@Override
-			public void handle(DragEvent event) {
-				ImportFilesScene.this.setFill(Color.WHITE);
-			}
-		});
 
-		// When a file is actually dropped it is validated to
-		// ensure it has the correct name. The controller is 
-		// then called to initialize the driving environment.
-		this.setOnDragDropped(new EventHandler<DragEvent>() {
-			@Override
-			public void handle(DragEvent event) {
-				Dragboard db = event.getDragboard();
-				boolean success = false;
-				if (db.hasFiles()) {
-					success = true;
-					String filePath = null;
-					for (File file:db.getFiles()) {
-						filePath = file.getAbsolutePath();
-						if(filePath.contains(fileName)){
-							//Code to add file
-						}
-					}
-				}
-				event.setDropCompleted(success);
-				event.consume();
-			}
-		});
+		
+	}
+
+	private void removeDatePickerAddListView(DatePicker datePicker) {
+		myDateSelected = datePicker.getValue();
+		datePicker.setDisable(true);
+		myImportedFilesView.setDisable(false);
 	}
 }
