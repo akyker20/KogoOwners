@@ -53,4 +53,9 @@ public class Controller extends Application {
 		myWriter.buildDriverFile(myVideosList, fileName);
 		
 	}
+
+	public void consumeDriverFiles() {
+		myWriter.consumeXMLFiles(myImportedVideos);
+		
+	}
 }

@@ -1,20 +1,18 @@
 package xmlcontrol;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import video.Video;
 import javafx.collections.ObservableList;
 
-import java.io.File;
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
-import video.PlayedVideo;
-import video.Video;
 
 /**
  * XMLParser that uses the SAX library to parse the master file and
@@ -23,60 +21,81 @@ import video.Video;
  * @author Austin Kyker
  *
  */
-public class MasterXMLParser extends DefaultHandler {
+public class MasterXMLParser {
 
-	public static final String FILE_PATH = "./src/xml/videos.xml";
-	public static final String VIDEO = "video";
-	public static final String TITLE = "title";
-	public static final String COMPANY = "company";
 	public static final String LENGTH = "length";
+	public static final String COMPANY = "company";
+	public static final String TITLE = "title";
+	public static final String VIDEO = "video";
+	public static final String STATUS = "status";
+	public static final String INITIALIZED = "initialized";
 	public static final String PLAYS_PURCHASED = "playsPurchased";
 	public static final String PLAYS_REMAINING = "playsRemaining";
-	
 
+	private Map<Video, Node> myVideoNodeMap;
 	private ObservableList<Video> myVideoList;
-	private SAXParser saxParser;
+	private Document myDocument;
 
-	public MasterXMLParser(ObservableList<Video> videos) 
-			throws ParserConfigurationException, SAXException, IOException{
-		SAXParserFactory docFactory = SAXParserFactory.newInstance();
-		saxParser = docFactory.newSAXParser();
-		myVideoList = videos;
-		parseFile(new File(FILE_PATH));
+	public MasterXMLParser(Document document, ObservableList<Video> videoList) {
+		myVideoList = videoList;
+		myDocument = document;
+		myVideoNodeMap = new HashMap<Video, Node>();
 	}
 
 	/**
-	 * SAXParser parses the document.
-	 * @param xmlFile
-	 * @throws SAXException
-	 * @throws IOException
+	 * Looks at all the video nodes and builds video instances. Each video instance
+	 * is added to the input ArrayList which will hold all the videos and be maintained
+	 * in the controller. The map is also updated to map each video instance to its node.
+	 * @param videoList - the list that will hold all videos
+	 * @param fileAlreadyInitialized - whether or not the file has already been initialized
 	 */
-	private void parseFile(File xmlFile) throws SAXException, IOException {
-		try {
-			saxParser.parse(xmlFile, this);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
+	public void buildVideos(ArrayList<Video> videoList, boolean fileAlreadyInitialized) {
+		Element root = myDocument.getDocumentElement();
+		NodeList videoNodes = root.getElementsByTagName(VIDEO);
+		for(int i = 0; i < videoNodes.getLength(); i++){
+			Node videoNode = videoNodes.item(i);
+			if (videoNode instanceof Element && videoNode.getNodeName().equalsIgnoreCase(VIDEO)) {
+				Video video = buildVideoFromNode(videoNode);
+				myVideoList.add(video);
+				myVideoNodeMap.put(video, videoNode);
+			}
 		}
 	}
 
 	/**
-	 * When a video element is found, it is found and a video instance is
-	 * created and added to the observanble list so that it can be displayed
-	 * in the TableView.
+	 * Creates a video instance from the videoNode.
+	 * @param videoNode
+	 * @param fileAlreadyInitialized
+	 * @return
 	 */
-	@Override
-	public void startElement (String uri,
-			String localName,
-			String elementName,
-			Attributes attributes) throws SAXException {
-		if (elementName.equalsIgnoreCase(VIDEO)) {
-			String title = attributes.getValue(TITLE);
-			String company = attributes.getValue(COMPANY);
-			int length = Integer.parseInt(attributes.getValue(LENGTH));
-			int numPlaysPurchased = Integer.parseInt(attributes.getValue(PLAYS_PURCHASED));
-			int numPlaysRemaining = Integer.parseInt(attributes.getValue(PLAYS_REMAINING));
-			myVideoList.add(new Video(company, title, numPlaysPurchased, numPlaysRemaining, length));
-		}
+	private Video buildVideoFromNode(Node videoNode) {
+		NamedNodeMap attributes = videoNode.getAttributes();
+		int numPlaysPurchased = Integer.parseInt(getAttributeValue(attributes, PLAYS_PURCHASED));
+		int numPlaysRemaining = Integer.parseInt(getAttributeValue(attributes, PLAYS_REMAINING));
+		int length = Integer.parseInt(getAttributeValue(attributes, LENGTH));
+		String title = getAttributeValue(attributes, TITLE);
+		String company = getAttributeValue(attributes, COMPANY);
+		return new Video(company, title, numPlaysPurchased, numPlaysRemaining, length);
+	}
+
+	/**
+	 * Helper function to fetch an attribute value.
+	 * @param attributes
+	 * @param attrName
+	 * @return
+	 */
+	private String getAttributeValue(NamedNodeMap attributes, String attrName) {
+		return attributes.getNamedItem(attrName).getNodeValue();
+	}
+
+	/**
+	 * Allows the XMLController to provide the XMLWriter with the node map so
+	 * that editing the driver XML File is simple.
+	 * @return the VideoNode map
+	 */
+	public Map<Video, Node> getVideoNodeMap() {
+		return myVideoNodeMap;
 	}
 }
+
+

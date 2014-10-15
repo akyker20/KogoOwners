@@ -79,4 +79,9 @@ public class GUIController {
 		myDriverFilesMenuFeature.enableConsumeDriverFilesItem();
 		
 	}
+
+	public void consumeDriverFiles() {
+		myControl.consumeDriverFiles();
+		
+	}
 }

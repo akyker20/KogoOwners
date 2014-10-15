@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import control.Controller;
+import video.PlayedVideo;
 import video.Video;
 
 /**
@@ -161,5 +162,10 @@ public class XMLWriter {
 		myTransformer.transform(new DOMSource(document), result);
 		xmlFile.setReadOnly();
 		System.out.println("File saved!");
+	}
+
+	public void consumeXMLFiles(ObservableList<PlayedVideo> importedVideo) {
+		
+		
 	}
 }
