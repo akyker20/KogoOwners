@@ -39,7 +39,12 @@ public class FileMenu extends Menu {
 		myRemoveVideo = new RemoveVideoItem(this);
 		myGenerateDriverFileMenu = new GenerateDriverFileMenu(this);
 		myUploadDriverFiles = new ImportDriverFiles(controller);
-		myConsumeDriverFiles = new ConsumeDriverFiles(this);
+		try {
+			myConsumeDriverFiles = new ConsumeDriverFiles(this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		this.getItems().addAll(myRemoveVideo, myUndoRemoveVideo, 
 				myGenerateDriverFileMenu, myUploadDriverFiles, myConsumeDriverFiles);
@@ -98,7 +103,12 @@ public class FileMenu extends Menu {
 	}
 
 	public void consumeDriverFiles() {
-		myGUIController.consumeDriverFiles();
+		try {
+			myGUIController.consumeDriverFiles();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void enableConsumeDriverFilesItem() {

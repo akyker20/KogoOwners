@@ -3,7 +3,7 @@ package xmlcontrol;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Map;
 
 import javafx.collections.ObservableList;
 
@@ -21,6 +21,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import control.Controller;
@@ -42,15 +43,19 @@ public class XMLWriter {
 	private static final boolean NOT_FOR_DRIVER = false;
 
 	private DocumentBuilder myBuilder;
+	private Map<Video, Node> myVideoNodeMap;
 	private Transformer myTransformer;
+	private File myMasterFile;
 
-	public XMLWriter() throws FileNotFoundException, SAXException, IOException, 
+	public XMLWriter(Map<Video, Node> videoNodeMap) throws FileNotFoundException, SAXException, IOException, 
 	ParserConfigurationException, TransformerConfigurationException {
+		myVideoNodeMap = videoNodeMap;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		myBuilder = factory.newDocumentBuilder();
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		myTransformer = transformerFactory.newTransformer();
 		myTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		myMasterFile = new File(XMLController.FILE_PATH);
 	}
 
 	/**
@@ -62,7 +67,7 @@ public class XMLWriter {
 	 */
 	public void editMasterFile(ObservableList<Video> videoList) throws TransformerException{
 		Document document = buildMasterDocument(videoList);
-		writeFile(document, new File(MasterXMLParser.FILE_PATH));
+		writeFile(document, myMasterFile);
 	}
 	
 	/**
@@ -164,8 +169,25 @@ public class XMLWriter {
 		System.out.println("File saved!");
 	}
 
-	public void consumeXMLFiles(ObservableList<PlayedVideo> importedVideo) {
-		
-		
+	public void consumeXMLFiles(Document document, ObservableList<Video> videos, 
+			ObservableList<PlayedVideo> importedVideos) throws TransformerException {
+		for(PlayedVideo importedVideo:importedVideos){
+			Video videoIdentified = null;
+			for(Video video:videos){
+				if(importedVideo.getMyCompany().equalsIgnoreCase(video.getMyCompany()) && 
+			       importedVideo.getMyName().equalsIgnoreCase(video.getMyName())){
+					videoIdentified = video;
+					break;
+				}
+			}
+			Element videoNode = (Element) myVideoNodeMap.get(videoIdentified);
+			videoNode.setAttribute(MasterXMLParser.PLAYS_REMAINING, getNewRemainingPlays(videoIdentified, importedVideo));
+		}
+		writeFile(document, myMasterFile);	
+	}
+
+	private String getNewRemainingPlays(Video videoIdentified,
+			PlayedVideo importedVideo) {
+		return ""+(videoIdentified.getMyPlaysRemaining() - importedVideo.getMyPlaysCompleted());
 	}
 }

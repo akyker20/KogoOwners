@@ -80,7 +80,7 @@ public class GUIController {
 		
 	}
 
-	public void consumeDriverFiles() {
+	public void consumeDriverFiles() throws TransformerException {
 		myControl.consumeDriverFiles();
 		
 	}

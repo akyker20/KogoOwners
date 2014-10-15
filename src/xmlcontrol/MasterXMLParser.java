@@ -33,11 +33,9 @@ public class MasterXMLParser {
 	public static final String PLAYS_REMAINING = "playsRemaining";
 
 	private Map<Video, Node> myVideoNodeMap;
-	private ObservableList<Video> myVideoList;
 	private Document myDocument;
 
-	public MasterXMLParser(Document document, ObservableList<Video> videoList) {
-		myVideoList = videoList;
+	public MasterXMLParser(Document document) {
 		myDocument = document;
 		myVideoNodeMap = new HashMap<Video, Node>();
 	}
@@ -49,14 +47,14 @@ public class MasterXMLParser {
 	 * @param videoList - the list that will hold all videos
 	 * @param fileAlreadyInitialized - whether or not the file has already been initialized
 	 */
-	public void buildVideos(ArrayList<Video> videoList, boolean fileAlreadyInitialized) {
+	public void buildVideos(ObservableList<Video> videoList) {
 		Element root = myDocument.getDocumentElement();
 		NodeList videoNodes = root.getElementsByTagName(VIDEO);
 		for(int i = 0; i < videoNodes.getLength(); i++){
 			Node videoNode = videoNodes.item(i);
 			if (videoNode instanceof Element && videoNode.getNodeName().equalsIgnoreCase(VIDEO)) {
 				Video video = buildVideoFromNode(videoNode);
-				myVideoList.add(video);
+				videoList.add(video);
 				myVideoNodeMap.put(video, videoNode);
 			}
 		}

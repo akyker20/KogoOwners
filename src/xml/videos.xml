@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <videos>
 <video company="Duke Barber Shop" length="50" playsPurchased="100" playsRemaining="56" title="1"/>
-<video company="Tijuana Flats" length="30" playsPurchased="500" playsRemaining="500" title="1"/>
-<video company="Loop" length="30" playsPurchased="100" playsRemaining="100" title="1"/>
-<video company="Shooters" length="50" playsPurchased="100" playsRemaining="16" title="1"/>
+<video company="Loop" length="30" playsPurchased="100" playsRemaining="98" title="1"/>
+<video company="Shooters" length="50" playsPurchased="100" playsRemaining="14" title="1"/>
 </videos>

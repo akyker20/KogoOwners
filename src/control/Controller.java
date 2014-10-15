@@ -9,6 +9,7 @@ import video.PlayedVideo;
 import video.Video;
 import xmlcontrol.DriverXMLParser;
 import xmlcontrol.MasterXMLParser;
+import xmlcontrol.XMLController;
 import xmlcontrol.XMLWriter;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -32,6 +33,7 @@ public class Controller extends Application {
 	private XMLWriter myWriter;
 	private ObservableList<Video> myVideosList;
 	private ObservableList<PlayedVideo> myImportedVideos;
+	private XMLController myXMLController;
 	
 	public static void main(String[] args){ launch(args); }
 
@@ -41,21 +43,20 @@ public class Controller extends Application {
 		myImportedVideos = FXCollections.observableArrayList();
 		myGUIController = new GUIController(stage, myVideosList, this, 
 				new DriverXMLParser(myImportedVideos), myImportedVideos);
-		new MasterXMLParser(myVideosList);
-		myWriter = new XMLWriter();
+		myXMLController = new XMLController(myVideosList);
 	}
 
 	public void editMasterFile() throws TransformerException {
-		myWriter.editMasterFile(myVideosList);	
+		myXMLController.editMasterFile(myVideosList);	
 	}
 
 	public void buildDriverFile(String fileName) throws TransformerException {
-		myWriter.buildDriverFile(myVideosList, fileName);
+		myXMLController.buildDriverFile(myVideosList, fileName);
 		
 	}
 
-	public void consumeDriverFiles() {
-		myWriter.consumeXMLFiles(myImportedVideos);
+	public void consumeDriverFiles() throws TransformerException {
+		myXMLController.consumeXMLFiles(myImportedVideos);
 		
 	}
 }
