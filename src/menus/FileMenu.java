@@ -2,10 +2,11 @@ package menus;
 
 import javax.xml.transform.TransformerException;
 
+import menus.filemenuitems.ConsumeDriverFiles;
 import menus.filemenuitems.GenerateDriverFileMenu;
 import menus.filemenuitems.RemoveVideoItem;
 import menus.filemenuitems.UndoRemoveVideoItem;
-import menus.filemenuitems.UploadDriverFiles;
+import menus.filemenuitems.ImportDriverFiles;
 import gui.GUIController;
 import gui.VideoTable;
 import javafx.scene.control.Menu;
@@ -23,7 +24,8 @@ public class FileMenu extends Menu {
 	private MenuItem myUndoRemoveVideo;
 	private MenuItem myRemoveVideo;
 	private GenerateDriverFileMenu myGenerateDriverFileMenu;
-	private UploadDriverFiles myUploadDriverFiles;
+	private ImportDriverFiles myUploadDriverFiles;
+	private ConsumeDriverFiles myConsumeDriverFiles;
 	private GUIController myGUIController;
 
 	public FileMenu(VideoTable table, GUIController controller){
@@ -35,10 +37,11 @@ public class FileMenu extends Menu {
 		myUndoRemoveVideo = new UndoRemoveVideoItem(this);
 		myRemoveVideo = new RemoveVideoItem(this);
 		myGenerateDriverFileMenu = new GenerateDriverFileMenu(this);
-		myUploadDriverFiles = new UploadDriverFiles(controller);
+		myUploadDriverFiles = new ImportDriverFiles(controller);
+		myConsumeDriverFiles = new ConsumeDriverFiles(this);
 
 		this.getItems().addAll(myRemoveVideo, myUndoRemoveVideo, 
-				myGenerateDriverFileMenu, myUploadDriverFiles);
+				myGenerateDriverFileMenu, myUploadDriverFiles, myConsumeDriverFiles);
 	}
 
 	/**
@@ -90,6 +93,10 @@ public class FileMenu extends Menu {
 	}
 
 	public void uploadDriverFiles() {
-		
+		// TODO Auto-generated method stub
+	}
+
+	public void consumeDriverFiles() {
+		// TODO Auto-generated method stub
 	}
 }

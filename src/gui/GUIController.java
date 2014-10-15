@@ -1,4 +1,5 @@
 package gui;
+import gui.scenes.ImportFilesScene;
 import gui.scenes.TableScene;
 
 import java.io.FileNotFoundException;
@@ -14,6 +15,7 @@ import video.Video;
 import menus.MenuFeature;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -35,6 +37,7 @@ public class GUIController {
     private Stage myStage;
     private Controller myControl;
     private TableScene myTableScene;
+    private ImportFilesScene myImportFilesScene;
     
     public GUIController(Stage stage, ObservableList<Video> videoList, Controller control) throws FileNotFoundException, SAXException, IOException, ParserConfigurationException{
     	myStage = stage;
@@ -43,7 +46,8 @@ public class GUIController {
 		NewVideoPrompt videoPrompt = new NewVideoPrompt(videoList, this);
 		MenuFeature menuFeature = new MenuFeature(videoTable, this);
 		myTableScene = new TableScene(new BorderPane(), videoTable, videoPrompt, menuFeature);
-        configureAndShowStage();
+		myImportFilesScene = new ImportFilesScene(new Group());
+		configureAndShowStage();
     }
 
 	private void configureAndShowStage() {
@@ -61,8 +65,7 @@ public class GUIController {
 		myControl.buildDriverFile(fileName);	
 	}
 
-	public Object uploadDriverFiles() {
-		// TODO Auto-generated method stub
-		return null;
+	public void uploadDriverFiles() {
+		myStage.setScene(myImportFilesScene);
 	}
 }
