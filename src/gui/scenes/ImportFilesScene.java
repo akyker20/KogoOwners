@@ -64,7 +64,7 @@ public class ImportFilesScene extends Scene {
 	private VBox myLeftContainer;
 	private VBox myRightContainer;
 
-	public ImportFilesScene(BorderPane root, MenuFeature menuBar, DriverXMLParser parser, ObservableList<PlayedVideo> importedVideos) {
+	public ImportFilesScene(GUIController controller, BorderPane root, MenuFeature menuBar, DriverXMLParser parser, ObservableList<PlayedVideo> importedVideos) {
 		super(root, GUIController.SCREEN_WIDTH, GUIController.SCREEN_HEIGHT);
 		getStylesheets().add(GUIController.STYLESHEET_PACKAGE + "style.css");
 		myPane = root;
@@ -79,7 +79,7 @@ public class ImportFilesScene extends Scene {
 		ObservableList<File> files = FXCollections.observableArrayList();
 		
 		myDriverSessionTable = new DrivingSessionTable(importedVideos);
-		myImportedFilesView = new ImportedFilesTable(files, parser, myDriverSessionTable);
+		myImportedFilesView = new ImportedFilesTable(controller, files, parser, myDriverSessionTable);
 		
 		
 		myLeftContainer.getChildren().addAll(datePicker, myImportedFilesView);

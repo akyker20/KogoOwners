@@ -10,7 +10,16 @@ import javafx.scene.control.MenuBar;
  *
  */
 public class MenuFeature extends MenuBar {
+	
+	private FileMenu myMenu;
+	
 	public MenuFeature(VideoTable table, GUIController controller){
-		this.getMenus().add(new FileMenu(table, controller));
+		myMenu = new FileMenu(table, controller);
+		this.getMenus().add(myMenu);
+	}
+
+	public void enableConsumeDriverFilesItem() {
+		myMenu.enableConsumeDriverFilesItem();
+		
 	}
 }

@@ -99,4 +99,9 @@ public class FileMenu extends Menu {
 	public void consumeDriverFiles() {
 		// TODO Auto-generated method stub
 	}
+
+	public void enableConsumeDriverFilesItem() {
+		myConsumeDriverFiles.setDisable(false);
+		
+	}
 }

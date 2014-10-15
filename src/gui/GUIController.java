@@ -42,6 +42,7 @@ public class GUIController {
     private Controller myControl;
     private TableScene myTableScene;
     private ImportFilesScene myImportFilesScene;
+    private MenuFeature myDriverFilesMenuFeature;
     
     public GUIController(Stage stage, ObservableList<Video> videoList, Controller control,
     		DriverXMLParser parser, ObservableList<PlayedVideo> importedVideos) throws FileNotFoundException, SAXException, IOException, ParserConfigurationException{
@@ -50,7 +51,8 @@ public class GUIController {
     	VideoTable videoTable = new VideoTable(videoList, this);	
 		NewVideoPrompt videoPrompt = new NewVideoPrompt(videoList, this);
 		myTableScene = new TableScene(new BorderPane(), videoTable, videoPrompt, new MenuFeature(videoTable, this));
-		myImportFilesScene = new ImportFilesScene(new BorderPane(),  new MenuFeature(videoTable, this), parser, importedVideos);
+		myDriverFilesMenuFeature = new MenuFeature(videoTable, this);
+		myImportFilesScene = new ImportFilesScene(this, new BorderPane(),  myDriverFilesMenuFeature, parser, importedVideos);
 		configureAndShowStage();
     }
 
@@ -71,5 +73,10 @@ public class GUIController {
 
 	public void uploadDriverFiles() {
 		myStage.setScene(myImportFilesScene);
+	}
+
+	public void enableConsumeDriverFilesItem() {
+		myDriverFilesMenuFeature.enableConsumeDriverFilesItem();
+		
 	}
 }

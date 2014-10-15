@@ -1,5 +1,7 @@
 package gui.tableviews;
 
+import gui.GUIController;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -20,9 +22,11 @@ import javafx.scene.input.TransferMode;
 public class ImportedFilesTable extends TableView<File> {
 	
 	private DriverXMLParser myDriverParser;
+	private GUIController myControl;
 	
-	public ImportedFilesTable(ObservableList<File> files, DriverXMLParser parser, TableView<PlayedVideo> myDriverSessionTable){
+	public ImportedFilesTable(GUIController control, ObservableList<File> files, DriverXMLParser parser, TableView<PlayedVideo> myDriverSessionTable){
 		myDriverParser = parser;
+		myControl = control;
 		setItems(files);
 		TableColumn<File, String> importedFileCol = new TableColumn<File, String>("Imported Files");
 		importedFileCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
@@ -71,6 +75,8 @@ public class ImportedFilesTable extends TableView<File> {
 									if(myDriverSessionTable.isDisabled()){
 										myDriverSessionTable.setDisable(false);
 									}
+									myControl.enableConsumeDriverFilesItem();
+									
 								} catch (SAXException | IOException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
