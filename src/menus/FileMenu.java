@@ -30,6 +30,7 @@ public class FileMenu extends Menu {
 	private GUIController myGUIController;
 
 	public FileMenu(VideoTable table, GUIController controller){
+		
 		myGUIController = controller;
 		myVideoTable = table;
 
@@ -98,10 +99,6 @@ public class FileMenu extends Menu {
 		}
 	}
 
-	public void uploadDriverFiles() {
-		// TODO Auto-generated method stub
-	}
-
 	public void consumeDriverFiles() {
 		try {
 			myGUIController.consumeDriverFiles();
@@ -113,6 +110,5 @@ public class FileMenu extends Menu {
 
 	public void enableConsumeDriverFilesItem() {
 		myConsumeDriverFiles.setDisable(false);
-		
 	}
 }

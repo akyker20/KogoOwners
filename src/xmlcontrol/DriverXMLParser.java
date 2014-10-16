@@ -61,13 +61,16 @@ public class DriverXMLParser extends DefaultHandler {
 		}
 	}
 
+	/**
+	 * Refreshes the table by removing and then adding the videos
+	 * that were updated.
+	 */
 	private void refreshTable() {
 		if(!videosToRefresh.isEmpty()){
 			myImportedVideos.removeAll(videosToRefresh);
 			myImportedVideos.addAll(videosToRefresh);
 			videosToRefresh.clear();
 		}
-
 	}
 
 	/**

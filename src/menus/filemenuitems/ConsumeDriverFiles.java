@@ -1,7 +1,5 @@
 package menus.filemenuitems;
 
-import javax.xml.transform.TransformerException;
-
 import javafx.scene.control.MenuItem;
 import menus.FileMenu;
 

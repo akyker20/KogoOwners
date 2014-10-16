@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
 import xmlcontrol.DriverXMLParser;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
@@ -24,10 +25,12 @@ public class ImportedFilesTable extends TableView<File> {
 	private DriverXMLParser myDriverParser;
 	private GUIController myControl;
 	
-	public ImportedFilesTable(GUIController control, ObservableList<File> files, DriverXMLParser parser, TableView<PlayedVideo> myDriverSessionTable){
+	public ImportedFilesTable(GUIController control, DriverXMLParser parser, TableView<PlayedVideo> myDriverSessionTable){
 		myDriverParser = parser;
 		myControl = control;
+		ObservableList<File> files = FXCollections.observableArrayList();
 		setItems(files);
+		
 		TableColumn<File, String> importedFileCol = new TableColumn<File, String>("Imported Files");
 		importedFileCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
 		importedFileCol.prefWidthProperty().bind(this.widthProperty());

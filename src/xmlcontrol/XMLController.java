@@ -16,13 +16,17 @@ import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
 import video.Video;
+import xmlcontrol.writers.DriverXMLWriter;
+import xmlcontrol.writers.MasterXMLWriter;
+import xmlcontrol.writers.XMLWriter;
 import javafx.collections.ObservableList;
 
 public class XMLController {
 	
 	public static final String FILE_PATH = "./src/xml/videos.xml";
 	
-	private XMLWriter myWriter;
+	private DriverXMLWriter myDriverWriter;
+	private MasterXMLWriter myMasterWriter;
 	private Document myDocument;
 	private ObservableList<Video> myVideoList;
 	
@@ -36,19 +40,21 @@ public class XMLController {
 		
 		MasterXMLParser parser = new MasterXMLParser(myDocument);
 		parser.buildVideos(videoList);
-		myWriter = new XMLWriter(parser.getVideoNodeMap());
+		
+		myDriverWriter = new DriverXMLWriter();
+		myMasterWriter = new MasterXMLWriter(parser.getVideoNodeMap());
 	}
 
 	public void editMasterFile(ObservableList<Video> myVideosList) throws TransformerException {
-		myWriter.editMasterFile(myVideosList);
+		myMasterWriter.editMasterFile(myVideosList);
 	}
 
 	public void buildDriverFile(ObservableList<Video> myVideosList,
 			String fileName) throws TransformerException {
-		myWriter.buildDriverFile(myVideosList, fileName);
+		myDriverWriter.buildDriverFile(myVideosList, fileName);
 	}
 
 	public void consumeXMLFiles(ObservableList<PlayedVideo> myImportedVideos) throws TransformerException {
-		myWriter.consumeXMLFiles(myDocument, myVideoList, myImportedVideos);		
+		myMasterWriter.consumeXMLFiles(myDocument, myVideoList, myImportedVideos);		
 	}
 }

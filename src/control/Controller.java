@@ -10,7 +10,7 @@ import video.Video;
 import xmlcontrol.DriverXMLParser;
 import xmlcontrol.MasterXMLParser;
 import xmlcontrol.XMLController;
-import xmlcontrol.XMLWriter;
+import xmlcontrol.writers.XMLWriter;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +30,6 @@ public class Controller extends Application {
 	public static final int NUM_DRIVERS = 8;
 	
 	private GUIController myGUIController;
-	private XMLWriter myWriter;
 	private ObservableList<Video> myVideosList;
 	private ObservableList<PlayedVideo> myImportedVideos;
 	private XMLController myXMLController;
@@ -41,8 +40,7 @@ public class Controller extends Application {
 	public void start(Stage stage) throws Exception {
 		myVideosList = FXCollections.observableArrayList();
 		myImportedVideos = FXCollections.observableArrayList();
-		myGUIController = new GUIController(stage, myVideosList, this, 
-				new DriverXMLParser(myImportedVideos), myImportedVideos);
+		myGUIController = new GUIController(this, stage, myVideosList, myImportedVideos);
 		myXMLController = new XMLController(myVideosList);
 	}
 

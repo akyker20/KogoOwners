@@ -33,10 +33,6 @@ import javafx.stage.Stage;
  *
  */
 public class GUIController {
-
-    public static final int SCREEN_WIDTH = 700;
-    public static final int SCREEN_HEIGHT = 350;
-    public static final String STYLESHEET_PACKAGE = "Stylesheets/";
     
     private Stage myStage;
     private Controller myControl;
@@ -44,15 +40,16 @@ public class GUIController {
     private ImportFilesScene myImportFilesScene;
     private MenuFeature myDriverFilesMenuFeature;
     
-    public GUIController(Stage stage, ObservableList<Video> videoList, Controller control,
-    		DriverXMLParser parser, ObservableList<PlayedVideo> importedVideos) throws FileNotFoundException, SAXException, IOException, ParserConfigurationException{
+    public GUIController(Controller control, Stage stage, ObservableList<Video> videoList, 
+    		ObservableList<PlayedVideo> importedVideos) throws FileNotFoundException, 
+    		SAXException, IOException, ParserConfigurationException{
     	myStage = stage;
     	myControl = control;
     	VideoTable videoTable = new VideoTable(videoList, this);	
 		NewVideoPrompt videoPrompt = new NewVideoPrompt(videoList, this);
 		myTableScene = new TableScene(new BorderPane(), videoTable, videoPrompt, new MenuFeature(videoTable, this));
 		myDriverFilesMenuFeature = new MenuFeature(videoTable, this);
-		myImportFilesScene = new ImportFilesScene(this, new BorderPane(),  myDriverFilesMenuFeature, parser, importedVideos);
+		myImportFilesScene = new ImportFilesScene(new BorderPane(), this,  myDriverFilesMenuFeature, importedVideos);
 		configureAndShowStage();
     }
 
@@ -82,6 +79,5 @@ public class GUIController {
 
 	public void consumeDriverFiles() throws TransformerException {
 		myControl.consumeDriverFiles();
-		
 	}
 }
