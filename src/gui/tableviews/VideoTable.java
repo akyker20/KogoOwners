@@ -29,11 +29,9 @@ public class VideoTable extends TableView<Video> {
 
 	private ObservableList<Video> myVideos;
 	private Stack<Video> myRemovedVideos;
-	private GUIController myGUIController;
 
 	@SuppressWarnings("unchecked")
-	public VideoTable(ObservableList<Video> data, GUIController controller){
-		myGUIController = controller;
+	public VideoTable(ObservableList<Video> data){
 		myVideos = data;
 		myRemovedVideos = new Stack<Video>();
 
@@ -87,7 +85,7 @@ public class VideoTable extends TableView<Video> {
 	 */
 	protected void editMasterFile() {
 		try {
-			myGUIController.editMasterFile();
+			GUIController.editMasterFile();
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}	
@@ -103,7 +101,7 @@ public class VideoTable extends TableView<Video> {
 	public boolean removeSelectedItem() throws TransformerException {
 		Video videoToRemove = getSelectionModel().getSelectedItem();
 		if(myVideos.remove(videoToRemove)){
-			myGUIController.editMasterFile();
+			GUIController.editMasterFile();
 			if(!myRemovedVideos.contains(videoToRemove)){
 				myRemovedVideos.push(videoToRemove);
 			}
@@ -120,7 +118,7 @@ public class VideoTable extends TableView<Video> {
 	public void undoRemovedVideo() throws TransformerException{
 		if(!myRemovedVideos.isEmpty()){
 			myVideos.add(myRemovedVideos.pop());
-			myGUIController.editMasterFile();
+			GUIController.editMasterFile();
 		}
 	}
 
@@ -137,6 +135,6 @@ public class VideoTable extends TableView<Video> {
 	 * @throws TransformerException
 	 */
 	public void buildDriverFile(String fileName) throws TransformerException {
-		myGUIController.buildDriverFile(fileName);	
+		GUIController.buildDriverFile(fileName);	
 	}
 }

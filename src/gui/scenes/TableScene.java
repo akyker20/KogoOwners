@@ -18,12 +18,13 @@ import javafx.scene.paint.Color;
  */
 public class TableScene extends GUIScene {
 
-	public TableScene(BorderPane root, VideoTable videoTable, NewVideoPrompt videoPrompt, 
+	public TableScene(VideoTable videoTable, NewVideoPrompt videoPrompt, 
 			MenuFeature menuFeature) {
-		super(root, menuFeature);
+		super(new BorderPane(), menuFeature);
         VBox centerContainer = new VBox(10);
 		centerContainer.setPadding(new Insets(10));
-		root.setCenter(centerContainer);		
+		BorderPane pane = (BorderPane) getRoot();
+		pane.setCenter(centerContainer);		
 		centerContainer.getChildren().addAll(videoTable, videoPrompt);
 	}
 }

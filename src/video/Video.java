@@ -69,4 +69,8 @@ public class Video {
 	public double getMyRevenue(){
 		return myRevenue;
 	}
+
+	public void setMyPlaysRemaining(int newPlaysRemaining) {
+		myPlaysRemaining = newPlaysRemaining;
+	}
 }

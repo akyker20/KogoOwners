@@ -83,7 +83,9 @@ public class MasterXMLWriter extends XMLWriter {
 				}
 			}
 			Element videoNode = (Element) myVideoNodeMap.get(videoIdentified);
-			videoNode.setAttribute(MasterXMLParser.PLAYS_REMAINING, getNewRemainingPlays(videoIdentified, importedVideo));
+			int newPlaysRemaining = getNewRemainingPlays(videoIdentified, importedVideo);
+			videoIdentified.setMyPlaysRemaining(newPlaysRemaining);
+			videoNode.setAttribute(MasterXMLParser.PLAYS_REMAINING, "" + newPlaysRemaining);
 		}
 		writeFile(document, myMasterFile);	
 	}
@@ -95,9 +97,9 @@ public class MasterXMLWriter extends XMLWriter {
 	 * @param importedVideo
 	 * @return
 	 */
-	private String getNewRemainingPlays(Video videoIdentified,
+	private int getNewRemainingPlays(Video videoIdentified,
 			PlayedVideo importedVideo) {
-		return ""+(videoIdentified.getMyPlaysRemaining() - importedVideo.getMyPlaysCompleted());
+		return videoIdentified.getMyPlaysRemaining() - importedVideo.getMyPlaysCompleted();
 	}
 
 	@Override

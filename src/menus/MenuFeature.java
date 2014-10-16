@@ -13,8 +13,8 @@ public class MenuFeature extends MenuBar {
 	
 	private FileMenu myMenu;
 	
-	public MenuFeature(VideoTable table, GUIController controller){
-		myMenu = new FileMenu(table, controller);
+	public MenuFeature(VideoTable table){
+		myMenu = new FileMenu(table);
 		this.getMenus().add(myMenu);
 	}
 

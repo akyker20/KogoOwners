@@ -4,8 +4,8 @@ import gui.GUIController;
 import javafx.scene.control.MenuItem;
 
 public class ImportDriverFiles extends MenuItem  {
-	public ImportDriverFiles(GUIController controller){
+	public ImportDriverFiles(){
 		super("Upload Driver Files");
-		setOnAction(event->controller.uploadDriverFiles());
+		setOnAction(event->GUIController.uploadDriverFiles());
 	}
 }

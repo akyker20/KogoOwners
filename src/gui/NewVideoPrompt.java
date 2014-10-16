@@ -26,17 +26,15 @@ import javafx.scene.layout.HBox;
  */
 public class NewVideoPrompt extends HBox {
 	
-	private GUIController myGUIController;
 	private TextField myCompanyField;
 	private TextField myTitleField;
 	private TextField myPurchasedPlaysField;
 	private TextField myLengthField;
 	
-	public NewVideoPrompt(ObservableList<Video> videoList, GUIController controller) 
+	public NewVideoPrompt(ObservableList<Video> videoList) 
 			throws FileNotFoundException, SAXException, IOException, 
 			ParserConfigurationException {
 		
-		myGUIController = controller;
 		myCompanyField = makeTextField("Company");		
 		myTitleField = makeTextField("Video Title");
 		myPurchasedPlaysField = makeTextField("Plays Purchased");
@@ -77,7 +75,7 @@ public class NewVideoPrompt extends HBox {
 							Integer.parseInt(myLengthField.getText()));
 					videoList.add(video);
 					try {
-						myGUIController.editMasterFile();
+						GUIController.editMasterFile();
 					} catch (TransformerException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

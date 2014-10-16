@@ -6,6 +6,7 @@ import gui.tableviews.VideoTable;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -38,14 +39,14 @@ public class GUIController extends Application {
 
 	public static final int NUM_DRIVERS = 8;
 
-	private ObservableList<Video> myVideosList;
-	private ObservableList<PlayedVideo> myImportedVideos;
-	private XMLController myXMLController;
+	private static ObservableList<Video> myVideosList;
+	private static ObservableList<PlayedVideo> myImportedVideos;
+	private static XMLController myXMLController;
 
-	private Stage myStage;
-	private TableScene myTableScene;
-	private ImportFilesScene myImportFilesScene;
-	private MenuFeature myDriverFilesMenuFeature;
+	private static Stage myStage;
+	private static TableScene myTableScene;
+	private static ImportFilesScene myImportFilesScene;
+	private static MenuFeature myDriverFilesMenuFeature;
 
 	public static void main(String[] args){ launch(args); }
 
@@ -56,16 +57,14 @@ public class GUIController extends Application {
 		myXMLController = new XMLController(myVideosList);
 
 		myStage = stage;
-		VideoTable videoTable = new VideoTable(myVideosList, this);	
-		NewVideoPrompt videoPrompt = new NewVideoPrompt(myVideosList, this);
-		myTableScene = new TableScene(new BorderPane(), videoTable, videoPrompt, new MenuFeature(videoTable, this));
-		myDriverFilesMenuFeature = new MenuFeature(videoTable, this);
-		myImportFilesScene = new ImportFilesScene(new BorderPane(), this,  myDriverFilesMenuFeature, myImportedVideos);
+		VideoTable videoTable = new VideoTable(myVideosList);	
+		NewVideoPrompt videoPrompt = new NewVideoPrompt(myVideosList);
+		myTableScene = new TableScene(videoTable, videoPrompt, new MenuFeature(videoTable));
+		myDriverFilesMenuFeature = new MenuFeature(videoTable);
+		myImportFilesScene = new ImportFilesScene(this,  myDriverFilesMenuFeature, myImportedVideos);
 
 		configureAndShowStage();
-
 	}
-
 
 	private void configureAndShowStage() {
 		myStage.setScene(myTableScene);
@@ -74,24 +73,30 @@ public class GUIController extends Application {
 		myStage.show();
 	}
 
-	public void editMasterFile() throws TransformerException {
+	public static void editMasterFile() throws TransformerException {
 		myXMLController.editMasterFile(myVideosList);	
 	}
 
-	public void buildDriverFile(String fileName) throws TransformerException {
+	public static void buildDriverFile(String fileName) throws TransformerException {
 		myXMLController.buildDriverFile(myVideosList, fileName);
 	}
 
-	public void consumeDriverFiles() throws TransformerException {
+	public static void consumeDriverFiles() throws TransformerException {
 		myXMLController.consumeXMLFiles(myImportedVideos);
+		ArrayList<Video> videosToBeRefreshed = new ArrayList<Video>();
+		for(Video video:myVideosList){
+			videosToBeRefreshed.add(video);
+		}
+		myVideosList.clear();
+		myVideosList.addAll(videosToBeRefreshed);
+		myStage.setScene(myTableScene);
 	}
 
-	public void uploadDriverFiles() {
+	public static void uploadDriverFiles() {
 		myStage.setScene(myImportFilesScene);
 	}
 
-	public void enableConsumeDriverFilesItem() {
+	public static void enableConsumeDriverFilesItem() {
 		myDriverFilesMenuFeature.enableConsumeDriverFilesItem();
-
 	}
 }
