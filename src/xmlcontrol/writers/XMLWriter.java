@@ -25,7 +25,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
-import video.Video;
+import video.LoadedVideo;
 import xmlcontrol.MasterXMLParser;
 import xmlcontrol.XMLController;
 
@@ -58,7 +58,7 @@ public abstract class XMLWriter {
 	 * @param videosTag
 	 * @param forDriver
 	 */
-	protected abstract Element createVideoNode(Video video, Document document);
+	protected abstract Element createVideoNode(LoadedVideo video, Document document);
 		
 	/**
 	 * A helper method to create a new attribute with a name and value.

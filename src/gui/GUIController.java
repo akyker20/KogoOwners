@@ -14,7 +14,7 @@ import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
-import video.Video;
+import video.LoadedVideo;
 import xmlcontrol.DriverXMLParser;
 import xmlcontrol.XMLController;
 import menus.MenuFeature;
@@ -39,7 +39,7 @@ public class GUIController extends Application {
 
 	public static final int NUM_DRIVERS = 8;
 
-	private static ObservableList<Video> myVideosList;
+	private static ObservableList<LoadedVideo> myVideosList;
 	private static ObservableList<PlayedVideo> myImportedVideos;
 	private static XMLController myXMLController;
 
@@ -61,7 +61,7 @@ public class GUIController extends Application {
 		NewVideoPrompt videoPrompt = new NewVideoPrompt(myVideosList);
 		myTableScene = new TableScene(videoTable, videoPrompt, new MenuFeature(videoTable));
 		myDriverFilesMenuFeature = new MenuFeature(videoTable);
-		myImportFilesScene = new ImportFilesScene(this,  myDriverFilesMenuFeature, myImportedVideos);
+		myImportFilesScene = new ImportFilesScene(myDriverFilesMenuFeature, myImportedVideos);
 
 		configureAndShowStage();
 	}
@@ -83,8 +83,8 @@ public class GUIController extends Application {
 
 	public static void consumeDriverFiles() throws TransformerException {
 		myXMLController.consumeXMLFiles(myImportedVideos);
-		ArrayList<Video> videosToBeRefreshed = new ArrayList<Video>();
-		for(Video video:myVideosList){
+		ArrayList<LoadedVideo> videosToBeRefreshed = new ArrayList<LoadedVideo>();
+		for(LoadedVideo video:myVideosList){
 			videosToBeRefreshed.add(video);
 		}
 		myVideosList.clear();
@@ -94,6 +94,7 @@ public class GUIController extends Application {
 
 	public static void uploadDriverFiles() {
 		myStage.setScene(myImportFilesScene);
+		myImportFilesScene.reset();
 	}
 
 	public static void enableConsumeDriverFilesItem() {

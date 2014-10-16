@@ -4,7 +4,7 @@ import java.util.Stack;
 
 import javax.xml.transform.TransformerException;
 
-import video.Video;
+import video.LoadedVideo;
 import editingcells.StringEditingCell;
 import gui.GUIController;
 import gui.tablecolumns.VideoIntTableCol;
@@ -23,31 +23,31 @@ import javafx.util.Callback;
  * @author Austin Kyker
  *
  */
-public class VideoTable extends TableView<Video> {
+public class VideoTable extends TableView<LoadedVideo> {
 
 	public static int NUM_COLS = 6;
 
-	private ObservableList<Video> myVideos;
-	private Stack<Video> myRemovedVideos;
+	private ObservableList<LoadedVideo> myVideos;
+	private Stack<LoadedVideo> myRemovedVideos;
 
 	@SuppressWarnings("unchecked")
-	public VideoTable(ObservableList<Video> data){
+	public VideoTable(ObservableList<LoadedVideo> data){
 		myVideos = data;
-		myRemovedVideos = new Stack<Video>();
+		myRemovedVideos = new Stack<LoadedVideo>();
 
-		Callback<TableColumn<Video, String>, TableCell<Video, String>> stringCellFactory =
-				new Callback<TableColumn<Video, String>, TableCell<Video, String>>() {
-			public TableCell<Video, String> call(TableColumn<Video, String> p) {
+		Callback<TableColumn<LoadedVideo, String>, TableCell<LoadedVideo, String>> stringCellFactory =
+				new Callback<TableColumn<LoadedVideo, String>, TableCell<LoadedVideo, String>>() {
+			public TableCell<LoadedVideo, String> call(TableColumn<LoadedVideo, String> p) {
 				return new StringEditingCell();
 			}
 		};
 
 		EditableVideoStringTableCol companyName = new EditableVideoStringTableCol(this, stringCellFactory, "Company", "myCompany");
 		companyName.setOnEditCommit(
-				new EventHandler<CellEditEvent<Video, String>>() {
+				new EventHandler<CellEditEvent<LoadedVideo, String>>() {
 					@Override
-					public void handle(CellEditEvent<Video, String> t) {
-						((Video) t.getTableView().getItems().get(
+					public void handle(CellEditEvent<LoadedVideo, String> t) {
+						((LoadedVideo) t.getTableView().getItems().get(
 								t.getTablePosition().getRow())
 								).setMyCompany(t.getNewValue());	  
 						editMasterFile();
@@ -56,10 +56,10 @@ public class VideoTable extends TableView<Video> {
 
 		EditableVideoStringTableCol nameCol = new EditableVideoStringTableCol(this, stringCellFactory, "Title", "myName");
 		nameCol.setOnEditCommit(
-				new EventHandler<CellEditEvent<Video, String>>() {
+				new EventHandler<CellEditEvent<LoadedVideo, String>>() {
 					@Override
-					public void handle(CellEditEvent<Video, String> t) {
-						((Video) t.getTableView().getItems().get(
+					public void handle(CellEditEvent<LoadedVideo, String> t) {
+						((LoadedVideo) t.getTableView().getItems().get(
 								t.getTablePosition().getRow())
 								).setMyName(t.getNewValue());	  
 						editMasterFile();
@@ -99,7 +99,7 @@ public class VideoTable extends TableView<Video> {
 	 * @throws TransformerException
 	 */
 	public boolean removeSelectedItem() throws TransformerException {
-		Video videoToRemove = getSelectionModel().getSelectedItem();
+		LoadedVideo videoToRemove = getSelectionModel().getSelectedItem();
 		if(myVideos.remove(videoToRemove)){
 			GUIController.editMasterFile();
 			if(!myRemovedVideos.contains(videoToRemove)){

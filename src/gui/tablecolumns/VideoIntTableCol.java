@@ -1,7 +1,7 @@
 package gui.tablecolumns;
 
 import gui.tableviews.VideoTable;
-import video.Video;
+import video.LoadedVideo;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -11,11 +11,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author Austin Kyker
  *
  */
-public class VideoIntTableCol extends TableColumn<Video, Integer> {
+public class VideoIntTableCol extends TableColumn<LoadedVideo, Integer> {
 	
 	public VideoIntTableCol(TableView table, String name, String videoAttrStr){
 		super(name);
-		setCellValueFactory(new PropertyValueFactory<Video, Integer>(videoAttrStr));
+		setCellValueFactory(new PropertyValueFactory<LoadedVideo, Integer>(videoAttrStr));
 		prefWidthProperty().bind(table.widthProperty().divide(VideoTable.NUM_COLS));
 	}
 }

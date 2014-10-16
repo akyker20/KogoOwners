@@ -29,4 +29,9 @@ public class DrivingSessionTable extends TableView<PlayedVideo> {
 		this.setItems(myPlayedVideos);
 		this.setDisable(true);
 	}
+	
+	public void reset(){
+		myPlayedVideos.clear();
+		this.setDisable(true);
+	}
 }

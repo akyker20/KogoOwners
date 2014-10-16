@@ -10,7 +10,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import video.Video;
+import video.LoadedVideo;
 import javafx.collections.ObservableList;
 
 
@@ -32,12 +32,12 @@ public class MasterXMLParser {
 	public static final String PLAYS_PURCHASED = "playsPurchased";
 	public static final String PLAYS_REMAINING = "playsRemaining";
 
-	private Map<Video, Node> myVideoNodeMap;
+	private Map<LoadedVideo, Node> myVideoNodeMap;
 	private Document myDocument;
 
 	public MasterXMLParser(Document document) {
 		myDocument = document;
-		myVideoNodeMap = new HashMap<Video, Node>();
+		myVideoNodeMap = new HashMap<LoadedVideo, Node>();
 	}
 
 	/**
@@ -47,13 +47,13 @@ public class MasterXMLParser {
 	 * @param videoList - the list that will hold all videos
 	 * @param fileAlreadyInitialized - whether or not the file has already been initialized
 	 */
-	public void buildVideos(ObservableList<Video> videoList) {
+	public void buildVideos(ObservableList<LoadedVideo> videoList) {
 		Element root = myDocument.getDocumentElement();
 		NodeList videoNodes = root.getElementsByTagName(VIDEO);
 		for(int i = 0; i < videoNodes.getLength(); i++){
 			Node videoNode = videoNodes.item(i);
 			if (videoNode instanceof Element && videoNode.getNodeName().equalsIgnoreCase(VIDEO)) {
-				Video video = buildVideoFromNode(videoNode);
+				LoadedVideo video = buildVideoFromNode(videoNode);
 				videoList.add(video);
 				myVideoNodeMap.put(video, videoNode);
 			}
@@ -66,14 +66,14 @@ public class MasterXMLParser {
 	 * @param fileAlreadyInitialized
 	 * @return
 	 */
-	private Video buildVideoFromNode(Node videoNode) {
+	private LoadedVideo buildVideoFromNode(Node videoNode) {
 		NamedNodeMap attributes = videoNode.getAttributes();
 		int numPlaysPurchased = Integer.parseInt(getAttributeValue(attributes, PLAYS_PURCHASED));
 		int numPlaysRemaining = Integer.parseInt(getAttributeValue(attributes, PLAYS_REMAINING));
 		int length = Integer.parseInt(getAttributeValue(attributes, LENGTH));
 		String title = getAttributeValue(attributes, TITLE);
 		String company = getAttributeValue(attributes, COMPANY);
-		return new Video(company, title, numPlaysPurchased, numPlaysRemaining, length);
+		return new LoadedVideo(company, title, numPlaysPurchased, numPlaysRemaining, length);
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class MasterXMLParser {
 	 * that editing the driver XML File is simple.
 	 * @return the VideoNode map
 	 */
-	public Map<Video, Node> getVideoNodeMap() {
+	public Map<LoadedVideo, Node> getVideoNodeMap() {
 		return myVideoNodeMap;
 	}
 }

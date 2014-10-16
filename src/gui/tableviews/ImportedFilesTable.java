@@ -23,13 +23,12 @@ import javafx.scene.input.TransferMode;
 public class ImportedFilesTable extends TableView<File> {
 	
 	private DriverXMLParser myDriverParser;
-	private GUIController myControl;
+	private ObservableList<File> myFiles;
 	
-	public ImportedFilesTable(GUIController control, DriverXMLParser parser, TableView<PlayedVideo> myDriverSessionTable){
+	public ImportedFilesTable(DriverXMLParser parser, TableView<PlayedVideo> myDriverSessionTable){
 		myDriverParser = parser;
-		myControl = control;
-		ObservableList<File> files = FXCollections.observableArrayList();
-		setItems(files);
+		myFiles = FXCollections.observableArrayList();
+		setItems(myFiles);
 		
 		TableColumn<File, String> importedFileCol = new TableColumn<File, String>("Imported Files");
 		importedFileCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
@@ -71,14 +70,14 @@ public class ImportedFilesTable extends TableView<File> {
 					for (File file:db.getFiles()) {
 						filePath = file.getAbsolutePath();
 						if(filePath.contains(fileName)){
-							if(!files.contains(file)){
-								files.add(file);
+							if(!myFiles.contains(file)){
+								myFiles.add(file);
 								try {
 									myDriverParser.parseFile(file);
 									if(myDriverSessionTable.isDisabled()){
 										myDriverSessionTable.setDisable(false);
 									}
-									myControl.enableConsumeDriverFilesItem();
+									GUIController.enableConsumeDriverFilesItem();
 									
 								} catch (SAXException | IOException e) {
 									// TODO Auto-generated catch block
@@ -92,5 +91,10 @@ public class ImportedFilesTable extends TableView<File> {
 				event.consume();
 			}
 		});
+	}
+
+	public void reset() {
+		myFiles.clear();
+		this.setDisable(true);
 	}
 }

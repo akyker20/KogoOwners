@@ -19,17 +19,17 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
-import video.Video;
+import video.LoadedVideo;
 import xmlcontrol.MasterXMLParser;
 import xmlcontrol.XMLController;
 
 public class MasterXMLWriter extends XMLWriter {
 
 	private DocumentBuilder myBuilder;
-	private Map<Video, Node> myVideoNodeMap;
+	private Map<LoadedVideo, Node> myVideoNodeMap;
 	private File myMasterFile;
 
-	public MasterXMLWriter(Map<Video, Node> videoNodeMap)  throws FileNotFoundException, SAXException, IOException, 
+	public MasterXMLWriter(Map<LoadedVideo, Node> videoNodeMap)  throws FileNotFoundException, SAXException, IOException, 
 	ParserConfigurationException, TransformerConfigurationException  {
 		myVideoNodeMap = videoNodeMap;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -44,7 +44,7 @@ public class MasterXMLWriter extends XMLWriter {
 	 * @param videoList
 	 * @throws TransformerException
 	 */
-	public void editMasterFile(ObservableList<Video> videoList) throws TransformerException{
+	public void editMasterFile(ObservableList<LoadedVideo> videoList) throws TransformerException{
 		Document document = buildMasterDocument(videoList);
 		super.writeFile(document, myMasterFile);
 	}
@@ -54,11 +54,11 @@ public class MasterXMLWriter extends XMLWriter {
 	 * @param videoList
 	 * @return
 	 */
-	private Document buildMasterDocument(ObservableList<Video> videoList){
+	private Document buildMasterDocument(ObservableList<LoadedVideo> videoList){
 		Document document = myBuilder.newDocument();
 		Element videosTag = document.createElement("videos");
 		document.appendChild(videosTag);
-		for(Video video:videoList){
+		for(LoadedVideo video:videoList){
 			videosTag.appendChild(createVideoNode(video, document));
 		}
 		return document;
@@ -71,11 +71,11 @@ public class MasterXMLWriter extends XMLWriter {
 	 * @param importedVideos
 	 * @throws TransformerException
 	 */
-	public void consumeXMLFiles(Document document, ObservableList<Video> videos, 
+	public ObservableList<LoadedVideo> consumeXMLFiles(Document document, ObservableList<LoadedVideo> videos, 
 			ObservableList<PlayedVideo> importedVideos) throws TransformerException {
 		for(PlayedVideo importedVideo:importedVideos){
-			Video videoIdentified = null;
-			for(Video video:videos){
+			LoadedVideo videoIdentified = null;
+			for(LoadedVideo video:videos){
 				if(importedVideo.getMyCompany().equalsIgnoreCase(video.getMyCompany()) && 
 						importedVideo.getMyName().equalsIgnoreCase(video.getMyName())){
 					videoIdentified = video;
@@ -88,6 +88,7 @@ public class MasterXMLWriter extends XMLWriter {
 			videoNode.setAttribute(MasterXMLParser.PLAYS_REMAINING, "" + newPlaysRemaining);
 		}
 		writeFile(document, myMasterFile);	
+		return videos;
 	}
 
 	/**
@@ -97,13 +98,13 @@ public class MasterXMLWriter extends XMLWriter {
 	 * @param importedVideo
 	 * @return
 	 */
-	private int getNewRemainingPlays(Video videoIdentified,
+	private int getNewRemainingPlays(LoadedVideo videoIdentified,
 			PlayedVideo importedVideo) {
 		return videoIdentified.getMyPlaysRemaining() - importedVideo.getMyPlaysCompleted();
 	}
 
 	@Override
-	public Element createVideoNode(Video video, Document document) {
+	public Element createVideoNode(LoadedVideo video, Document document) {
 		Element videoNode = document.createElement("video");
 		videoNode.setAttributeNode(makeNode(document, "title", video.getMyName()));
 		videoNode.setAttributeNode(makeNode(document, "company", video.getMyCompany()));

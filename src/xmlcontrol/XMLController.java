@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
-import video.Video;
+import video.LoadedVideo;
 import xmlcontrol.writers.DriverXMLWriter;
 import xmlcontrol.writers.MasterXMLWriter;
 import xmlcontrol.writers.XMLWriter;
@@ -28,9 +28,9 @@ public class XMLController {
 	private DriverXMLWriter myDriverWriter;
 	private MasterXMLWriter myMasterWriter;
 	private Document myDocument;
-	private ObservableList<Video> myVideoList;
+	private ObservableList<LoadedVideo> myVideoList;
 	
-	public XMLController(ObservableList<Video> videoList) throws FileNotFoundException, 
+	public XMLController(ObservableList<LoadedVideo> videoList) throws FileNotFoundException, 
 	SAXException, IOException, ParserConfigurationException, TransformerConfigurationException{
 		
 		myVideoList = videoList;
@@ -45,11 +45,11 @@ public class XMLController {
 		myMasterWriter = new MasterXMLWriter(parser.getVideoNodeMap());
 	}
 
-	public void editMasterFile(ObservableList<Video> myVideosList) throws TransformerException {
+	public void editMasterFile(ObservableList<LoadedVideo> myVideosList) throws TransformerException {
 		myMasterWriter.editMasterFile(myVideosList);
 	}
 
-	public void buildDriverFile(ObservableList<Video> myVideosList,
+	public void buildDriverFile(ObservableList<LoadedVideo> myVideosList,
 			String fileName) throws TransformerException {
 		myDriverWriter.buildDriverFile(myVideosList, fileName);
 	}

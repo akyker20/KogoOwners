@@ -18,7 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import video.Video;
+import video.LoadedVideo;
 
 public class DriverXMLWriter extends XMLWriter {
 
@@ -36,7 +36,7 @@ public class DriverXMLWriter extends XMLWriter {
 	 * Generates the xml file for the drivers.
 	 * @throws TransformerException 
 	 */
-	public void buildDriverFile(ObservableList<Video> videoList, String fileName) throws TransformerException {
+	public void buildDriverFile(ObservableList<LoadedVideo> videoList, String fileName) throws TransformerException {
 		Document document = buildDriverDocument(videoList);
 		super.writeFile(document, new File("./src/xml/" + fileName));
 	}
@@ -50,14 +50,14 @@ public class DriverXMLWriter extends XMLWriter {
 	 * @param videoList
 	 * @return
 	 */
-	private Document buildDriverDocument(ObservableList<Video> videoList){
+	private Document buildDriverDocument(ObservableList<LoadedVideo> videoList){
 		Document document = myBuilder.newDocument();
 		Element driverTag = document.createElement("driver");
 		Element statusTag = document.createElement("status");
 		statusTag.setAttribute("initialized", "false");
 		driverTag.appendChild(statusTag);
 		Element videosTag = document.createElement("videos");
-		for(Video video:videoList){
+		for(LoadedVideo video:videoList){
 			videosTag.appendChild(createVideoNode(video, document));
 		}
 		driverTag.appendChild(videosTag);
@@ -67,7 +67,7 @@ public class DriverXMLWriter extends XMLWriter {
 
 
 	@Override
-	protected Element createVideoNode(Video video, Document document) {
+	protected Element createVideoNode(LoadedVideo video, Document document) {
 		Element videoNode = document.createElement("video");
 		videoNode.setAttributeNode(makeNode(document, "title", video.getMyName()));
 		videoNode.setAttributeNode(makeNode(document, "company", video.getMyCompany()));

@@ -34,15 +34,17 @@ import javafx.scene.layout.VBox;
  */
 public class ImportFilesScene extends GUIScene {
 
-	private TableView<File> myImportedFilesView;
-	private TableView<PlayedVideo> myDriverSessionTable;
+	private ImportedFilesTable myImportedFilesView;
+	private DrivingSessionTable myDriverSessionTable;
+	private ObservableList<PlayedVideo> myImportedVideos;
 	private DatePicker myDatePicker;
 
-	public ImportFilesScene(GUIController controller, MenuFeature menuBar, 
+	public ImportFilesScene(MenuFeature menuBar, 
 			ObservableList<PlayedVideo> importedVideos) throws ParserConfigurationException, 
 			SAXException, IOException {
 		
 		super(new BorderPane(), menuBar);
+		myImportedVideos = importedVideos;
 		BorderPane pane = (BorderPane) getRoot();
 		myDatePicker = new DatePicker();
 		myDatePicker.setPrefWidth(260);
@@ -52,8 +54,8 @@ public class ImportFilesScene extends GUIScene {
 		leftContainer.setPadding(new Insets(10));
 		pane.setLeft(leftContainer);
 		
-		myDriverSessionTable = new DrivingSessionTable(importedVideos);
-		myImportedFilesView = new ImportedFilesTable(controller, new DriverXMLParser(importedVideos), myDriverSessionTable);
+		myDriverSessionTable = new DrivingSessionTable(myImportedVideos);
+		myImportedFilesView = new ImportedFilesTable(new DriverXMLParser(myImportedVideos), myDriverSessionTable);
 				
 		leftContainer.getChildren().addAll(myDatePicker, myImportedFilesView);
 			
@@ -67,5 +69,12 @@ public class ImportFilesScene extends GUIScene {
 	private void removeDatePickerAddListView() {
 		myDatePicker.setDisable(true);
 		myImportedFilesView.setDisable(false);
+	}
+
+	public void reset() {
+		myImportedVideos.clear();
+		myDatePicker.setDisable(false);
+		myDriverSessionTable.reset();
+		myImportedFilesView.reset();
 	}
 }

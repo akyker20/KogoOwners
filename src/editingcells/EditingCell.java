@@ -1,5 +1,5 @@
 package editingcells;
-import video.Video;
+import video.LoadedVideo;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 
@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
  * @author Austin Kyker
  *
  */
-public abstract class EditingCell extends TableCell<Video, String> {
+public abstract class EditingCell extends TableCell<LoadedVideo, String> {
 
 		protected TextField textField;
 

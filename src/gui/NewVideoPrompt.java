@@ -8,7 +8,7 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
-import video.Video;
+import video.LoadedVideo;
 import xmlcontrol.writers.XMLWriter;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,7 +31,7 @@ public class NewVideoPrompt extends HBox {
 	private TextField myPurchasedPlaysField;
 	private TextField myLengthField;
 	
-	public NewVideoPrompt(ObservableList<Video> videoList) 
+	public NewVideoPrompt(ObservableList<LoadedVideo> videoList) 
 			throws FileNotFoundException, SAXException, IOException, 
 			ParserConfigurationException {
 		
@@ -62,13 +62,13 @@ public class NewVideoPrompt extends HBox {
 	 * @param videoList
 	 * @return
 	 */
-	private Button makeNewVideoButton(ObservableList<Video> videoList) {
+	private Button makeNewVideoButton(ObservableList<LoadedVideo> videoList) {
 		final Button addButton = new Button("Add");
 		addButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				if(isInputValidated()){
-					Video video = new Video(
+					LoadedVideo video = new LoadedVideo(
 							myCompanyField.getText(),
 							myTitleField.getText(),
 							Integer.parseInt(myPurchasedPlaysField.getText()),
