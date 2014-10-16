@@ -1,5 +1,7 @@
 package xmlcontrol.writers;
 
+import gui.GUIController;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,7 +23,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import control.Controller;
 import video.Video;
 import xmlcontrol.XMLController;
 
@@ -81,7 +82,7 @@ public class DriverXMLWriter extends XMLWriter {
 		videoNode.setAttributeNode(makeNode(document, "title", video.getMyName()));
 		videoNode.setAttributeNode(makeNode(document, "company", video.getMyCompany()));
 		videoNode.setAttributeNode(makeNode(document, "length", ""+video.getMyLength()));
-		videoNode.setAttributeNode(makeNode(document, "maxPlays", ""+ video.getMyPlaysRemaining()/Controller.NUM_DRIVERS));
+		videoNode.setAttributeNode(makeNode(document, "maxPlays", ""+ video.getMyPlaysRemaining()/GUIController.NUM_DRIVERS));
 		return videoNode;
 	}
 }

@@ -24,7 +24,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import control.Controller;
 import video.PlayedVideo;
 import video.Video;
 import xmlcontrol.MasterXMLParser;

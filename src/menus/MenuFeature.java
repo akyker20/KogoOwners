@@ -1,6 +1,5 @@
 package menus;
 
-import control.Controller;
 import gui.GUIController;
 import gui.tableviews.VideoTable;
 import javafx.scene.control.MenuBar;

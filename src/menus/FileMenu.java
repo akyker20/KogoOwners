@@ -2,7 +2,6 @@ package menus;
 
 import javax.xml.transform.TransformerException;
 
-import control.Controller;
 import menus.filemenuitems.ConsumeDriverFiles;
 import menus.filemenuitems.GenerateDriverFileMenu;
 import menus.filemenuitems.RemoveVideoItem;
