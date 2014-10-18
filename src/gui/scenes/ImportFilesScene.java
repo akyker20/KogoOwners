@@ -1,28 +1,20 @@
 package gui.scenes;
 
-import gui.GUIController;
 import gui.tableviews.DrivingSessionTable;
 import gui.tableviews.ImportedFilesTable;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import menus.MenuFeature;
-
 import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
-import xmlcontrol.DriverXMLParser;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 /**

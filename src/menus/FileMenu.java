@@ -11,7 +11,6 @@ import menus.filemenuitems.ImportDriverFiles;
 import gui.GUIController;
 import gui.tableviews.VideoTable;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 
 /**
  * Class will be used to load files such as previously saved commands or

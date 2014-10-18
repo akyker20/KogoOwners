@@ -9,7 +9,6 @@ import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 
 import video.LoadedVideo;
-import xmlcontrol.writers.XMLWriter;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

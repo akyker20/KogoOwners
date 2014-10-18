@@ -5,30 +5,19 @@ import gui.scenes.TableScene;
 import gui.tableviews.VideoTable;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-
-import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
 import video.LoadedVideo;
-import xmlcontrol.DriverXMLParser;
 import xmlcontrol.XMLController;
-import menus.MenuFeature;
+import menus.FileMenu;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -52,7 +41,7 @@ public class GUIController extends Application {
 	private static Stage myStage;
 	private static TableScene myTableScene;
 	private static ImportFilesScene myImportFilesScene;
-	private static MenuFeature myMenuBar;
+	private static FileMenu myFileMenu;
 	private static Scene myScene;
 	private static BorderPane myPane;
 
@@ -70,8 +59,10 @@ public class GUIController extends Application {
 		myStage.setScene(myScene);
 		
 		VideoTable videoTable = new VideoTable(myVideosList);	
-		myMenuBar = new MenuFeature(videoTable);
-		myPane.setTop(myMenuBar);
+		MenuBar menuBar = new MenuBar();
+		myFileMenu = new FileMenu(videoTable);
+		menuBar.getMenus().add(myFileMenu);
+		myPane.setTop(menuBar);
 		
 		NewVideoPrompt videoPrompt = new NewVideoPrompt(myVideosList);
 		myTableScene = new TableScene(videoTable, videoPrompt);
@@ -106,13 +97,13 @@ public class GUIController extends Application {
 	}
 	
 	private static void showImportFilePane(){
-		myMenuBar.configureImportFileMenuOptions();
+		myFileMenu.configureImportFileMenuOptions();
 		myStage.setTitle(IMPORT_FILES_TITLE);
 		myPane.setCenter(myImportFilesScene);
 	}
 	
 	private static void showVideosPane(){
-		myMenuBar.configureVideoTableFileMenuOptions();
+		myFileMenu.configureVideoTableMenuOptions();
 		myStage.setTitle(VIDEO_TABLE_TITLE);
 		myPane.setCenter(myTableScene);
 	}
@@ -127,7 +118,7 @@ public class GUIController extends Application {
 	}
 
 	public static void enableConsumeDriverFilesItem() {
-		myMenuBar.disableConsumeDriverFilesItem(false);
+		myFileMenu.disableConsumeDriverFilesItem(false);
 	}
 
 	public static void backToTable() {
