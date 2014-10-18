@@ -2,5 +2,5 @@
 <videos>
 <video company="Duke Barber Shop" length="50" playsPurchased="100" playsRemaining="22" title="1"/>
 <video company="Loop" length="30" playsPurchased="100" playsRemaining="94" title="1"/>
-<video company="Shooters" length="50" playsPurchased="100" playsRemaining="2" title="1"/>
+<video company="Shooters" length="50" playsPurchased="100" playsRemaining="0" title="1"/>
 </videos>

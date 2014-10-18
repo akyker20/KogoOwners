@@ -21,13 +21,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import video.PlayedVideo;
 import video.LoadedVideo;
-import xmlcontrol.MasterXMLParser;
-import xmlcontrol.XMLController;
 
 /**
  * The purpose of this class is to provide a means for generating driver

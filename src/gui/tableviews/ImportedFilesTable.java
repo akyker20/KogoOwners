@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -41,10 +43,7 @@ public class ImportedFilesTable extends TableView<File> {
 		setDisable(true);
 		setPrefWidth(260);
 		
-		LocalDateTime now = LocalDateTime.now(); 
-		String date = now.getMonthValue() + "_" + now.getDayOfMonth() + "_" + now.getYear();
-		String fileName = "kogo_" + date + ".xml";
-
+    	Pattern pattern = Pattern.compile("kogo_(\\w{3})_(\\d{1,2})_(\\d{1,2})_(\\d{2})");
 
 		// When a file is dragged over the scene, the background becomes
 		// green and a copy message is displayed near the mouse.
@@ -73,8 +72,9 @@ public class ImportedFilesTable extends TableView<File> {
 					String filePath = null;
 					for (File file:db.getFiles()) {
 						filePath = file.getAbsolutePath();
-						if(filePath.contains(fileName)){
-							if(!myFiles.contains(file) && fileHasNotBeenImportedPreviously(file)){
+						Matcher matcher = pattern.matcher(filePath);
+				    	if(matcher.find()){
+							if(!myFiles.contains(file) && canImport(file)){
 								myFiles.add(file);
 								try {
 									myDriverParser.parseFile(file);
@@ -97,7 +97,7 @@ public class ImportedFilesTable extends TableView<File> {
 		});
 	}
 
-	protected boolean fileHasNotBeenImportedPreviously(File f) {
+	protected boolean canImport(File f) {
 		return GUIController.canImport(f);
 	}
 

@@ -82,7 +82,7 @@ public class ImportedFilesXMLParser {
 				}				
 			}
 		}
-		return false;
+		return true;
 	}
 }
 
