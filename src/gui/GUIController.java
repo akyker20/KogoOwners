@@ -4,9 +4,11 @@ import gui.scenes.ImportFilesScene;
 import gui.scenes.TableScene;
 import gui.tableviews.VideoTable;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -82,7 +84,7 @@ public class GUIController extends Application {
 	}
 
 	public static void consumeDriverFiles() throws TransformerException {
-		myXMLController.consumeXMLFiles(myImportedVideos);
+		myXMLController.consumeXMLFiles(myImportedVideos, myImportFilesScene.getFiles());
 		ArrayList<LoadedVideo> videosToBeRefreshed = new ArrayList<LoadedVideo>();
 		for(LoadedVideo video:myVideosList){
 			videosToBeRefreshed.add(video);
@@ -91,10 +93,14 @@ public class GUIController extends Application {
 		myVideosList.addAll(videosToBeRefreshed);
 		myStage.setScene(myTableScene);
 	}
+	
+	public static boolean canImport(File f){
+		return myXMLController.canImport(f);
+	}
 
 	public static void uploadDriverFiles() {
-		myStage.setScene(myImportFilesScene);
 		myImportFilesScene.reset();
+		myStage.setScene(myImportFilesScene);
 	}
 
 	public static void enableConsumeDriverFilesItem() {

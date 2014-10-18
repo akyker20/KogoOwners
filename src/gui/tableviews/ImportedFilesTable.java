@@ -5,11 +5,15 @@ import gui.GUIController;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
 import xmlcontrol.DriverXMLParser;
+import xmlcontrol.ImportedFilesXMLParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -25,8 +29,8 @@ public class ImportedFilesTable extends TableView<File> {
 	private DriverXMLParser myDriverParser;
 	private ObservableList<File> myFiles;
 	
-	public ImportedFilesTable(DriverXMLParser parser, TableView<PlayedVideo> myDriverSessionTable){
-		myDriverParser = parser;
+	public ImportedFilesTable(ObservableList<PlayedVideo> importedVideos, TableView<PlayedVideo> myDriverSessionTable) throws ParserConfigurationException, SAXException, IOException{
+		myDriverParser = new DriverXMLParser(importedVideos);
 		myFiles = FXCollections.observableArrayList();
 		setItems(myFiles);
 		
@@ -70,7 +74,7 @@ public class ImportedFilesTable extends TableView<File> {
 					for (File file:db.getFiles()) {
 						filePath = file.getAbsolutePath();
 						if(filePath.contains(fileName)){
-							if(!myFiles.contains(file)){
+							if(!myFiles.contains(file) && fileHasNotBeenImportedPreviously(file)){
 								myFiles.add(file);
 								try {
 									myDriverParser.parseFile(file);
@@ -93,8 +97,16 @@ public class ImportedFilesTable extends TableView<File> {
 		});
 	}
 
+	protected boolean fileHasNotBeenImportedPreviously(File f) {
+		return GUIController.canImport(f);
+	}
+
 	public void reset() {
 		myFiles.clear();
 		this.setDisable(true);
+	}
+
+	public List<File> getFiles() {
+		return myFiles;
 	}
 }

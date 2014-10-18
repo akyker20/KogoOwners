@@ -7,6 +7,7 @@ import gui.tableviews.ImportedFilesTable;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -55,7 +56,7 @@ public class ImportFilesScene extends GUIScene {
 		pane.setLeft(leftContainer);
 		
 		myDriverSessionTable = new DrivingSessionTable(myImportedVideos);
-		myImportedFilesView = new ImportedFilesTable(new DriverXMLParser(myImportedVideos), myDriverSessionTable);
+		myImportedFilesView = new ImportedFilesTable(myImportedVideos, myDriverSessionTable);
 				
 		leftContainer.getChildren().addAll(myDatePicker, myImportedFilesView);
 			
@@ -76,5 +77,9 @@ public class ImportFilesScene extends GUIScene {
 		myDatePicker.setDisable(false);
 		myDriverSessionTable.reset();
 		myImportedFilesView.reset();
+	}
+
+	public List<File> getFiles() {
+		return myImportedFilesView.getFiles();
 	}
 }
