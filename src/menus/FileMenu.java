@@ -86,7 +86,7 @@ public class FileMenu extends Menu {
 	 * @param dateString
 	 */
 	public void generateDriverFile(String dateString) {
-		String fileName = dateString.replace('/', '_');
+		String fileName = dateString.replace('/', '-');
 		try {
 			myVideoTable.buildDriverFile("kogo_" + fileName + ".xml");
 		} catch (TransformerException e1) {

@@ -26,10 +26,6 @@ public class ImportedFilesXMLWriter extends XMLWriter {
 
 	private Document myDocument;
 	private Map<LocalDate, Node> myDateFilesNodeMap;
-	private static final String MONTH = "month";
-	private static final String DAY = "day";
-	private static final String YEAR = "year";
-	private static final String DATE_REGEX = "(?<month>\\d{1,2})_(?<day>\\d{1,2})_(?<year>\\d{4})";
 
 
 
@@ -58,11 +54,11 @@ public class ImportedFilesXMLWriter extends XMLWriter {
 	 */
 	private boolean appendFileToDocument(File f){
 		String filePath = f.getAbsoluteFile().toString();
-		Pattern pattern = Pattern.compile(DATE_REGEX);
+		Pattern pattern = Pattern.compile(XMLController.DATE_REGEX);
 		Matcher matcher = pattern.matcher(filePath);
 		if(matcher.find()){
-			LocalDate dateOfFile = LocalDate.of(Integer.parseInt(matcher.group(YEAR)), 
-					Integer.parseInt(matcher.group(MONTH)), Integer.parseInt(matcher.group(DAY)));
+			LocalDate dateOfFile = LocalDate.of(Integer.parseInt(matcher.group(XMLController.YEAR)), 
+					Integer.parseInt(matcher.group(XMLController.MONTH)), Integer.parseInt(matcher.group(XMLController.DAY)));
 			Node filesNode = myDateFilesNodeMap.get(dateOfFile);
 			if(filesNode == null){
 				Element newFilesNode = myDocument.createElement("files");

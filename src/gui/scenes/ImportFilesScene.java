@@ -56,6 +56,7 @@ public class ImportFilesScene extends GUIBox {
 	}
 	
 	private void removeDatePickerAddListView() {
+		myImportedFilesView.setDate(myDatePicker.getValue());
 		myDatePicker.setDisable(true);
 		myImportedFilesView.setDisable(false);
 	}

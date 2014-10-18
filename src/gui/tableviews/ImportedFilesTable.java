@@ -4,6 +4,8 @@ import gui.GUIController;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,6 +30,7 @@ public class ImportedFilesTable extends TableView<File> {
 	
 	private DriverXMLParser myDriverParser;
 	private ObservableList<File> myFiles;
+	private LocalDate mySelectedDate;
 	
 	public ImportedFilesTable(ObservableList<PlayedVideo> importedVideos, TableView<PlayedVideo> myDriverSessionTable) throws ParserConfigurationException, SAXException, IOException{
 		myDriverParser = new DriverXMLParser(importedVideos);
@@ -41,7 +44,7 @@ public class ImportedFilesTable extends TableView<File> {
 		setDisable(true);
 		setPrefWidth(260);
 		
-    	Pattern pattern = Pattern.compile("kogo_(\\w{3})_(\\d{1,2})_(\\d{1,2})_(\\d{2})");
+		mySelectedDate = LocalDate.now();
 
 		// When a file is dragged over the scene, the background becomes
 		// green and a copy message is displayed near the mouse.
@@ -70,6 +73,8 @@ public class ImportedFilesTable extends TableView<File> {
 					String filePath = null;
 					for (File file:db.getFiles()) {
 						filePath = file.getAbsolutePath();
+						String dateString = mySelectedDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+				    	Pattern pattern = Pattern.compile("kogo_(\\w{3})_("+ dateString +")");
 						Matcher matcher = pattern.matcher(filePath);
 				    	if(matcher.find()){
 							if(!myFiles.contains(file) && canImport(file)){
@@ -107,5 +112,10 @@ public class ImportedFilesTable extends TableView<File> {
 
 	public List<File> getFiles() {
 		return myFiles;
+	}
+
+	public void setDate(LocalDate date) {
+		mySelectedDate = date;
+		
 	}
 }

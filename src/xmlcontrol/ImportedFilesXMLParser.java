@@ -24,12 +24,6 @@ import org.w3c.dom.NodeList;
  */
 public class ImportedFilesXMLParser {
 
-	public static final String FILES = "files";
-	private static final String MONTH = "month";
-	private static final String DAY = "day";
-	private static final String YEAR = "year";
-	private static final String DATE_REGEX = "(?<month>\\d{1,2})_(?<day>\\d{1,2})_(?<year>\\d{4})";
-
 	private Map<LocalDate, Node> myDateFilesNodeMap;
 	private Document myDocument;
 	
@@ -46,7 +40,7 @@ public class ImportedFilesXMLParser {
 	 */
 	public void buildMap() {
 		Element root = myDocument.getDocumentElement();
-		NodeList fileNodes = root.getElementsByTagName(FILES);
+		NodeList fileNodes = root.getElementsByTagName(XMLController.FILES);
 		for(int i = 0; i < fileNodes.getLength(); i++){
 			Element fileNode = (Element) fileNodes.item(i);
 			LocalDate date = LocalDate.parse(fileNode.getAttribute("date"));
@@ -61,11 +55,11 @@ public class ImportedFilesXMLParser {
 
 	public boolean canImport(File f) {
 		String filePath = f.getAbsoluteFile().toString();
-		Pattern pattern = Pattern.compile(DATE_REGEX);
+		Pattern pattern = Pattern.compile(XMLController.DATE_REGEX);
 		Matcher matcher = pattern.matcher(filePath);
 		if(matcher.find()){
-			LocalDate dateOfFile = LocalDate.of(Integer.parseInt(matcher.group(YEAR)), 
-					Integer.parseInt(matcher.group(MONTH)), Integer.parseInt(matcher.group(DAY)));
+			LocalDate dateOfFile = LocalDate.of(Integer.parseInt(matcher.group(XMLController.YEAR)), 
+					Integer.parseInt(matcher.group(XMLController.MONTH)), Integer.parseInt(matcher.group(XMLController.DAY)));
 			Node filesNode = myDateFilesNodeMap.get(dateOfFile);
 			if(filesNode == null){
 				return true;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<driver>
+<status initialized="false"/>
+<videos>
+<video company="Jimmy Johns" length="30" maxPlays="37" title="1"/>
+<video company="Shooters" length="50" maxPlays="0" title="1"/>
+<video company="Duke Barber Shop" length="50" maxPlays="1" title="1"/>
+<video company="Loop" length="30" maxPlays="10" title="1"/>
+</videos>
+</driver>

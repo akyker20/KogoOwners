@@ -27,6 +27,11 @@ public class XMLController {
 	
 	public static final String FILE_PATH = "./src/xml/videos.xml";
 	public static final String IMPORTED_FILES_PATH = "./src/xml/imported_files.xml";
+	public static final String FILES = "files";
+	public static final String MONTH = "month";
+	public static final String DAY = "day";
+	public static final String YEAR = "year";
+	public static final String DATE_REGEX = "(?<month>\\d{1,2})-(?<day>\\d{1,2})-(?<year>\\d{4})";
 	
 	private DriverXMLWriter myDriverWriter;
 	private MasterXMLWriter myMasterWriter;
