@@ -66,7 +66,12 @@ public class XMLController {
 
 	public void buildDriverFile(ObservableList<LoadedVideo> myVideosList,
 			String fileName) throws TransformerException {
-		myDriverWriter.buildDriverFile(myVideosList, fileName);
+		try {
+			myDriverWriter.buildDriverFile(myVideosList, fileName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void consumeXMLFiles(ObservableList<PlayedVideo> myImportedVideos, List<File> files) throws TransformerException {

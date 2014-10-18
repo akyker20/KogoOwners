@@ -3,9 +3,12 @@ package xmlcontrol.writers;
 import gui.GUIController;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.io.InputStream;
+import java.io.OutputStream;
 import javafx.collections.ObservableList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -35,11 +38,49 @@ public class DriverXMLWriter extends XMLWriter {
 	/**
 	 * Generates the xml file for the drivers.
 	 * @throws TransformerException 
+	 * @throws IOException 
 	 */
-	public void buildDriverFile(ObservableList<LoadedVideo> videoList, String fileName) throws TransformerException {
+	public void buildDriverFile(ObservableList<LoadedVideo> videoList, String fileName) throws TransformerException, IOException {
 		Document document = buildDriverDocument(videoList);
-		super.writeFile(document, new File("./src/xml/" + fileName));
+		new File("./driver/deliverable/").mkdir();
+		
+		File driverXMLFile = new File("./driver/deliverable/" + fileName);
+		super.writeFile(document, driverXMLFile);
+		
+		File videoSource = new File("./videos/");
+		File target = new File("./driver/deliverable/videos");
+		copyDirectory(videoSource, target);
 	}
+	
+	  // If targetLocation does not exist, it will be created.
+    public void copyDirectory(File sourceLocation , File targetLocation)
+    throws IOException {
+        
+        if (sourceLocation.isDirectory()) {
+            if (!targetLocation.exists()) {
+                targetLocation.mkdir();
+            }
+            
+            String[] children = sourceLocation.list();
+            for (int i=0; i<children.length; i++) {
+                copyDirectory(new File(sourceLocation, children[i]),
+                        new File(targetLocation, children[i]));
+            }
+        } else {
+            
+            InputStream in = new FileInputStream(sourceLocation);
+            OutputStream out = new FileOutputStream(targetLocation);
+            
+            // Copy the bits from instream to outstream
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+        }
+    }
 
 
 	/**
