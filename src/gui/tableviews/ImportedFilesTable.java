@@ -4,7 +4,6 @@ import gui.GUIController;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +14,6 @@ import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
 import xmlcontrol.DriverXMLParser;
-import xmlcontrol.ImportedFilesXMLParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;

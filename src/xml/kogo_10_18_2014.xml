@@ -4,6 +4,6 @@
 <videos>
 <video company="Duke Barber Shop" length="50" maxPlays="2" title="1"/>
 <video company="Loop" length="30" maxPlays="11" title="1"/>
-<video company="Shooters" length="50" maxPlays="1" title="1"/>
+<video company="Shooters" length="50" maxPlays="0" title="1"/>
 </videos>
 </driver>

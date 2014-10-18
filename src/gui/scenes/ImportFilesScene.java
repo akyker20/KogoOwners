@@ -64,9 +64,8 @@ public class ImportFilesScene extends GUIScene {
 		rightContainer.getChildren().add(myDriverSessionTable);
 		rightContainer.setPadding(new Insets(10, 10, 10, 0));
 		pane.setCenter(rightContainer);
-
 	}
-
+	
 	private void removeDatePickerAddListView() {
 		myDatePicker.setDisable(true);
 		myImportedFilesView.setDisable(false);

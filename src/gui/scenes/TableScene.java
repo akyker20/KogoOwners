@@ -24,7 +24,7 @@ public class TableScene extends GUIScene {
         VBox centerContainer = new VBox(10);
 		centerContainer.setPadding(new Insets(10));
 		BorderPane pane = (BorderPane) getRoot();
-		pane.setCenter(centerContainer);		
 		centerContainer.getChildren().addAll(videoTable, videoPrompt);
+		pane.setCenter(centerContainer);		
 	}
 }
