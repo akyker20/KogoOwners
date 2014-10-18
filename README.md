@@ -1,4 +1,4 @@
-MasterKogoAds
+KogoOwners
 =============
 
 A friend and I are interested in starting an advertisement business named Kogo.
