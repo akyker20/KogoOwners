@@ -18,8 +18,15 @@ public class MenuFeature extends MenuBar {
 		this.getMenus().add(myMenu);
 	}
 
-	public void enableConsumeDriverFilesItem() {
-		myMenu.enableConsumeDriverFilesItem();
+	public void disableConsumeDriverFilesItem(boolean disableStatus) {
+		myMenu.disableConsumeDriverFilesItem(disableStatus);
 		
+	}
+
+	public void configureImportFileMenuOptions() {
+		myMenu.configureImportFileMenuOptions();
+	}
+	public void configureVideoTableFileMenuOptions() {
+		myMenu.configureVideoTableMenuOptions();
 	}
 }

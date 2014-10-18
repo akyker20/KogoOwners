@@ -5,6 +5,7 @@ import javax.xml.transform.TransformerException;
 import menus.filemenuitems.ConsumeDriverFiles;
 import menus.filemenuitems.GenerateDriverFileMenu;
 import menus.filemenuitems.RemoveVideoItem;
+import menus.filemenuitems.BackToTableItem;
 import menus.filemenuitems.UndoRemoveVideoItem;
 import menus.filemenuitems.ImportDriverFiles;
 import gui.GUIController;
@@ -21,11 +22,12 @@ import javafx.scene.control.MenuItem;
 public class FileMenu extends Menu {
 
 	private VideoTable myVideoTable;
-	private MenuItem myUndoRemoveVideo;
-	private MenuItem myRemoveVideo;
+	private UndoRemoveVideoItem myUndoRemoveVideo;
+	private RemoveVideoItem myRemoveVideo;
 	private GenerateDriverFileMenu myGenerateDriverFileMenu;
 	private ImportDriverFiles myUploadDriverFiles;
 	private ConsumeDriverFiles myConsumeDriverFiles;
+	private BackToTableItem myReturnToTable;
 
 	public FileMenu(VideoTable table){
 		
@@ -33,6 +35,7 @@ public class FileMenu extends Menu {
 
 		this.setText("File");
 
+		myReturnToTable = new BackToTableItem(this);
 		myUndoRemoveVideo = new UndoRemoveVideoItem(this);
 		myRemoveVideo = new RemoveVideoItem(this);
 		myGenerateDriverFileMenu = new GenerateDriverFileMenu(this);
@@ -43,9 +46,6 @@ public class FileMenu extends Menu {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		this.getItems().addAll(myRemoveVideo, myUndoRemoveVideo, 
-				myGenerateDriverFileMenu, myUploadDriverFiles, myConsumeDriverFiles);
 	}
 
 	/**
@@ -105,7 +105,22 @@ public class FileMenu extends Menu {
 		}
 	}
 
-	public void enableConsumeDriverFilesItem() {
-		myConsumeDriverFiles.setDisable(false);
+	public void disableConsumeDriverFilesItem(boolean disableStatus) {
+		myConsumeDriverFiles.setDisable(disableStatus);
+	}
+
+	public void configureImportFileMenuOptions() {
+		this.getItems().removeAll(myRemoveVideo, myUndoRemoveVideo, myGenerateDriverFileMenu, myUploadDriverFiles);
+		this.getItems().addAll(myConsumeDriverFiles, myReturnToTable);
+	}
+	
+	public void configureVideoTableMenuOptions() {
+		this.getItems().removeAll(myConsumeDriverFiles, myReturnToTable);
+		this.getItems().addAll(myRemoveVideo, myUndoRemoveVideo, myGenerateDriverFileMenu, myUploadDriverFiles);
+		
+	}
+
+	public void backToVideoTable() {
+		GUIController.backToTable();
 	}
 }

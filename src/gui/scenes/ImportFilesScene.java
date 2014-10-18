@@ -33,27 +33,24 @@ import javafx.scene.layout.VBox;
  * @author Austin Kyker
  *
  */
-public class ImportFilesScene extends GUIScene {
+public class ImportFilesScene extends GUIBox {
 
 	private ImportedFilesTable myImportedFilesView;
 	private DrivingSessionTable myDriverSessionTable;
 	private ObservableList<PlayedVideo> myImportedVideos;
 	private DatePicker myDatePicker;
 
-	public ImportFilesScene(MenuFeature menuBar, 
-			ObservableList<PlayedVideo> importedVideos) throws ParserConfigurationException, 
-			SAXException, IOException {
+	public ImportFilesScene(ObservableList<PlayedVideo> importedVideos) 
+			throws ParserConfigurationException, SAXException, IOException {
 		
-		super(new BorderPane(), menuBar);
 		myImportedVideos = importedVideos;
-		BorderPane pane = (BorderPane) getRoot();
 		myDatePicker = new DatePicker();
 		myDatePicker.setPrefWidth(260);
 		myDatePicker.setOnAction(event -> removeDatePickerAddListView());
 		
 		VBox leftContainer = new VBox(10);
 		leftContainer.setPadding(new Insets(10));
-		pane.setLeft(leftContainer);
+		this.setLeft(leftContainer);
 		
 		myDriverSessionTable = new DrivingSessionTable(myImportedVideos);
 		myImportedFilesView = new ImportedFilesTable(myImportedVideos, myDriverSessionTable);
@@ -63,7 +60,7 @@ public class ImportFilesScene extends GUIScene {
 		VBox rightContainer = new VBox();
 		rightContainer.getChildren().add(myDriverSessionTable);
 		rightContainer.setPadding(new Insets(10, 10, 10, 0));
-		pane.setCenter(rightContainer);
+		this.setCenter(rightContainer);
 	}
 	
 	private void removeDatePickerAddListView() {

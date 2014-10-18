@@ -40,6 +40,10 @@ import javafx.stage.Stage;
 public class GUIController extends Application {
 
 	public static final int NUM_DRIVERS = 8;
+    private static final int SCREEN_WIDTH = 700;
+    private static final int SCREEN_HEIGHT = 350;
+	private static final String VIDEO_TABLE_TITLE = "Advertisment Data";
+	private static final String IMPORT_FILES_TITLE = "Import Files";
 
 	private static ObservableList<LoadedVideo> myVideosList;
 	private static ObservableList<PlayedVideo> myImportedVideos;
@@ -48,7 +52,9 @@ public class GUIController extends Application {
 	private static Stage myStage;
 	private static TableScene myTableScene;
 	private static ImportFilesScene myImportFilesScene;
-	private static MenuFeature myDriverFilesMenuFeature;
+	private static MenuFeature myMenuBar;
+	private static Scene myScene;
+	private static BorderPane myPane;
 
 	public static void main(String[] args){ launch(args); }
 
@@ -59,18 +65,23 @@ public class GUIController extends Application {
 		myXMLController = new XMLController(myVideosList);
 
 		myStage = stage;
+		myPane = new BorderPane();
+		myScene = new Scene(myPane, SCREEN_WIDTH, SCREEN_HEIGHT);
+		myStage.setScene(myScene);
+		
 		VideoTable videoTable = new VideoTable(myVideosList);	
+		myMenuBar = new MenuFeature(videoTable);
+		myPane.setTop(myMenuBar);
+		
 		NewVideoPrompt videoPrompt = new NewVideoPrompt(myVideosList);
-		myTableScene = new TableScene(videoTable, videoPrompt, new MenuFeature(videoTable));
-		myDriverFilesMenuFeature = new MenuFeature(videoTable);
-		myImportFilesScene = new ImportFilesScene(myDriverFilesMenuFeature, myImportedVideos);
+		myTableScene = new TableScene(videoTable, videoPrompt);
+		myImportFilesScene = new ImportFilesScene(myImportedVideos);
 
 		configureAndShowStage();
 	}
 
 	private void configureAndShowStage() {
-		myStage.setScene(myTableScene);
-		myStage.setTitle("Kogo Master");
+		showVideosPane();
 		myStage.setResizable(false);
 		myStage.show();
 	}
@@ -91,7 +102,19 @@ public class GUIController extends Application {
 		}
 		myVideosList.clear();
 		myVideosList.addAll(videosToBeRefreshed);
-		myStage.setScene(myTableScene);
+		showVideosPane();
+	}
+	
+	private static void showImportFilePane(){
+		myMenuBar.configureImportFileMenuOptions();
+		myStage.setTitle(IMPORT_FILES_TITLE);
+		myPane.setCenter(myImportFilesScene);
+	}
+	
+	private static void showVideosPane(){
+		myMenuBar.configureVideoTableFileMenuOptions();
+		myStage.setTitle(VIDEO_TABLE_TITLE);
+		myPane.setCenter(myTableScene);
 	}
 	
 	public static boolean canImport(File f){
@@ -100,10 +123,14 @@ public class GUIController extends Application {
 
 	public static void uploadDriverFiles() {
 		myImportFilesScene.reset();
-		myStage.setScene(myImportFilesScene);
+		showImportFilePane();
 	}
 
 	public static void enableConsumeDriverFilesItem() {
-		myDriverFilesMenuFeature.enableConsumeDriverFilesItem();
+		myMenuBar.disableConsumeDriverFilesItem(false);
+	}
+
+	public static void backToTable() {
+		showVideosPane();
 	}
 }
