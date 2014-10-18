@@ -74,6 +74,7 @@ public class ImportFilesScene extends GUIScene {
 
 	public void reset() {
 		myImportedVideos.clear();
+		myDatePicker.setValue(null);
 		myDatePicker.setDisable(false);
 		myDriverSessionTable.reset();
 		myImportedFilesView.reset();

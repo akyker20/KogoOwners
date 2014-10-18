@@ -98,6 +98,7 @@ public class ImportedFilesTable extends TableView<File> {
 	}
 
 	protected boolean canImport(File f) {
+		System.out.println("Can import: " + GUIController.canImport(f));
 		return GUIController.canImport(f);
 	}
 
