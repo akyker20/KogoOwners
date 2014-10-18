@@ -9,6 +9,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javafx.collections.ObservableList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -36,19 +39,21 @@ public class DriverXMLWriter extends XMLWriter {
 
 
 	/**
+	 * Relies on a videos folder being in the project with all the video files within.
 	 * Generates the xml file for the drivers.
 	 * @throws TransformerException 
 	 * @throws IOException 
 	 */
 	public void buildDriverFile(ObservableList<LoadedVideo> videoList, String fileName) throws TransformerException, IOException {
 		Document document = buildDriverDocument(videoList);
-		new File("./driver/deliverable/").mkdir();
+		String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+		new File("./driver/deliverable_" + dateStr + "/").mkdir();
 		
-		File driverXMLFile = new File("./driver/deliverable/" + fileName);
+		File driverXMLFile = new File("./driver/deliverable_" + dateStr + "/" + fileName);
 		super.writeFile(document, driverXMLFile);
 		
 		File videoSource = new File("./videos/");
-		File target = new File("./driver/deliverable/videos");
+		File target = new File("./driver/deliverable_" + dateStr + "/videos/");
 		copyDirectory(videoSource, target);
 	}
 	
