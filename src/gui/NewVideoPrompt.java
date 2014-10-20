@@ -1,7 +1,12 @@
 package gui;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+
+import static java.nio.file.StandardCopyOption.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -15,6 +20,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * Offers the user ability to add new advertisement information.
@@ -24,16 +31,16 @@ import javafx.scene.layout.HBox;
  *
  */
 public class NewVideoPrompt extends HBox {
-	
+
 	private TextField myCompanyField;
 	private TextField myTitleField;
 	private TextField myPurchasedPlaysField;
 	private TextField myLengthField;
-	
+
 	public NewVideoPrompt(ObservableList<LoadedVideo> videoList) 
 			throws FileNotFoundException, SAXException, IOException, 
 			ParserConfigurationException {
-		
+
 		myCompanyField = makeTextField("Company");		
 		myTitleField = makeTextField("Video Title");
 		myPurchasedPlaysField = makeTextField("Plays Purchased");
@@ -66,7 +73,7 @@ public class NewVideoPrompt extends HBox {
 		addButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				if(isInputValidated()){
+				if(isInputValidated() && getAndSaveVideoFile()){
 					LoadedVideo video = new LoadedVideo(
 							myCompanyField.getText(),
 							myTitleField.getText(),
@@ -85,7 +92,44 @@ public class NewVideoPrompt extends HBox {
 		});
 		return addButton;
 	}
-	
+
+	protected boolean getAndSaveVideoFile() {
+		return saveFile(getFileFromFileChooser());
+	}
+
+	private boolean saveFile(File fileFromFileChooser) {
+		if(fileFromFileChooser == null)
+			return false;
+		try {
+			Files.copy(fileFromFileChooser.toPath(), 
+					new File("./videos/"+getRequiredFileName()).toPath(), REPLACE_EXISTING);
+			return true;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private File getFileFromFileChooser () {
+		FileChooser myFileChooser = new FileChooser();
+		myFileChooser.setTitle("Select Video File");
+		FileChooser.ExtensionFilter extentionFilter =
+				new FileChooser.ExtensionFilter(
+						"Video files (*.mp4)", getRequiredFileName());
+		myFileChooser.getExtensionFilters().add(extentionFilter);
+		myFileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+		return myFileChooser.showOpenDialog(new Stage());
+	}
+
+	private String getRequiredFileName() {
+		return myCompanyField.getText().replace(" ", "") + "_" + myTitleField.getText().replace(" ", "") + ".mp4";
+	}
+
 	/**
 	 * Validates input - Checks that no inputs are empty and that the last 
 	 * two text fields are numbers.
@@ -96,7 +140,7 @@ public class NewVideoPrompt extends HBox {
 		String title = myTitleField.getText();
 		String purchasedPlays = myPurchasedPlaysField.getText();
 		String length = myLengthField.getText();
-		
+
 		if(company.isEmpty() || title.isEmpty() || purchasedPlays.isEmpty() || length.isEmpty()){
 			return false;
 		}	
@@ -109,7 +153,7 @@ public class NewVideoPrompt extends HBox {
 		}
 		return true;		
 	}
-	
+
 	/**
 	 * Clears all the text fields. This is called after a new entry is added.
 	 */
