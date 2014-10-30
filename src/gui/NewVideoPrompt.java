@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 
 import static java.nio.file.StandardCopyOption.*;
 
@@ -68,35 +69,64 @@ public class NewVideoPrompt extends HBox {
 	 * @param videoList
 	 * @return
 	 */
-	private Button makeNewVideoButton(ObservableList<LoadedVideo> videoList) {
+	private Button makeNewVideoButton(List<LoadedVideo> videoList) {
 		final Button addButton = new Button("Add");
-		addButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if(isInputValidated() && getAndSaveVideoFile()){
-					LoadedVideo video = new LoadedVideo(
-							myCompanyField.getText(),
-							myTitleField.getText(),
-							Integer.parseInt(myPurchasedPlaysField.getText()),
-							Integer.parseInt(myLengthField.getText()));
-					videoList.add(video);
-					try {
-						GUIController.editMasterFile();
-					} catch (TransformerException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					clearFields();
-				}
-			}
-		});
+		addButton.setOnAction(event->tryToAddAdvertisement(videoList));
 		return addButton;
 	}
 
+	private void tryToAddAdvertisement(List<LoadedVideo> videoList) {
+		if(isInputValidated() && !adAlreadyExists(videoList) && getAndSaveVideoFile()){
+			createNewAdAndAddToVideoList(videoList);
+			try {
+				GUIController.editMasterFile();
+			} catch (TransformerException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			clearFields();
+		}
+	}
+
+
+	private void createNewAdAndAddToVideoList(List<LoadedVideo> videoList) {
+		LoadedVideo video = new LoadedVideo(
+				myCompanyField.getText(),
+				myTitleField.getText(),
+				Integer.parseInt(myPurchasedPlaysField.getText()),
+				Integer.parseInt(myLengthField.getText()));
+		videoList.add(video);
+	}
+
+	/**
+	 * Determines if added video already exists.
+	 * @param videoList
+	 * @return true if added video already exists in the table.
+	 */
+	private boolean adAlreadyExists(List<LoadedVideo> videoList) {
+		for(LoadedVideo video:videoList){
+			if(video.getMyCompany().equalsIgnoreCase(myCompanyField.getText()) &&
+					video.getMyName().equalsIgnoreCase(myTitleField.getText())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Opens a file chooser so the user can select the video corresponding to
+	 * the advertisement being chosen. The file is then saved to the videos folder.
+	 * @return
+	 */
 	protected boolean getAndSaveVideoFile() {
 		return saveFile(getFileFromFileChooser());
 	}
 
+	/**
+	 * If a file was chosen by the file chooser then it is saved to the videos folder.
+	 * @param fileFromFileChooser
+	 * @return
+	 */
 	private boolean saveFile(File fileFromFileChooser) {
 		if(fileFromFileChooser == null)
 			return false;
@@ -107,7 +137,7 @@ public class NewVideoPrompt extends HBox {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -115,6 +145,11 @@ public class NewVideoPrompt extends HBox {
 		return false;
 	}
 
+	/**
+	 * Opens a file chooser so the user can select the video corresponding to the
+	 * advertisement that is being added.
+	 * @return the file if a valid file is chosen.
+	 */
 	private File getFileFromFileChooser () {
 		FileChooser myFileChooser = new FileChooser();
 		myFileChooser.setTitle("Select Video File");
@@ -126,6 +161,11 @@ public class NewVideoPrompt extends HBox {
 		return myFileChooser.showOpenDialog(new Stage());
 	}
 
+	/**
+	 * Based on the company and title inputs, this method returns the required filename
+	 * of the video corresponding to the advertisement you are adding.
+	 * @return
+	 */
 	private String getRequiredFileName() {
 		return myCompanyField.getText().replace(" ", "") + "_" + myTitleField.getText().replace(" ", "") + ".mp4";
 	}

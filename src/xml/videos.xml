@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <videos>
+<video company="Loop" length="30" playsPurchased="100" playsRemaining="48" title="1"/>
+<video company="Jimmy Johns" length="30" playsPurchased="30" playsRemaining="26" title="1"/>
 <video company="Shooters" length="50" playsPurchased="100" playsRemaining="-4" title="1"/>
 <video company="Duke Barber Shop" length="50" playsPurchased="100" playsRemaining="0" title="1"/>
-<video company="Loop" length="30" playsPurchased="100" playsRemaining="72" title="1"/>
-<video company="Jimmy Johns" length="30" playsPurchased="30" playsRemaining="30" title="1"/>
 </videos>
