@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -37,7 +36,8 @@ public class ImportedFilesXMLWriter extends XMLWriter {
 		myDocument = document;
 	}
 	
-	public void writeNewImportedFiles(List<File> files) throws TransformerException{
+
+	public void writeNewImportedFilesToPreviouslyImportedFile(List<File> files) {
 		for(File f:files){
 			if(appendFileToDocument(f)){
 				super.writeFile(myDocument, new File(XMLController.IMPORTED_FILES_PATH));

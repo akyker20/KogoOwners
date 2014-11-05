@@ -60,9 +60,7 @@ public class ImportedFilesTable extends TableView<File> {
 			}
 		});
 
-		// When a file is actually dropped it is validated to
-		// ensure it has the correct name. The controller is 
-		// then called to initialize the driving environment.
+		// When a file is actually dropped it is validated to ensure it is from the correct day
 		this.setOnDragDropped(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(DragEvent event) {

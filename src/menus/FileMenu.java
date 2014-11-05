@@ -1,16 +1,12 @@
 package menus;
 
-import javax.xml.transform.TransformerException;
-
+import javafx.scene.control.Menu;
+import menus.filemenuitems.BackToTableItem;
 import menus.filemenuitems.ConsumeDriverFiles;
 import menus.filemenuitems.GenerateDriverFileMenu;
-import menus.filemenuitems.RemoveVideoItem;
-import menus.filemenuitems.BackToTableItem;
-import menus.filemenuitems.UndoRemoveVideoItem;
 import menus.filemenuitems.ImportDriverFiles;
-import gui.GUIController;
-import gui.tableviews.VideoTable;
-import javafx.scene.control.Menu;
+import menus.filemenuitems.RemoveVideoItem;
+import menus.filemenuitems.UndoRemoveVideoItem;
 
 /**
  * Class will be used to load files such as previously saved commands or
@@ -20,7 +16,6 @@ import javafx.scene.control.Menu;
  */
 public class FileMenu extends Menu {
 
-	private VideoTable myVideoTable;
 	private UndoRemoveVideoItem myUndoRemoveVideo;
 	private RemoveVideoItem myRemoveVideo;
 	private GenerateDriverFileMenu myGenerateDriverFileMenu;
@@ -28,9 +23,7 @@ public class FileMenu extends Menu {
 	private ConsumeDriverFiles myConsumeDriverFiles;
 	private BackToTableItem myReturnToTable;
 
-	public FileMenu(VideoTable table){
-		
-		myVideoTable = table;
+	public FileMenu(){
 
 		this.setText("File");
 
@@ -47,62 +40,37 @@ public class FileMenu extends Menu {
 		}
 	}
 
-	/**
-	 * Removes a video and if there are no videos that have been removed (no
-	 * videos on the undo stack), then the UndoRemoveVideo icon is enabled.
-	 */
-	public void tryToRemoveVideo() {
-		try {
-			if(myVideoTable.removeSelectedItem() && myUndoRemoveVideo.isDisable()){
-				myUndoRemoveVideo.setDisable(false);
-			}
-		} catch (TransformerException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
+//	/**
+//	 * Removes a video and if there are no videos that have been removed (no
+//	 * videos on the undo stack), then the UndoRemoveVideo icon is enabled.
+//	 */
+//	public void tryToRemoveVideo() {
+//		try {
+//			if(myVideoTable.removeSelectedItem() && myUndoRemoveVideo.isDisable()){
+//				myUndoRemoveVideo.setDisable(false);
+//			}
+//		} catch (TransformerException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//	}
 
-	/**
-	 * Tries to undo a video removal. If there are no longer any removed videos on the
-	 * stack after the video is added back in (removed from the stack), then the 
-	 * UndoRemove MenuItem is disabled (There are no removals to undo).
-	 */
-	public void tryToUndoRemove() {
-		try {
-			myVideoTable.undoRemovedVideo();
-			if(!myVideoTable.areRemovedVideosRemaining()){
-				myUndoRemoveVideo.setDisable(true);
-			}
-		} catch (TransformerException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-
-	/**
-	 * Attempts to generate a driver xml file with a filename that includes
-	 * the input date string. This method is called by clicking on a
-	 * GenerateDriverFileMenu menu item.
-	 * @param dateString
-	 */
-	public void generateDriverFile(String dateString) {
-		String fileName = dateString.replace('/', '-');
-		try {
-			myVideoTable.buildDriverFile("kogo_" + fileName + ".xml");
-		} catch (TransformerException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-
-	public void consumeDriverFiles() {
-		try {
-			GUIController.consumeDriverFiles();
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	/**
+//	 * Tries to undo a video removal. If there are no longer any removed videos on the
+//	 * stack after the video is added back in (removed from the stack), then the 
+//	 * UndoRemove MenuItem is disabled (There are no removals to undo).
+//	 */
+//	public void tryToUndoRemove() {
+//		try {
+//			myVideoTable.undoRemovedVideo();
+//			if(!myVideoTable.areRemovedVideosRemaining()){
+//				myUndoRemoveVideo.setDisable(true);
+//			}
+//		} catch (TransformerException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//	}
 
 	public void disableConsumeDriverFilesItem(boolean disableStatus) {
 		myConsumeDriverFiles.setDisable(disableStatus);
@@ -112,14 +80,10 @@ public class FileMenu extends Menu {
 		this.getItems().removeAll(myRemoveVideo, myUndoRemoveVideo, myGenerateDriverFileMenu, myUploadDriverFiles);
 		this.getItems().addAll(myConsumeDriverFiles, myReturnToTable);
 	}
-	
+
 	public void configureVideoTableMenuOptions() {
 		this.getItems().removeAll(myConsumeDriverFiles, myReturnToTable);
 		this.getItems().addAll(myRemoveVideo, myUndoRemoveVideo, myGenerateDriverFileMenu, myUploadDriverFiles);
-		
-	}
 
-	public void backToVideoTable() {
-		GUIController.backToTable();
 	}
 }

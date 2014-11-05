@@ -4,7 +4,6 @@ import gui.GUIController;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +29,7 @@ public class DriverXMLWriter extends XMLWriter {
 
 	private DocumentBuilder myBuilder;
 
-	public DriverXMLWriter() throws FileNotFoundException, SAXException, IOException, 
+	public DriverXMLWriter() throws SAXException, IOException, 
 	ParserConfigurationException, TransformerConfigurationException {
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -44,7 +43,7 @@ public class DriverXMLWriter extends XMLWriter {
 	 * @throws TransformerException 
 	 * @throws IOException 
 	 */
-	public void buildDriverFile(ObservableList<LoadedVideo> videoList, String fileName) throws TransformerException, IOException {
+	public void buildDriverFile(ObservableList<LoadedVideo> videoList, String fileName) {
 		Document document = buildDriverDocument(videoList);
 		String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
 		new File("./driver/deliverable_" + dateStr + "/").mkdir();
@@ -54,7 +53,12 @@ public class DriverXMLWriter extends XMLWriter {
 		
 		File videoSource = new File("./videos/");
 		File target = new File("./driver/deliverable_" + dateStr + "/videos/");
-		copyDirectory(videoSource, target);
+		try {
+			copyDirectory(videoSource, target);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	  // If targetLocation does not exist, it will be created.

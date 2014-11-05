@@ -3,12 +3,7 @@ package xmlcontrol.writers;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Map;
 
-import javafx.collections.ObservableList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -75,11 +70,16 @@ public abstract class XMLWriter {
 	 * @param xmlFile
 	 * @throws TransformerException
 	 */
-	protected void writeFile(Document document, File xmlFile) throws TransformerException {
+	protected void writeFile(Document document, File xmlFile) {
 		xmlFile.setWritable(true);
 		StreamResult result = new StreamResult(xmlFile);
-		myTransformer.transform(new DOMSource(document), result);
-		xmlFile.setReadOnly();
-		System.out.println("File saved!");
+		try {
+			myTransformer.transform(new DOMSource(document), result);
+			xmlFile.setReadOnly();
+			System.out.println("File saved!");
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

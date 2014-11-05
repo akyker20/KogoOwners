@@ -12,6 +12,6 @@ public class RemoveVideoItem extends MenuItem {
 	
 	public RemoveVideoItem(FileMenu fileMenu){
 		super("Remove Video");
-		setOnAction(event->fileMenu.tryToRemoveVideo());
+//		setOnAction(event->fileMenu.tryToRemoveVideo());
 	}
 }

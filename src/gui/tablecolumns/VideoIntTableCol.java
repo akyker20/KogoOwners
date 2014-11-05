@@ -1,10 +1,10 @@
 package gui.tablecolumns;
 
 import gui.tableviews.VideoTable;
-import video.LoadedVideo;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import video.LoadedVideo;
 
 /**
  * Class was created to make VideoTable column creation DRYer.

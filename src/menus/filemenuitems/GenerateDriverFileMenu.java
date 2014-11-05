@@ -1,12 +1,13 @@
 package menus.filemenuitems;
 
+import gui.GUIController;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-
 import menus.FileMenu;
 
 /**
@@ -28,11 +29,16 @@ public class GenerateDriverFileMenu extends Menu {
 		for(int i = 0; i < dateStr.length; i++){
 			dates[i] = new MenuItem(dateStr[i]);
 			final int index = i;
-			dates[i].setOnAction(event->fileMenu.generateDriverFile(dateStr[index]));
+			dates[i].setOnAction(event->GUIController.buildDriverFile(getDriverFileName(dateStr[index])));
 			getItems().add(dates[i]);
 		}
 	}
 
+	private String getDriverFileName(String date){
+		String fileName = date.replace('/', '-');
+		return "kogo_" + fileName + ".xml";
+	}
+	
 	/**
 	 * @return an array of String representing the next NUM_DAYS_OPTION days.
 	 */

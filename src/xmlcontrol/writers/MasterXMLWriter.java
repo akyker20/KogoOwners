@@ -44,7 +44,7 @@ public class MasterXMLWriter extends XMLWriter {
 	 * @param videoList
 	 * @throws TransformerException
 	 */
-	public void editMasterFile(ObservableList<LoadedVideo> videoList) throws TransformerException{
+	public void editMasterFile(ObservableList<LoadedVideo> videoList) {
 		Document document = buildMasterDocument(videoList);
 		super.writeFile(document, myMasterFile);
 	}
@@ -72,7 +72,7 @@ public class MasterXMLWriter extends XMLWriter {
 	 * @throws TransformerException
 	 */
 	public ObservableList<LoadedVideo> consumeXMLFiles(Document document, ObservableList<LoadedVideo> videos, 
-			ObservableList<PlayedVideo> importedVideos) throws TransformerException {
+			ObservableList<PlayedVideo> importedVideos) {
 		for(PlayedVideo importedVideo:importedVideos){
 			LoadedVideo videoIdentified = null;
 			for(LoadedVideo video:videos){

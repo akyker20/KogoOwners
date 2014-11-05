@@ -12,19 +12,10 @@ public class LoadedVideo extends Video {
 	private int myPlaysPurchased;
 	private int myPlaysRemaining;
 
-	
 	public LoadedVideo(String company, String name, int playsPurchased, int length){
 		this(company, name, playsPurchased, playsPurchased, length);
 	}
 	
-	/**
-	 * 
-	 * @param company
-	 * @param name - the name of the video
-	 * @param playsPurchased - the number of plays purchased 
-	 * @param playsRemaining - the number of plays remaining
-	 * @param length - the length of the clip
-	 */
 	public LoadedVideo(String company, String name, int playsPurchased, int playsRemaining, int length){
 		super(company, name, length);
 		myPlaysPurchased  = playsPurchased;
@@ -46,5 +37,13 @@ public class LoadedVideo extends Video {
 	@Override
 	public int getMyPlaysCompleted() {
 		return myPlaysPurchased - myPlaysRemaining;
+	}
+	
+	@Override
+	public boolean equals(Object other){
+		LoadedVideo otherVideo = (LoadedVideo) other;
+		return this.getMyCompany().equalsIgnoreCase(otherVideo.getMyCompany()) &&
+			   this.getMyName().equalsIgnoreCase(otherVideo.getMyName());
+		
 	}
 }

@@ -65,7 +65,7 @@ public class VideoTable extends TableView<LoadedVideo> {
 						editMasterFile();
 					}
 				});
-		
+
 		VideoIntTableCol numPlaysPurchasedCol = new VideoIntTableCol(this, "Plays Purchased", "myPlaysPurchased");
 		VideoIntTableCol numPlaysRemainingCol = new VideoIntTableCol(this, "Plays Remaining", "myPlaysRemaining");
 		VideoIntTableCol lengthCol = new VideoIntTableCol(this,"Length (sec)", "myLength");
@@ -73,7 +73,7 @@ public class VideoTable extends TableView<LoadedVideo> {
 
 		this.getColumns().setAll(companyName, nameCol, lengthCol, numPlaysPurchasedCol, 
 				numPlaysRemainingCol, revenueCol);
-		
+
 		this.setId("table");
 		this.setPrefHeight(300);
 		this.setItems(myVideos);
@@ -84,11 +84,7 @@ public class VideoTable extends TableView<LoadedVideo> {
 	 * Calls the xml writer to save edits to master file.
 	 */
 	protected void editMasterFile() {
-		try {
-			GUIController.editMasterFile();
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		}	
+		GUIController.editMasterFile();	
 	}
 
 	/**
@@ -127,14 +123,5 @@ public class VideoTable extends TableView<LoadedVideo> {
 	 */
 	public boolean areRemovedVideosRemaining(){
 		return !myRemovedVideos.isEmpty();
-	}
-
-	/**
-	 * Builds the file that will be sent to Drivers.
-	 * @param fileName - the name the created file will be given.
-	 * @throws TransformerException
-	 */
-	public void buildDriverFile(String fileName) throws TransformerException {
-		GUIController.buildDriverFile(fileName);	
 	}
 }

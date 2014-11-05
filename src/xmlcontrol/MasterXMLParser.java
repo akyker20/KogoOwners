@@ -1,8 +1,10 @@
 package xmlcontrol;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -11,7 +13,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import video.LoadedVideo;
-import javafx.collections.ObservableList;
 
 
 /**
@@ -40,16 +41,16 @@ public class MasterXMLParser {
 		myVideoNodeMap = new HashMap<LoadedVideo, Node>();
 	}
 
-	/**
-	 * Looks at all the video nodes and builds video instances. Each video instance
-	 * is added to the input ArrayList which will hold all the videos and be maintained
-	 * in the controller. The map is also updated to map each video instance to its node.
-	 * @param videoList - the list that will hold all videos
-	 * @param fileAlreadyInitialized - whether or not the file has already been initialized
-	 */
-	public void buildVideos(ObservableList<LoadedVideo> videoList) {
+	public ObservableList<LoadedVideo> buildVideosFromXML() {
+		ObservableList<LoadedVideo> videoList = FXCollections.observableArrayList();
 		Element root = myDocument.getDocumentElement();
 		NodeList videoNodes = root.getElementsByTagName(VIDEO);
+		buildNodeMapAndAddVideosToList(videoList, videoNodes);
+		return videoList;
+	}
+
+	private void buildNodeMapAndAddVideosToList(
+			ObservableList<LoadedVideo> videoList, NodeList videoNodes) {
 		for(int i = 0; i < videoNodes.getLength(); i++){
 			Node videoNode = videoNodes.item(i);
 			if (videoNode instanceof Element && videoNode.getNodeName().equalsIgnoreCase(VIDEO)) {
@@ -60,12 +61,6 @@ public class MasterXMLParser {
 		}
 	}
 
-	/**
-	 * Creates a video instance from the videoNode.
-	 * @param videoNode
-	 * @param fileAlreadyInitialized
-	 * @return
-	 */
 	private LoadedVideo buildVideoFromNode(Node videoNode) {
 		NamedNodeMap attributes = videoNode.getAttributes();
 		int numPlaysPurchased = Integer.parseInt(getAttributeValue(attributes, PLAYS_PURCHASED));
@@ -76,21 +71,10 @@ public class MasterXMLParser {
 		return new LoadedVideo(company, title, numPlaysPurchased, numPlaysRemaining, length);
 	}
 
-	/**
-	 * Helper function to fetch an attribute value.
-	 * @param attributes
-	 * @param attrName
-	 * @return
-	 */
 	private String getAttributeValue(NamedNodeMap attributes, String attrName) {
 		return attributes.getNamedItem(attrName).getNodeValue();
 	}
 
-	/**
-	 * Allows the XMLController to provide the XMLWriter with the node map so
-	 * that editing the driver XML File is simple.
-	 * @return the VideoNode map
-	 */
 	public Map<LoadedVideo, Node> getVideoNodeMap() {
 		return myVideoNodeMap;
 	}

@@ -14,6 +14,6 @@ public class UndoRemoveVideoItem extends MenuItem {
 	public UndoRemoveVideoItem(FileMenu fileMenu){
 		super("Undo Remove");
 		setDisable(true);
-		setOnAction(event->fileMenu.tryToUndoRemove());
+//		setOnAction(event->fileMenu.tryToUndoRemove());
 	}
 }
