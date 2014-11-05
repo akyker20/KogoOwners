@@ -17,19 +17,23 @@ import menus.FileMenu;
  *
  */
 public class GenerateDriverFileMenu extends Menu {
-	
+
+	private static final String ITEM_TITLE = "Make Driver Files";
 	private static final int NUM_DAYS_OPTION = 3;
 
 	public GenerateDriverFileMenu(FileMenu fileMenu){
-		super("Make Driver Files");
+		super(ITEM_TITLE);
+		addDateOptionsItems();
+	}
 
-		String[] dateStr = getArrayOfStringDays();
-		
+	private void addDateOptionsItems() {
+		String[] dateStr = getArrayOfStringDays();	
 		MenuItem[] dates = new MenuItem[NUM_DAYS_OPTION];
 		for(int i = 0; i < dateStr.length; i++){
 			dates[i] = new MenuItem(dateStr[i]);
 			final int index = i;
-			dates[i].setOnAction(event->GUIController.buildDriverFile(getDriverFileName(dateStr[index])));
+			dates[i].setOnAction(event->
+			GUIController.buildDriverFile(getDriverFileName(dateStr[index])));
 			getItems().add(dates[i]);
 		}
 	}
@@ -38,10 +42,7 @@ public class GenerateDriverFileMenu extends Menu {
 		String fileName = date.replace('/', '-');
 		return "kogo_" + fileName + ".xml";
 	}
-	
-	/**
-	 * @return an array of String representing the next NUM_DAYS_OPTION days.
-	 */
+
 	private String[] getArrayOfStringDays() {
 		GregorianCalendar cal = new GregorianCalendar();
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");

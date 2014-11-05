@@ -1,16 +1,16 @@
 package gui.tablecolumns;
 
 import gui.tableviews.DrivingSessionTable;
-import video.PlayedVideo;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import video.PlayedVideo;
 
 public class VideoStringTableCol extends TableColumn<PlayedVideo, String> {
 	
-	public VideoStringTableCol(TableView table, String name, String videoAttrStr){
+	public VideoStringTableCol(ReadOnlyDoubleProperty tableWidth, String name, String videoAttrStr){
 		super(name);
 		setCellValueFactory(new PropertyValueFactory<PlayedVideo, String>(videoAttrStr));
-		prefWidthProperty().bind(table.widthProperty().divide(DrivingSessionTable.NUM_COLS));
+		prefWidthProperty().bind(tableWidth.divide(DrivingSessionTable.NUM_COLS));
 	}
 }

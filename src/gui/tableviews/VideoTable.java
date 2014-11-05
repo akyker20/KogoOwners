@@ -42,7 +42,7 @@ public class VideoTable extends TableView<LoadedVideo> {
 			}
 		};
 
-		EditableVideoStringTableCol companyName = new EditableVideoStringTableCol(this, stringCellFactory, "Company", "myCompany");
+		EditableVideoStringTableCol companyName = new EditableVideoStringTableCol(this.widthProperty(), stringCellFactory, "Company", "myCompany");
 		companyName.setOnEditCommit(
 				new EventHandler<CellEditEvent<LoadedVideo, String>>() {
 					@Override
@@ -54,7 +54,7 @@ public class VideoTable extends TableView<LoadedVideo> {
 					}
 				});
 
-		EditableVideoStringTableCol nameCol = new EditableVideoStringTableCol(this, stringCellFactory, "Title", "myName");
+		EditableVideoStringTableCol nameCol = new EditableVideoStringTableCol(this.widthProperty(), stringCellFactory, "Title", "myName");
 		nameCol.setOnEditCommit(
 				new EventHandler<CellEditEvent<LoadedVideo, String>>() {
 					@Override
@@ -66,10 +66,10 @@ public class VideoTable extends TableView<LoadedVideo> {
 					}
 				});
 
-		VideoIntTableCol numPlaysPurchasedCol = new VideoIntTableCol(this, "Plays Purchased", "myPlaysPurchased");
-		VideoIntTableCol numPlaysRemainingCol = new VideoIntTableCol(this, "Plays Remaining", "myPlaysRemaining");
-		VideoIntTableCol lengthCol = new VideoIntTableCol(this,"Length (sec)", "myLength");
-		VideoIntTableCol revenueCol = new VideoIntTableCol(this, "Revenue ($)", "myRevenue");
+		VideoIntTableCol numPlaysPurchasedCol = new VideoIntTableCol(this.widthProperty(), "Plays Purchased", "myPlaysPurchased");
+		VideoIntTableCol numPlaysRemainingCol = new VideoIntTableCol(this.widthProperty(), "Plays Remaining", "myPlaysRemaining");
+		VideoIntTableCol lengthCol = new VideoIntTableCol(this.widthProperty(),"Length (sec)", "myLength");
+		VideoIntTableCol revenueCol = new VideoIntTableCol(this.widthProperty(), "Revenue ($)", "myRevenue");
 
 		this.getColumns().setAll(companyName, nameCol, lengthCol, numPlaysPurchasedCol, 
 				numPlaysRemainingCol, revenueCol);

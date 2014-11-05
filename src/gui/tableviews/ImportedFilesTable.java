@@ -35,30 +35,17 @@ public class ImportedFilesTable extends TableView<File> {
 	public ImportedFilesTable(ObservableList<PlayedVideo> importedVideos, TableView<PlayedVideo> myDriverSessionTable) throws ParserConfigurationException, SAXException, IOException{
 		myDriverParser = new DriverXMLParser(importedVideos);
 		myFiles = FXCollections.observableArrayList();
-		setItems(myFiles);
 		
-		TableColumn<File, String> importedFileCol = new TableColumn<File, String>("Imported Files");
-		importedFileCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
-		importedFileCol.prefWidthProperty().bind(this.widthProperty());
-		getColumns().add(importedFileCol);
+		addColToTable();
+		
 		setDisable(true);
 		setPrefWidth(260);
+		setItems(myFiles);
 		
 		mySelectedDate = LocalDate.now();
 
-		// When a file is dragged over the scene, the background becomes
-		// green and a copy message is displayed near the mouse.
-		this.setOnDragOver(new EventHandler<DragEvent>() {
-			@Override
-			public void handle(DragEvent event) {
-				Dragboard db = event.getDragboard();
-				if (db.hasFiles()) {
-					event.acceptTransferModes(TransferMode.COPY);
-				} else {
-					event.consume();
-				}
-			}
-		});
+
+		this.setOnDragOver(event->handleDragOver(event));
 
 		// When a file is actually dropped it is validated to ensure it is from the correct day
 		this.setOnDragDropped(new EventHandler<DragEvent>() {
@@ -96,6 +83,21 @@ public class ImportedFilesTable extends TableView<File> {
 				event.consume();
 			}
 		});
+	}
+
+	private void handleDragOver(DragEvent event) {
+		Dragboard db = event.getDragboard();
+		if (db.hasFiles())
+			event.acceptTransferModes(TransferMode.COPY);
+		else
+			event.consume();
+	}
+
+	private void addColToTable() {
+		TableColumn<File, String> importedFileCol = new TableColumn<File, String>("Imported Files");
+		importedFileCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
+		importedFileCol.prefWidthProperty().bind(this.widthProperty());
+		this.getColumns().add(importedFileCol);
 	}
 
 	protected boolean canImport(File f) {

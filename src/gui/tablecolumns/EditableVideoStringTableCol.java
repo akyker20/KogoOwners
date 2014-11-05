@@ -1,11 +1,12 @@
 package gui.tablecolumns;
 
 import gui.tableviews.VideoTable;
-import video.LoadedVideo;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import video.LoadedVideo;
 
 /**
  * Class was created to make VideoTable column creation DRYer.
@@ -14,11 +15,11 @@ import javafx.util.Callback;
  */
 public class EditableVideoStringTableCol extends TableColumn<LoadedVideo, String> {
 	
-	public EditableVideoStringTableCol(VideoTable table, Callback<TableColumn<LoadedVideo, String>, TableCell<LoadedVideo, String>> factory, 
+	public EditableVideoStringTableCol(ReadOnlyDoubleProperty tableWidth, Callback<TableColumn<LoadedVideo, String>, TableCell<LoadedVideo, String>> factory, 
 			String name, String videoAttrStr){
 		super(name);
 		setCellFactory(factory);
 		setCellValueFactory(new PropertyValueFactory<LoadedVideo, String>(videoAttrStr));
-		prefWidthProperty().bind(table.widthProperty().divide(VideoTable.NUM_COLS));
+		prefWidthProperty().bind(tableWidth.divide(VideoTable.NUM_COLS));
 	}
 }
