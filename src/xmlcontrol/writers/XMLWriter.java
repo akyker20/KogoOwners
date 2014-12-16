@@ -49,7 +49,7 @@ public abstract class XMLWriter {
 	 * @param videosTag
 	 * @param forDriver
 	 */
-	protected abstract Element createVideoNode(LoadedVideo video, Document document);
+	protected Element createVideoNode(LoadedVideo video, Document document){return  null;};
 		
 	/**
 	 * A helper method to create a new attribute with a name and value.

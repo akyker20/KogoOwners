@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
  * @author Austin Kyker
  *
  */
-public class TableScene extends GUIBox {
+public class TableScene extends GUIScene {
 
 	public TableScene(VideoTable videoTable, NewVideoPrompt videoPrompt) {
         VBox centerContainer = new VBox(10);

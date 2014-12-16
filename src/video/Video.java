@@ -41,4 +41,9 @@ public abstract class Video {
 	}
 	
 	public abstract int getMyPlaysCompleted();
+	
+	public boolean sameAs(Video otherVideo){
+		return this.getMyCompany().equalsIgnoreCase(otherVideo.getMyCompany()) &&
+			   this.getMyName().equalsIgnoreCase(otherVideo.getMyName());
+	}
 }

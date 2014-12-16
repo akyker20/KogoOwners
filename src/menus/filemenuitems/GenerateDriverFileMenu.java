@@ -1,6 +1,6 @@
 package menus.filemenuitems;
 
-import gui.GUIController;
+import gui.Controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,14 +33,14 @@ public class GenerateDriverFileMenu extends Menu {
 			dates[i] = new MenuItem(dateStr[i]);
 			final int index = i;
 			dates[i].setOnAction(event->
-			GUIController.buildDriverFile(getDriverFileName(dateStr[index])));
+			Controller.buildDriverFile(getDriverFileName(dateStr[index])));
 			getItems().add(dates[i]);
 		}
 	}
 
 	private String getDriverFileName(String date){
 		String fileName = date.replace('/', '-');
-		return "kogo_" + fileName + ".xml";
+		return "kogo_" + fileName + ".json";
 	}
 
 	private String[] getArrayOfStringDays() {

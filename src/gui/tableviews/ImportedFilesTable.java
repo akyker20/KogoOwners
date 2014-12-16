@@ -1,6 +1,6 @@
 package gui.tableviews;
 
-import gui.GUIController;
+import gui.Controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
-import xmlcontrol.DriverXMLParser;
+import xmlcontrol.InputDriverFileXMLParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -28,12 +28,12 @@ import javafx.scene.input.TransferMode;
 
 public class ImportedFilesTable extends TableView<File> {
 	
-	private DriverXMLParser myDriverParser;
+	private InputDriverFileXMLParser myDriverParser;
 	private ObservableList<File> myFiles;
 	private LocalDate mySelectedDate;
 	
 	public ImportedFilesTable(ObservableList<PlayedVideo> importedVideos, TableView<PlayedVideo> myDriverSessionTable) throws ParserConfigurationException, SAXException, IOException{
-		myDriverParser = new DriverXMLParser(importedVideos);
+		myDriverParser = new InputDriverFileXMLParser(importedVideos);
 		myFiles = FXCollections.observableArrayList();
 		
 		addColToTable();
@@ -48,6 +48,7 @@ public class ImportedFilesTable extends TableView<File> {
 		this.setOnDragOver(event->handleDragOver(event));
 
 		// When a file is actually dropped it is validated to ensure it is from the correct day
+		// THIS NEEDS TO BE CLEANED UP!!!
 		this.setOnDragDropped(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(DragEvent event) {
@@ -69,7 +70,7 @@ public class ImportedFilesTable extends TableView<File> {
 									if(myDriverSessionTable.isDisabled()){
 										myDriverSessionTable.setDisable(false);
 									}
-									GUIController.enableConsumeDriverFilesItem();
+									Controller.enableConsumeDriverFilesItem();
 									
 								} catch (SAXException | IOException e) {
 									// TODO Auto-generated catch block
@@ -101,8 +102,8 @@ public class ImportedFilesTable extends TableView<File> {
 	}
 
 	protected boolean canImport(File f) {
-		System.out.println("Can import: " + GUIController.canImport(f));
-		return GUIController.canImport(f);
+//		return Controller.XML_CONTROLLER.canImport(f);
+		return true;
 	}
 
 	public void reset() {

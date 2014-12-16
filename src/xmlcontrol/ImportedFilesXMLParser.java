@@ -34,7 +34,8 @@ public class ImportedFilesXMLParser {
 
 
 	/**
-	 * This map will allow easy parsing when we want to see if a video has been added a certain day
+	 * This map will allow easy parsing when we want to see if a video has 
+	 * been added a certain day
 	 */
 	public void buildMap() {
 		Element root = myDocument.getDocumentElement();

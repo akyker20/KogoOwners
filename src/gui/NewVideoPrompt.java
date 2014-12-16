@@ -14,9 +14,9 @@ import org.xml.sax.SAXException;
 import video.LoadedVideo;
 
 /**
- * Offers the user ability to add new advertisement information.
- * There horizontal box contains TextFields for each of the necessary
- * attributes.
+ * Offers the user ability to add new advertisement information. There
+ * horizontal box contains TextFields for each of the necessary attributes.
+ * 
  * @author Austin Kyker
  *
  */
@@ -27,18 +27,17 @@ public class NewVideoPrompt extends HBox {
 	private TextField myPurchasedPlaysField;
 	private TextField myLengthField;
 
-	public NewVideoPrompt() 
-			throws FileNotFoundException, SAXException, IOException, 
-			ParserConfigurationException {
+	public NewVideoPrompt() throws FileNotFoundException, SAXException,
+			IOException, ParserConfigurationException {
 
 		createNewVideoInputTextFields();
-		this.getChildren().addAll(myCompanyField, myTitleField, 
+		this.getChildren().addAll(myCompanyField, myTitleField,
 				myPurchasedPlaysField, myLengthField, makeNewVideoButton());
 		this.setSpacing(15);
 	}
 
 	private void createNewVideoInputTextFields() {
-		myCompanyField = makeTextField("Company");		
+		myCompanyField = makeTextField("Company");
 		myTitleField = makeTextField("Video Title");
 		myPurchasedPlaysField = makeTextField("Plays Purchased");
 		myLengthField = makeTextField("Length");
@@ -52,39 +51,36 @@ public class NewVideoPrompt extends HBox {
 
 	private Button makeNewVideoButton() {
 		final Button addButton = new Button("Add");
-		addButton.setOnAction(event->addNewAdvertisement());
+		addButton.setOnAction(event -> addNewAdvertisement());
 		return addButton;
 	}
 
 	private void addNewAdvertisement() {
-		if(isNewVideoInputValid()){
+		if (isNewVideoInputValid()) {
 			LoadedVideo createdAd = createNewVideoFromTextFieldInputs();
-			if(GUIController.addNewAdvertisement(createdAd))
+			if (Controller.addNewAdvertisement(createdAd))
 				clearFields();
 		}
 	}
 
 	private LoadedVideo createNewVideoFromTextFieldInputs() {
-		return new LoadedVideo(
-				myCompanyField.getText(),
-				myTitleField.getText(),
-				Integer.parseInt(myPurchasedPlaysField.getText()),
-				Integer.parseInt(myLengthField.getText()));
+		return new LoadedVideo(myCompanyField.getText(),
+				myTitleField.getText(), Integer.parseInt(myPurchasedPlaysField
+						.getText()), Integer.parseInt(myLengthField.getText()));
 	}
 
-	private boolean isNewVideoInputValid() {		
-		return noVideoFieldIsEmpty() && numberFieldsDontHaveCharacters();	
+	private boolean isNewVideoInputValid() {
+		return noVideoFieldIsEmpty() && numberFieldsDontHaveCharacters();
 	}
 
 	private boolean numberFieldsDontHaveCharacters() {
 		String purchasedPlays = myPurchasedPlaysField.getText();
 		String length = myLengthField.getText();
-		try{
+		try {
 			Integer.parseInt(purchasedPlays);
 			Integer.parseInt(length);
 			return true;
-		}
-		catch(NumberFormatException e){
+		} catch (NumberFormatException e) {
 			return false;
 		}
 	}
@@ -94,8 +90,8 @@ public class NewVideoPrompt extends HBox {
 		String title = myTitleField.getText();
 		String purchasedPlays = myPurchasedPlaysField.getText();
 		String length = myLengthField.getText();
-		return !(company.isEmpty() || title.isEmpty() || purchasedPlays.isEmpty() || 
-			     length.isEmpty());
+		return !(company.isEmpty() || title.isEmpty()
+				|| purchasedPlays.isEmpty() || length.isEmpty());
 	}
 
 	private void clearFields() {

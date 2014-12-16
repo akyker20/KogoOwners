@@ -38,33 +38,6 @@ public class MasterXMLWriter extends XMLWriter {
 	}
 
 	/**
-	 * Builds a new document based on the contents of the input observable 
-	 * list (the videos in the TableView), and overwrites the master file
-	 * with these changes.
-	 * @param videoList
-	 * @throws TransformerException
-	 */
-	public void editMasterFile(ObservableList<LoadedVideo> videoList) {
-		Document document = buildMasterDocument(videoList);
-		super.writeFile(document, myMasterFile);
-	}
-
-	/**
-	 * Builds a new document based on the video instances provided.
-	 * @param videoList
-	 * @return
-	 */
-	private Document buildMasterDocument(ObservableList<LoadedVideo> videoList){
-		Document document = myBuilder.newDocument();
-		Element videosTag = document.createElement("videos");
-		document.appendChild(videosTag);
-		for(LoadedVideo video:videoList){
-			videosTag.appendChild(createVideoNode(video, document));
-		}
-		return document;
-	}
-
-	/**
 	 * Consumes the xml files uploaded and updates the master xml file appropriately.
 	 * @param document
 	 * @param videos
@@ -103,14 +76,4 @@ public class MasterXMLWriter extends XMLWriter {
 		return videoIdentified.getMyPlaysRemaining() - importedVideo.getMyPlaysCompleted();
 	}
 
-	@Override
-	public Element createVideoNode(LoadedVideo video, Document document) {
-		Element videoNode = document.createElement("video");
-		videoNode.setAttributeNode(makeNode(document, "title", video.getMyName()));
-		videoNode.setAttributeNode(makeNode(document, "company", video.getMyCompany()));
-		videoNode.setAttributeNode(makeNode(document, "length", ""+video.getMyLength()));
-		videoNode.setAttributeNode(makeNode(document, "playsPurchased", ""+ video.getMyPlaysPurchased()));
-		videoNode.setAttributeNode(makeNode(document, "playsRemaining", ""+ video.getMyPlaysRemaining()));	
-		return videoNode;
-	}
 }

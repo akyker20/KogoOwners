@@ -1,24 +1,28 @@
 package video;
 
 /**
- * Model that represents an advertising video and holds information about this video.
+ * Model that represents an advertising video and holds information about this
+ * video.
+ * 
  * @author Austin Kyker
  *
  */
 public class LoadedVideo extends Video {
-	
+
 	public static final double CENTS_PER_SECOND = 0.01;
 
 	private int myPlaysPurchased;
 	private int myPlaysRemaining;
 
-	public LoadedVideo(String company, String name, int playsPurchased, int length){
+	public LoadedVideo(String company, String name, int playsPurchased,
+			int length) {
 		this(company, name, playsPurchased, playsPurchased, length);
 	}
-	
-	public LoadedVideo(String company, String name, int playsPurchased, int playsRemaining, int length){
+
+	public LoadedVideo(String company, String name, int playsPurchased,
+			int playsRemaining, int length) {
 		super(company, name, length);
-		myPlaysPurchased  = playsPurchased;
+		myPlaysPurchased = playsPurchased;
 		myPlaysRemaining = playsRemaining;
 	}
 
@@ -37,13 +41,5 @@ public class LoadedVideo extends Video {
 	@Override
 	public int getMyPlaysCompleted() {
 		return myPlaysPurchased - myPlaysRemaining;
-	}
-	
-	@Override
-	public boolean equals(Object other){
-		LoadedVideo otherVideo = (LoadedVideo) other;
-		return this.getMyCompany().equalsIgnoreCase(otherVideo.getMyCompany()) &&
-			   this.getMyName().equalsIgnoreCase(otherVideo.getMyName());
-		
 	}
 }

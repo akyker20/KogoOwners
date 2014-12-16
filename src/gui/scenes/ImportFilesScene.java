@@ -25,7 +25,7 @@ import javafx.scene.layout.VBox;
  * @author Austin Kyker
  *
  */
-public class ImportFilesScene extends GUIBox {
+public class ImportFilesScene extends GUIScene {
 
 	private static final int DATE_PICKER_WIDTH = 260;
 	private ImportedFilesTable myImportedFilesTable;
