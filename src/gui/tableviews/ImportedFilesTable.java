@@ -1,5 +1,6 @@
 package gui.tableviews;
 
+import gson.InputDriverFileXMLParser;
 import gui.Controller;
 
 import java.io.File;
@@ -15,7 +16,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import video.PlayedVideo;
-import xmlcontrol.InputDriverFileXMLParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;

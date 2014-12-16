@@ -1,6 +1,8 @@
 package gui;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import gson.writers.GSONFileReader;
+import gson.writers.GSONFileWriter;
 import gui.scenes.ImportFilesScene;
 import gui.scenes.TableScene;
 import gui.tableviews.VideoTable;
@@ -24,8 +26,6 @@ import javafx.stage.Stage;
 import menus.FileMenu;
 import video.LoadedVideo;
 import video.PlayedVideo;
-import xmlcontrol.XMLController;
-import xmlcontrol.writers.GSONFileWriter;
 
 /**
  * The purpose of this class is to create the scene and add it to the stage and
@@ -40,6 +40,7 @@ public class Controller extends Application {
 	private static final int SCREEN_WIDTH = 700;
 	private static final int SCREEN_HEIGHT = 350;
 	public static final GSONFileWriter GSON_WRITER = new GSONFileWriter();
+	public static final GSONFileReader GSON_READER = new GSONFileReader();
 	private static final DriverDeliverableBuilder DRIVER_DELIVERABLE_BUILDER = 
 			new DriverDeliverableBuilder();
 	private static final String VIDEO_TABLE_TITLE = "Advertisment Data";
@@ -65,9 +66,7 @@ public class Controller extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		myStage = stage;
-
-		myVideosList = FXCollections.observableArrayList();
-
+		myVideosList = GSON_READER.readVideosFromMasterJSON();
 		addSceneToStage();
 		setupMenu();
 		createScenes();
@@ -155,7 +154,7 @@ public class Controller extends Application {
 	public static boolean addNewAdvertisement(LoadedVideo createdAd) {
 		if (adCanBeAdded(createdAd)) {
 			myVideosList.add(createdAd);
-//			XML_CONTROLLER.editMasterFile(myVideosList);
+			GSON_WRITER.writeMasterFile(myVideosList);
 			return true;
 		}
 		return false;

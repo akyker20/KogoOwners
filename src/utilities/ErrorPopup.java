@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  */
 public class ErrorPopup extends Stage {
 
-	private static final String ERROR_FILE_LOC = "./src/utilities/errorPopup/error.PNG";
+	private static final String ERROR_FILE_LOC = "./src/utilities/error.PNG";
 	private static final int ERROR_POPUP_WIDTH = 260;
 	private static final int ERROR_POPUP_HEIGHT = 225;
 	private static final String TITLE = "Error";

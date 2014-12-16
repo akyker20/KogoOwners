@@ -1,4 +1,4 @@
-package xmlcontrol;
+package gson;
 
 import java.util.HashMap;
 import java.util.Map;

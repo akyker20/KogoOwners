@@ -1,4 +1,4 @@
-package xmlcontrol;
+package gson;
 
 import java.io.File;
 import java.io.IOException;

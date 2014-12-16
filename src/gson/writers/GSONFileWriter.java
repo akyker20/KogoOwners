@@ -1,4 +1,4 @@
-package xmlcontrol.writers;
+package gson.writers;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class GSONFileWriter {
 
-	private static final String ERROR_MSG = "File to store actors could not be found.";
+	private static final String ERROR_MSG = "File to store videos could not be found.";
 	private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
 
 	public void writeDriverFile(String fileName, List<PlayedVideo> videos) {
@@ -23,7 +23,7 @@ public class GSONFileWriter {
 	}
 	
 	public void writeMasterFile(List<LoadedVideo> videos) {
-		writeToFile("./src/xml/videos.json", GSON_BUILDER.create().toJson(videos,
+		writeToFile("./src/json/videos.json", GSON_BUILDER.create().toJson(videos,
 				new TypeToken<List<LoadedVideo>>() {}.getType()));
 	}
 
