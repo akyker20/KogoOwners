@@ -1,16 +1,8 @@
 package gui;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import video.LoadedVideo;
 
 /**
@@ -26,10 +18,10 @@ public class NewVideoPrompt extends HBox {
 	private TextField myTitleField;
 	private TextField myPurchasedPlaysField;
 	private TextField myLengthField;
+	private Controller myControl;
 
-	public NewVideoPrompt() throws FileNotFoundException, SAXException,
-			IOException, ParserConfigurationException {
-
+	public NewVideoPrompt(Controller controller) {
+		myControl = controller;
 		createNewVideoInputTextFields();
 		this.getChildren().addAll(myCompanyField, myTitleField,
 				myPurchasedPlaysField, myLengthField, makeNewVideoButton());
@@ -58,15 +50,16 @@ public class NewVideoPrompt extends HBox {
 	private void addNewAdvertisement() {
 		if (isNewVideoInputValid()) {
 			LoadedVideo createdAd = createNewVideoFromTextFieldInputs();
-			if (Controller.addNewAdvertisement(createdAd))
+			if (myControl.addNewAdvertisement(createdAd))
 				clearFields();
 		}
 	}
 
 	private LoadedVideo createNewVideoFromTextFieldInputs() {
 		return new LoadedVideo(myCompanyField.getText(),
-				myTitleField.getText(), Integer.parseInt(myPurchasedPlaysField
-						.getText()), Integer.parseInt(myLengthField.getText()));
+				myTitleField.getText(), 
+				Integer.parseInt(myLengthField.getText()), 
+				Integer.parseInt(myPurchasedPlaysField.getText()));
 	}
 
 	private boolean isNewVideoInputValid() {

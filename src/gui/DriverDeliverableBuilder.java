@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import utilities.ErrorPopup;
 
@@ -19,11 +17,8 @@ public class DriverDeliverableBuilder {
 	 * Relies on a videos folder being in the project with all the video files
 	 * within. Generates the xml file for the drivers.
 	 */
-	public void buildDriverDeliverableFolder(String fileName) {
-		String dateStr = LocalDate.now().format(
-				DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+	public void buildDriverDeliverableFolder(String dateStr) {
 		new File("./driver/deliverable_" + dateStr + "/").mkdir();
-
 		copyVideosIntoDeliverableFolder(dateStr);
 	}
 

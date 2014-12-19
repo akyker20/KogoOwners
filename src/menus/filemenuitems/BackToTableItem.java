@@ -5,8 +5,8 @@ import menus.FileMenu;
 import javafx.scene.control.MenuItem;
 
 public class BackToTableItem extends MenuItem {
-	public BackToTableItem(FileMenu fileMenu){
+	public BackToTableItem(FileMenu fileMenu, Controller control){
 		super("Back to table");
-		setOnAction(event->Controller.backToTable());
+		setOnAction(event->control.backToTable());
 	}
 }

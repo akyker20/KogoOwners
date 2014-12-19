@@ -1,27 +1,24 @@
 package gui.scenes;
 
+import gui.Controller;
 import gui.tableviews.DrivingSessionTable;
 import gui.tableviews.ImportedFilesTable;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
-import video.PlayedVideo;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
+import video.ActiveVideo;
 
 /**
- * Scene for dragging and dropping master XML File.
- * This screen is shown to the user when the application begins.
- * The user will only be able to drag and drop an XML File with
- * the correct title pertaining to the date of the session.
+ * Scene for dragging and dropping master XML File. This screen is shown to the
+ * user when the application begins. The user will only be able to drag and drop
+ * an XML File with the correct title pertaining to the date of the session.
+ * 
  * @author Austin Kyker
  *
  */
@@ -30,16 +27,16 @@ public class ImportFilesScene extends GUIScene {
 	private static final int DATE_PICKER_WIDTH = 260;
 	private ImportedFilesTable myImportedFilesTable;
 	private DrivingSessionTable myDriverSessionTable;
-	private ObservableList<PlayedVideo> myImportedVideos;
+	private ObservableList<ActiveVideo> myCurrentlyImportedVideos;
 	private DatePicker myDatePicker;
+	private Controller myControl;
 
-	public ImportFilesScene(ObservableList<PlayedVideo> importedVideos) 
-			throws ParserConfigurationException, SAXException, IOException {
-		
-		myImportedVideos = importedVideos;	
+	public ImportFilesScene(Controller control) {
+		myControl = control;
+		myCurrentlyImportedVideos = FXCollections.observableArrayList();
 		initializeDatePicker();
-		createTablesToBeShownInScene();		
-		buildLeftColumnOfScene();		
+		createTablesToBeShownInScene();
+		buildLeftColumnOfScene();
 		buildRightColumnOfScene();
 	}
 
@@ -57,9 +54,10 @@ public class ImportFilesScene extends GUIScene {
 		this.setLeft(leftContainer);
 	}
 
-	private void createTablesToBeShownInScene() throws ParserConfigurationException, SAXException, IOException {
-		myDriverSessionTable = new DrivingSessionTable(myImportedVideos);
-		myImportedFilesTable = new ImportedFilesTable(myImportedVideos, myDriverSessionTable);
+	private void createTablesToBeShownInScene() {
+		myDriverSessionTable = new DrivingSessionTable();
+		myImportedFilesTable = new ImportedFilesTable(myDriverSessionTable,
+				myControl);
 	}
 
 	private void initializeDatePicker() {
@@ -67,7 +65,7 @@ public class ImportFilesScene extends GUIScene {
 		myDatePicker.setPrefWidth(DATE_PICKER_WIDTH);
 		myDatePicker.setOnAction(event -> removeDatePickerAddListView());
 	}
-	
+
 	private void removeDatePickerAddListView() {
 		myImportedFilesTable.setDate(myDatePicker.getValue());
 		myDatePicker.setDisable(true);
@@ -75,7 +73,7 @@ public class ImportFilesScene extends GUIScene {
 	}
 
 	public void reset() {
-		myImportedVideos.clear();
+		myCurrentlyImportedVideos.clear();
 		myDatePicker.setValue(null);
 		myDatePicker.setDisable(false);
 		myDriverSessionTable.reset();

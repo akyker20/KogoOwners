@@ -20,9 +20,11 @@ public class GenerateDriverFileMenu extends Menu {
 
 	private static final String ITEM_TITLE = "Make Driver Files";
 	private static final int NUM_DAYS_OPTION = 3;
+	private Controller myControl;
 
-	public GenerateDriverFileMenu(FileMenu fileMenu){
+	public GenerateDriverFileMenu(FileMenu fileMenu, Controller control){
 		super(ITEM_TITLE);
+		myControl = control;
 		addDateOptionsItems();
 	}
 
@@ -33,14 +35,9 @@ public class GenerateDriverFileMenu extends Menu {
 			dates[i] = new MenuItem(dateStr[i]);
 			final int index = i;
 			dates[i].setOnAction(event->
-			Controller.buildDriverFile(getDriverFileName(dateStr[index])));
+			myControl.buildDriverFile(dateStr[index].replace('/', '-')));
 			getItems().add(dates[i]);
 		}
-	}
-
-	private String getDriverFileName(String date){
-		String fileName = date.replace('/', '-');
-		return "kogo_" + fileName + ".json";
 	}
 
 	private String[] getArrayOfStringDays() {

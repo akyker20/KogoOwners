@@ -11,35 +11,30 @@ public class LoadedVideo extends Video {
 
 	public static final double CENTS_PER_SECOND = 0.01;
 
-	private int myPlaysPurchased;
-	private int myPlaysRemaining;
-
-	public LoadedVideo(String company, String name, int playsPurchased,
-			int length) {
-		this(company, name, playsPurchased, playsPurchased, length);
+	/**
+	 * 
+	 * @param company
+	 * @param name
+	 * @param length
+	 * @param playsPurchased
+	 */
+	public LoadedVideo(String company, String name, int length, int playsPurchased) {
+		super(company, name, length, playsPurchased, 0);
 	}
 
-	public LoadedVideo(String company, String name, int playsPurchased,
-			int playsRemaining, int length) {
-		super(company, name, length);
-		myPlaysPurchased = playsPurchased;
-		myPlaysRemaining = playsRemaining;
+	public LoadedVideo(ActiveVideo importedVid) {
+		super(importedVid.getMyCompany(), importedVid.getMyName(), importedVid
+				.getMyLength(), importedVid.getMyPlaysPurchased(), importedVid.getMyPlays());
+		
+		
 	}
 
 	public int getMyPlaysRemaining() {
-		return myPlaysRemaining;
-	}
-
-	public int getMyPlaysPurchased() {
-		return myPlaysPurchased;
-	}
-
-	public void setMyPlaysRemaining(int newPlaysRemaining) {
-		myPlaysRemaining = newPlaysRemaining;
+		return this.getMyPlaysPurchased() - this.getMyPlays();
 	}
 
 	@Override
-	public int getMyPlaysCompleted() {
-		return myPlaysPurchased - myPlaysRemaining;
+	public void addStudentViews(int numViews) {
+		myPlays += numViews;	
 	}
 }
