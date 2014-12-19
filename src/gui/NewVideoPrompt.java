@@ -1,8 +1,10 @@
 package gui;
 
+import control.Controller;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import utilities.popups.SuccessPopup;
 import video.LoadedVideo;
 
 /**
@@ -14,6 +16,7 @@ import video.LoadedVideo;
  */
 public class NewVideoPrompt extends HBox {
 
+	private static final String SUCCESS_ADD_MSG = "Successfully added new ad!";
 	private TextField myCompanyField;
 	private TextField myTitleField;
 	private TextField myPurchasedPlaysField;
@@ -50,8 +53,10 @@ public class NewVideoPrompt extends HBox {
 	private void addNewAdvertisement() {
 		if (isNewVideoInputValid()) {
 			LoadedVideo createdAd = createNewVideoFromTextFieldInputs();
-			if (myControl.addNewAdvertisement(createdAd))
+			if (myControl.addNewAdvertisement(createdAd)) {
+				new SuccessPopup(SUCCESS_ADD_MSG);
 				clearFields();
+			}
 		}
 	}
 

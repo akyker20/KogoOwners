@@ -4,9 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import control.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import utilities.ErrorPopup;
+import utilities.popups.ErrorPopup;
 import video.ActiveVideo;
 import video.LoadedVideo;
 

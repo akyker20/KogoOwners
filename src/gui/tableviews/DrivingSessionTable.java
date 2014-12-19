@@ -1,6 +1,6 @@
 package gui.tableviews;
 
-import gui.Controller;
+import control.Controller;
 import gui.tablecolumns.PlayedVideoIntTableCol;
 import gui.tablecolumns.VideoStringTableCol;
 import javafx.collections.ObservableList;

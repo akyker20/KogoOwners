@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import utilities.popups.ErrorPopup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -14,7 +15,7 @@ import javafx.scene.image.ImageView;
  * @author Austin Kyker
  *
  */
-public class StringToImageViewConverter {
+public class StringImageConverter {
     
     public static ImageView getImageView(double width, double height, String path) {
     	ImageView imgView = new ImageView();

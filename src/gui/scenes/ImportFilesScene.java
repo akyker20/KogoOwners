@@ -1,12 +1,12 @@
 package gui.scenes;
 
-import gui.Controller;
 import gui.tableviews.DrivingSessionTable;
 import gui.tableviews.ImportedFilesTable;
 
 import java.io.File;
 import java.util.List;
 
+import control.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

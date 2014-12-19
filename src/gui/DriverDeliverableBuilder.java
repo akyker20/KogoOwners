@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import utilities.ErrorPopup;
+import utilities.popups.ErrorPopup;
 
 public class DriverDeliverableBuilder {
 	private static final String COPY_DIR_ERROR_MSG = 

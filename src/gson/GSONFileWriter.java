@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javafx.collections.ObservableList;
-import utilities.ErrorPopup;
+import utilities.popups.ErrorPopup;
 import video.LoadedVideo;
 import video.ActiveVideo;
 import video.TransferVideoData;

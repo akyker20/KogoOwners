@@ -1,6 +1,5 @@
 package menus;
 
-import gui.Controller;
 import javafx.scene.control.Menu;
 import menus.filemenuitems.BackToTableItem;
 import menus.filemenuitems.ConsumeDriverFiles;
@@ -8,6 +7,7 @@ import menus.filemenuitems.GenerateDriverFileMenu;
 import menus.filemenuitems.ImportDriverFiles;
 import menus.filemenuitems.RemoveVideoItem;
 import menus.filemenuitems.UndoRemoveVideoItem;
+import control.FileControl;
 
 /**
  * Class will be used to load files such as previously saved commands or grid
@@ -25,51 +25,16 @@ public class FileMenu extends Menu {
 	private ConsumeDriverFiles myConsumeDriverFiles;
 	private BackToTableItem myReturnToTable;
 
-	public FileMenu(Controller control) {
+	public FileMenu(FileControl control) {
 
 		this.setText("File");
-
-		myReturnToTable = new BackToTableItem(this, control);
-		myUndoRemoveVideo = new UndoRemoveVideoItem(this);
-		myRemoveVideo = new RemoveVideoItem(this);
-		myGenerateDriverFileMenu = new GenerateDriverFileMenu(this, control);
+		myReturnToTable = new BackToTableItem(control);
+		myUndoRemoveVideo = new UndoRemoveVideoItem();
+		myRemoveVideo = new RemoveVideoItem();
+		myGenerateDriverFileMenu = new GenerateDriverFileMenu(control);
 		myUploadDriverFiles = new ImportDriverFiles(control);
-		myConsumeDriverFiles = new ConsumeDriverFiles(this, control);
+		myConsumeDriverFiles = new ConsumeDriverFiles(control);
 	}
-
-	// /**
-	// * Removes a video and if there are no videos that have been removed (no
-	// * videos on the undo stack), then the UndoRemoveVideo icon is enabled.
-	// */
-	// public void tryToRemoveVideo() {
-	// try {
-	// if(myVideoTable.removeSelectedItem() && myUndoRemoveVideo.isDisable()){
-	// myUndoRemoveVideo.setDisable(false);
-	// }
-	// } catch (TransformerException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// }
-	// }
-
-	// /**
-	// * Tries to undo a video removal. If there are no longer any removed
-	// videos on the
-	// * stack after the video is added back in (removed from the stack), then
-	// the
-	// * UndoRemove MenuItem is disabled (There are no removals to undo).
-	// */
-	// public void tryToUndoRemove() {
-	// try {
-	// myVideoTable.undoRemovedVideo();
-	// if(!myVideoTable.areRemovedVideosRemaining()){
-	// myUndoRemoveVideo.setDisable(true);
-	// }
-	// } catch (TransformerException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// }
-	// }
 
 	public void disableConsumeDriverFilesItem(boolean disableStatus) {
 		myConsumeDriverFiles.setDisable(disableStatus);

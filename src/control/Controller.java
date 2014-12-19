@@ -1,8 +1,11 @@
-package gui;
+package control;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import gson.GSONFileReader;
 import gson.GSONFileWriter;
+import gui.DriverDeliverableBuilder;
+import gui.ImportedFilesManager;
+import gui.NewVideoPrompt;
 import gui.scenes.ImportFilesScene;
 import gui.scenes.TableScene;
 import gui.tableviews.VideoTable;
@@ -20,6 +23,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import menus.FileMenu;
+import utilities.popups.SuccessPopup;
 import video.ActiveVideo;
 import video.LoadedVideo;
 
@@ -30,16 +34,17 @@ import video.LoadedVideo;
  * @author Austin Kyker
  *
  */
-public class Controller extends Application {
+public class Controller extends Application implements FileControl {
 
+	private static final String CREATED_DRIVER_DEL_MSG = "Successfully created driver deliverable. "
+			+ "Refresh and check the ./drivers/ folder.";
 	public static final int NUM_DRIVERS = 8;
 	private static final int SCREEN_WIDTH = 700;
 	private static final int SCREEN_HEIGHT = 350;
 	public static final GSONFileWriter GSON_WRITER = new GSONFileWriter();
 	public static final GSONFileReader GSON_READER = new GSONFileReader();
 	public static final ImportedFilesManager IMPORT_MANAGER = new ImportedFilesManager();
-	private static final DriverDeliverableBuilder DRIVER_DELIVERABLE_BUILDER = 
-			new DriverDeliverableBuilder();
+	private static final DriverDeliverableBuilder DRIVER_DELIVERABLE_BUILDER = new DriverDeliverableBuilder();
 	private static final String VIDEO_TABLE_TITLE = "Advertisment Data";
 	private static final String IMPORT_FILES_TITLE = "Import Files";
 	private static final String FILE_CHOOSER_TITLE = "Select Video File";
@@ -53,13 +58,12 @@ public class Controller extends Application {
 	private Scene myScene;
 	private BorderPane myPane;
 
-
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage stage) {
 		myStage = stage;
 		myVideosList = GSON_READER.readVideosFromMasterJSON();
 		addSceneToStage();
@@ -68,7 +72,7 @@ public class Controller extends Application {
 		configureAndShowStage();
 	}
 
-	private void createScenes() throws Exception {
+	private void createScenes() {
 		myTableScene = new TableScene(new VideoTable(myVideosList),
 				new NewVideoPrompt(this));
 		myImportFilesScene = new ImportFilesScene(this);
@@ -76,7 +80,7 @@ public class Controller extends Application {
 
 	private void setupMenu() {
 		MenuBar menuBar = new MenuBar();
-		myFileMenu = new FileMenu(this);
+		myFileMenu = new FileMenu((FileControl) this);
 		menuBar.getMenus().add(myFileMenu);
 		myPane.setTop(menuBar);
 	}
@@ -130,13 +134,12 @@ public class Controller extends Application {
 		DRIVER_DELIVERABLE_BUILDER.buildDriverDeliverableFolder(dateStr);
 		List<ActiveVideo> videos = myVideosList.stream()
 				.map(video -> new ActiveVideo(video, NUM_DRIVERS))
-						.collect(Collectors.toList());
-		String driverJSONFileName = "./driver/deliverable_" + dateStr + 
-				"/kogo_" + dateStr + ".json";
+				.collect(Collectors.toList());
+		String driverJSONFileName = "./driver/deliverable_" + dateStr
+				+ "/kogo_" + dateStr + ".json";
 		GSON_WRITER.writeDriverFile(driverJSONFileName, videos);
+		new SuccessPopup(CREATED_DRIVER_DEL_MSG);
 	}
-
-	// Code below attempts to add new advertisement
 
 	public boolean addNewAdvertisement(LoadedVideo createdAd) {
 		if (adCanBeAdded(createdAd)) {
@@ -184,23 +187,22 @@ public class Controller extends Application {
 
 	/**
 	 * First make a video and place it in the videos folder.
+	 * 
 	 * @param createdAd
-	 * @return
 	 */
 	private FileChooser createFileChooser(LoadedVideo createdAd) {
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle(FILE_CHOOSER_TITLE);
-		//		FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter(
-		//				"Video files (*.mp4)",
-		//				getRequiredCorrespondingVideoFileName(createdAd));
-		//		chooser.getExtensionFilters().add(extentionFilter);
+		FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter(
+				"Video files (*.mp4)",
+				getRequiredCorrespondingVideoFileName(createdAd));
+		chooser.getExtensionFilters().add(extentionFilter);
 		chooser.setInitialDirectory(new File(VIDEOS_DIR));
 		return chooser;
 	}
 
-	private String getRequiredCorrespondingVideoFileName(
-			LoadedVideo createdAd) {
-		return VIDEOS_DIR + createdAd.getMyCompany().replace(" ", "") + "_"
+	private String getRequiredCorrespondingVideoFileName(LoadedVideo createdAd) {
+		return createdAd.getMyCompany().replace(" ", "") + "_"
 				+ createdAd.getMyName().replace(" ", "") + ".mp4";
 	}
 }

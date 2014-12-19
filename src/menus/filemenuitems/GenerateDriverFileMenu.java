@@ -1,14 +1,12 @@
 package menus.filemenuitems;
 
-import gui.Controller;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import menus.FileMenu;
+import control.FileControl;
 
 /**
  * A menu with menu items representing the next couple of days so that
@@ -20,9 +18,9 @@ public class GenerateDriverFileMenu extends Menu {
 
 	private static final String ITEM_TITLE = "Make Driver Files";
 	private static final int NUM_DAYS_OPTION = 3;
-	private Controller myControl;
+	private FileControl myControl;
 
-	public GenerateDriverFileMenu(FileMenu fileMenu, Controller control){
+	public GenerateDriverFileMenu(FileControl control){
 		super(ITEM_TITLE);
 		myControl = control;
 		addDateOptionsItems();

@@ -11,7 +11,7 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import utilities.ErrorPopup;
+import utilities.popups.ErrorPopup;
 import video.LoadedVideo;
 import video.TransferVideoData;
 

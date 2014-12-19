@@ -1,6 +1,5 @@
 package menus.filemenuitems;
 
-import menus.FileMenu;
 import javafx.scene.control.MenuItem;
 
 /**
@@ -10,7 +9,7 @@ import javafx.scene.control.MenuItem;
  */
 public class RemoveVideoItem extends MenuItem {
 	
-	public RemoveVideoItem(FileMenu fileMenu){
+	public RemoveVideoItem(){
 		super("Remove Video");
 //		setOnAction(event->fileMenu.tryToRemoveVideo());
 	}

@@ -2,6 +2,7 @@ package gui.tableviews;
 
 import java.util.Stack;
 
+import control.Controller;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableCell;
@@ -11,7 +12,6 @@ import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import video.LoadedVideo;
 import editingcells.StringEditingCell;
-import gui.Controller;
 import gui.tablecolumns.EditableVideoStringTableCol;
 import gui.tablecolumns.VideoIntTableCol;
 
