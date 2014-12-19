@@ -95,7 +95,8 @@ public class Controller extends Application {
 
 	public void consumeDriverFiles() {
 		IMPORT_MANAGER.rewriteImportFiles();
-		myVideosList = IMPORT_MANAGER.recalculateVideoData();
+		myVideosList.clear();
+		myVideosList.addAll(IMPORT_MANAGER.recalculateVideoData());
 		GSON_WRITER.writeMasterFile(myVideosList);
 		showVideosPane();
 	}

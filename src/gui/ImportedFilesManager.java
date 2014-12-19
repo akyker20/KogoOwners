@@ -77,8 +77,8 @@ public class ImportedFilesManager {
 		return (ObservableList<ActiveVideo>) myCurrentlyImportedVideos;
 	}
 
-	public ObservableList<LoadedVideo> recalculateVideoData() {
-		ObservableList<LoadedVideo> updatedVideos = FXCollections.observableArrayList();
+	public List<LoadedVideo> recalculateVideoData() {
+		List<LoadedVideo> updatedVideos = new ArrayList<LoadedVideo>();
 		for(ImportedFile file:getAllImportedFiles()) {
 			for(ActiveVideo importedVid:file.getVideoData()) {
 				int indexOfVideo = updatedVideos.indexOf(importedVid);
