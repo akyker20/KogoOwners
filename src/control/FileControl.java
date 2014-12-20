@@ -9,4 +9,6 @@ public interface FileControl {
 	public void backToTable();
 
 	public void buildDriverFile(String dateStr);
+	
+	public void enableConsumeDriverFilesItem();
 }

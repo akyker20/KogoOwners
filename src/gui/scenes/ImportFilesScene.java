@@ -2,17 +2,10 @@ package gui.scenes;
 
 import gui.tableviews.DrivingSessionTable;
 import gui.tableviews.ImportedFilesTable;
-
-import java.io.File;
-import java.util.List;
-
-import control.Controller;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
-import video.ActiveVideo;
+import control.FileControl;
 
 /**
  * Scene for dragging and dropping master XML File. This screen is shown to the
@@ -27,13 +20,11 @@ public class ImportFilesScene extends GUIScene {
 	private static final int DATE_PICKER_WIDTH = 260;
 	private ImportedFilesTable myImportedFilesTable;
 	private DrivingSessionTable myDriverSessionTable;
-	private ObservableList<ActiveVideo> myCurrentlyImportedVideos;
 	private DatePicker myDatePicker;
-	private Controller myControl;
+	private FileControl myControl;
 
-	public ImportFilesScene(Controller control) {
-		myControl = control;
-		myCurrentlyImportedVideos = FXCollections.observableArrayList();
+	public ImportFilesScene(FileControl fileControl) {
+		myControl = fileControl;
 		initializeDatePicker();
 		createTablesToBeShownInScene();
 		buildLeftColumnOfScene();
@@ -56,8 +47,7 @@ public class ImportFilesScene extends GUIScene {
 
 	private void createTablesToBeShownInScene() {
 		myDriverSessionTable = new DrivingSessionTable();
-		myImportedFilesTable = new ImportedFilesTable(myDriverSessionTable,
-				myControl);
+		myImportedFilesTable = new ImportedFilesTable(myDriverSessionTable, myControl);
 	}
 
 	private void initializeDatePicker() {
@@ -73,14 +63,9 @@ public class ImportFilesScene extends GUIScene {
 	}
 
 	public void reset() {
-		myCurrentlyImportedVideos.clear();
 		myDatePicker.setValue(null);
 		myDatePicker.setDisable(false);
 		myDriverSessionTable.reset();
 		myImportedFilesTable.reset();
-	}
-
-	public List<File> getFiles() {
-		return myImportedFilesTable.getFiles();
 	}
 }

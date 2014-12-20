@@ -25,12 +25,16 @@ public class GSONFileWriter {
 
 	public void writeDriverFile(String fileName, List<ActiveVideo> videos) {
 		TransferVideoData data = new TransferVideoData(videos);
-		writeToFile(fileName, GSON_BUILDER.create().toJson(data, TransferVideoData.class));
+		writeToFile(fileName,
+				GSON_BUILDER.create().toJson(data, TransferVideoData.class));
 	}
-	
+
 	public void writeMasterFile(List<LoadedVideo> videos) {
-		writeToFile(MASTER_VID_JSON_PATH, GSON_BUILDER.create().toJson(videos,
-				new TypeToken<List<LoadedVideo>>() {}.getType()));
+		writeToFile(
+				MASTER_VID_JSON_PATH,
+				GSON_BUILDER.create().toJson(videos,
+						new TypeToken<List<LoadedVideo>>() {
+						}.getType()));
 	}
 
 	public void writeToFile(String fileName, String json) {
@@ -45,9 +49,12 @@ public class GSONFileWriter {
 	}
 
 	public void writeImportedFiles(List<ImportedFile> importedFiles) {
-		writeToFile(DRIVER_IMPORTED_FILES_PATH, GSON_BUILDER.create().toJson(importedFiles,
-				new TypeToken<List<ImportedFile>>() {}.getType()));
-		
+		writeToFile(
+				DRIVER_IMPORTED_FILES_PATH,
+				GSON_BUILDER.create().toJson(importedFiles,
+						new TypeToken<List<ImportedFile>>() {
+						}.getType()));
+
 	}
 
 }

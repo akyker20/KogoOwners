@@ -75,7 +75,7 @@ public class Controller extends Application implements FileControl {
 	private void createScenes() {
 		myTableScene = new TableScene(new VideoTable(myVideosList),
 				new NewVideoPrompt(this));
-		myImportFilesScene = new ImportFilesScene(this);
+		myImportFilesScene = new ImportFilesScene((FileControl) this);
 	}
 
 	private void setupMenu() {
