@@ -8,14 +8,17 @@ import video.LoadedVideo;
 
 /**
  * Class was created to make VideoTable column creation DRYer.
+ * 
  * @author Austin Kyker
  *
  */
 public class VideoIntTableCol extends TableColumn<LoadedVideo, Integer> {
-	
-	public VideoIntTableCol(ReadOnlyDoubleProperty tableWidth, String name, String videoAttrStr){
+
+	public VideoIntTableCol(ReadOnlyDoubleProperty tableWidth, String name,
+			String videoAttrStr) {
 		super(name);
-		setCellValueFactory(new PropertyValueFactory<LoadedVideo, Integer>(videoAttrStr));
+		setCellValueFactory(new PropertyValueFactory<LoadedVideo, Integer>(
+				videoAttrStr));
 		prefWidthProperty().bind(tableWidth.divide(VideoTable.NUM_COLS));
 	}
 }

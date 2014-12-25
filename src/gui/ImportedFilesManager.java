@@ -30,15 +30,13 @@ public class ImportedFilesManager {
 	 * there are no previously imported files with the same name.
 	 */
 	public boolean canImport(File file) {
-		boolean canImport = myPreviouslyImportedFiles
-				.stream()
-				.filter(importedFile -> file.getName().equalsIgnoreCase(
-						importedFile.getFileName()))
-						.count() == 0;
-		if(!canImport) {
-			new ErrorPopup(FILE_ALREADY_IMPORTED_ERROR);
+		for(ImportedFile importedFile:myPreviouslyImportedFiles) {
+			if(file.getName().equalsIgnoreCase(importedFile.getFileName())) {
+				new ErrorPopup(FILE_ALREADY_IMPORTED_ERROR);
+				return false;
+			}
 		}
-		return canImport;
+		return true;
 	}
 
 	public void importVideoFile(File file) {

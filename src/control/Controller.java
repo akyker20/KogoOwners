@@ -13,6 +13,8 @@ import gui.tableviews.VideoTable;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.stream.Collectors;
 
 import javafx.application.Application;
@@ -34,13 +36,13 @@ import video.LoadedVideo;
  * @author Austin Kyker
  *
  */
-public class Controller extends Application implements FileControl {
+public class Controller extends Application implements FileControl, Observer {
+	
 
+	private static final String SUCCESS_ADD_MSG = "Successfully added new ad!";
 	private static final String CREATED_DRIVER_DEL_MSG = "Successfully created driver deliverable. "
 			+ "Refresh and check the ./drivers/ folder.";
 	public static final int NUM_DRIVERS = 8;
-	private static final int SCREEN_WIDTH = 700;
-	private static final int SCREEN_HEIGHT = 350;
 	public static final GSONFileWriter GSON_WRITER = new GSONFileWriter();
 	public static final GSONFileReader GSON_READER = new GSONFileReader();
 	public static final ImportedFilesManager IMPORT_MANAGER = new ImportedFilesManager();
@@ -53,10 +55,12 @@ public class Controller extends Application implements FileControl {
 	private ObservableList<LoadedVideo> myVideosList;
 	private Stage myStage;
 	private TableScene myTableScene;
+	private NewVideoPrompt myVideoPrompt;
 	private ImportFilesScene myImportFilesScene;
 	private FileMenu myFileMenu;
 	private Scene myScene;
 	private BorderPane myPane;
+	private VideoTable myVideoTable;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -73,8 +77,10 @@ public class Controller extends Application implements FileControl {
 	}
 
 	private void createScenes() {
-		myTableScene = new TableScene(new VideoTable(myVideosList),
-				new NewVideoPrompt(this));
+		myVideoPrompt = new NewVideoPrompt();
+		myVideoPrompt.addObserver(this);
+		myVideoTable = new VideoTable(myVideosList);
+		myTableScene = new TableScene(myVideoTable,	myVideoPrompt);
 		myImportFilesScene = new ImportFilesScene((FileControl) this);
 	}
 
@@ -87,7 +93,7 @@ public class Controller extends Application implements FileControl {
 
 	private void addSceneToStage() {
 		myPane = new BorderPane();
-		myScene = new Scene(myPane, SCREEN_WIDTH, SCREEN_HEIGHT);
+		myScene = new Scene(myPane);
 		myStage.setScene(myScene);
 	}
 
@@ -141,13 +147,13 @@ public class Controller extends Application implements FileControl {
 		new SuccessPopup(CREATED_DRIVER_DEL_MSG);
 	}
 
-	public boolean addNewAdvertisement(LoadedVideo createdAd) {
+	public void attemptToAddNewAdvertisement(LoadedVideo createdAd) {
 		if (adCanBeAdded(createdAd)) {
 			myVideosList.add(createdAd);
 			GSON_WRITER.writeMasterFile(myVideosList);
-			return true;
+			new SuccessPopup(SUCCESS_ADD_MSG);
+			myVideoPrompt.clearFields();
 		}
-		return false;
 	}
 
 	private boolean adCanBeAdded(LoadedVideo createdAd) {
@@ -204,5 +210,13 @@ public class Controller extends Application implements FileControl {
 	private String getRequiredCorrespondingVideoFileName(LoadedVideo createdAd) {
 		return createdAd.getMyCompany().replace(" ", "") + "_"
 				+ createdAd.getMyName().replace(" ", "") + ".mp4";
+	}
+
+	/**
+	 * Called when a  new advertisement is entered using the prompt.
+	 */
+	@Override
+	public void update(Observable arg0, Object createdAd) {
+		attemptToAddNewAdvertisement((LoadedVideo) createdAd);		
 	}
 }

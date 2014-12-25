@@ -49,7 +49,8 @@ public class VideoTable extends TableView<LoadedVideo> {
 				return new StringEditingCell();
 			}
 		};
-		EditableVideoStringTableCol companyName = new EditableVideoStringTableCol(this.widthProperty(), stringCellFactory, "Company", "myCompany");
+		EditableVideoStringTableCol companyName = 
+				new EditableVideoStringTableCol(this.widthProperty(), stringCellFactory, "Company", "myCompany");
 		companyName.setOnEditCommit(
 				new EventHandler<CellEditEvent<LoadedVideo, String>>() {
 					@Override
@@ -60,7 +61,8 @@ public class VideoTable extends TableView<LoadedVideo> {
 						Controller.GSON_WRITER.writeMasterFile(myVideos);
 					}
 				});
-		EditableVideoStringTableCol nameCol = new EditableVideoStringTableCol(this.widthProperty(), stringCellFactory, "Title", "myName");
+		EditableVideoStringTableCol nameCol = 
+				new EditableVideoStringTableCol(this.widthProperty(), stringCellFactory, "Title", "myName");
 		nameCol.setOnEditCommit(
 				new EventHandler<CellEditEvent<LoadedVideo, String>>() {
 					@Override
@@ -70,6 +72,7 @@ public class VideoTable extends TableView<LoadedVideo> {
 								).setMyName(t.getNewValue());	  
 						Controller.GSON_WRITER.writeMasterFile(myVideos);					}
 				});
+		
 		VideoIntTableCol numPlaysPurchasedCol = new VideoIntTableCol(this.widthProperty(), "Plays Purchased", "myPlaysPurchased");
 		VideoIntTableCol numPlaysRemainingCol = new VideoIntTableCol(this.widthProperty(), "Plays Remaining", "myPlaysRemaining");
 		VideoIntTableCol lengthCol = new VideoIntTableCol(this.widthProperty(),"Length (sec)", "myLength");

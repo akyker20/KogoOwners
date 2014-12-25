@@ -1,10 +1,11 @@
 package gui;
 
-import control.Controller;
+import java.util.Observable;
+
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import utilities.popups.SuccessPopup;
 import video.LoadedVideo;
 
 /**
@@ -14,21 +15,20 @@ import video.LoadedVideo;
  * @author Austin Kyker
  *
  */
-public class NewVideoPrompt extends HBox {
+public class NewVideoPrompt extends Observable {
 
-	private static final String SUCCESS_ADD_MSG = "Successfully added new ad!";
 	private TextField myCompanyField;
 	private TextField myTitleField;
 	private TextField myPurchasedPlaysField;
 	private TextField myLengthField;
-	private Controller myControl;
+	private HBox myPromptContainer;
+	
 
-	public NewVideoPrompt(Controller controller) {
-		myControl = controller;
+	public NewVideoPrompt() {
 		createNewVideoInputTextFields();
-		this.getChildren().addAll(myCompanyField, myTitleField,
+		myPromptContainer = new HBox(15);
+		myPromptContainer.getChildren().addAll(myCompanyField, myTitleField,
 				myPurchasedPlaysField, myLengthField, makeNewVideoButton());
-		this.setSpacing(15);
 	}
 
 	private void createNewVideoInputTextFields() {
@@ -53,10 +53,8 @@ public class NewVideoPrompt extends HBox {
 	private void addNewAdvertisement() {
 		if (isNewVideoInputValid()) {
 			LoadedVideo createdAd = createNewVideoFromTextFieldInputs();
-			if (myControl.addNewAdvertisement(createdAd)) {
-				new SuccessPopup(SUCCESS_ADD_MSG);
-				clearFields();
-			}
+			this.setChanged();
+			this.notifyObservers(createdAd);
 		}
 	}
 
@@ -92,10 +90,14 @@ public class NewVideoPrompt extends HBox {
 				|| purchasedPlays.isEmpty() || length.isEmpty());
 	}
 
-	private void clearFields() {
+	public void clearFields() {
 		myCompanyField.clear();
 		myTitleField.clear();
 		myPurchasedPlaysField.clear();
 		myLengthField.clear();
+	}
+
+	public Node getContainer() {
+		return myPromptContainer;
 	}
 }

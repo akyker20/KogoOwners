@@ -14,7 +14,8 @@ public class DrivingSessionTable extends TableView<ActiveVideo> {
 	private ObservableList<ActiveVideo> myCurrentlyImportedVideos;
 
 	public DrivingSessionTable() {
-		myCurrentlyImportedVideos = Controller.IMPORT_MANAGER.getCurrentlyImportedVideos();
+		myCurrentlyImportedVideos = Controller.IMPORT_MANAGER
+				.getCurrentlyImportedVideos();
 		createColsAndAddToTable();
 		this.setId("table");
 		this.setItems(myCurrentlyImportedVideos);

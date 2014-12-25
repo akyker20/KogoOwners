@@ -7,10 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import javafx.collections.ObservableList;
 import utilities.popups.ErrorPopup;
-import video.LoadedVideo;
 import video.ActiveVideo;
+import video.LoadedVideo;
 import video.TransferVideoData;
 
 import com.google.gson.GsonBuilder;
@@ -19,7 +18,6 @@ import com.google.gson.reflect.TypeToken;
 public class GSONFileWriter {
 
 	private static final String MASTER_VID_JSON_PATH = "./src/json/videos.json";
-	private static final String ERROR_MSG = "File to store videos could not be found.";
 	private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
 	private static final String DRIVER_IMPORTED_FILES_PATH = "./src/json/imported_videos.json";
 
@@ -36,6 +34,14 @@ public class GSONFileWriter {
 						new TypeToken<List<LoadedVideo>>() {
 						}.getType()));
 	}
+	
+	public void writeImportedFiles(List<ImportedFile> importedFiles) {
+		writeToFile(
+				DRIVER_IMPORTED_FILES_PATH,
+				GSON_BUILDER.create().toJson(importedFiles,
+						new TypeToken<List<ImportedFile>>() {
+						}.getType()));
+	}
 
 	public void writeToFile(String fileName, String json) {
 		try {
@@ -44,17 +50,7 @@ public class GSONFileWriter {
 			writer.write(json);
 			writer.close();
 		} catch (IOException e) {
-			new ErrorPopup(ERROR_MSG);
+			new ErrorPopup("Could not write to " + fileName);
 		}
 	}
-
-	public void writeImportedFiles(List<ImportedFile> importedFiles) {
-		writeToFile(
-				DRIVER_IMPORTED_FILES_PATH,
-				GSON_BUILDER.create().toJson(importedFiles,
-						new TypeToken<List<ImportedFile>>() {
-						}.getType()));
-
-	}
-
 }

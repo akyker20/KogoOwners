@@ -30,18 +30,23 @@ public class GSONFileReader {
 	public ObservableList<LoadedVideo> readVideosFromMasterJSON() {
 		List<LoadedVideo> videos = null;
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(MASTER_VIDEOS_PATH));
+			BufferedReader br = new BufferedReader(new FileReader(
+					MASTER_VIDEOS_PATH));
 			videos = GSON_BUILDER.create().fromJson(br,
-					new TypeToken<List<LoadedVideo>>() {}.getType());
+					new TypeToken<List<LoadedVideo>>() {
+					}.getType());
 		} catch (IOException e) {
 			new ErrorPopup(READ_ERROR_MSG);
 		}
-		if(videos == null) {
+		if (videos == null) {
 			videos = new ArrayList<LoadedVideo>();
 		}
 		return FXCollections.observableArrayList(videos);
 	}
 
+	/**
+	 * Used in owner application to extract the imported file video data.
+	 */
 	public TransferVideoData extractVideoData(File importedJson) {
 		TransferVideoData data = null;
 		try {
@@ -56,16 +61,17 @@ public class GSONFileReader {
 	public List<ImportedFile> readImportedVideoFiles() {
 		List<ImportedFile> importedVideos = null;
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(IMPORTED_VIDEOS_PATH));
+			BufferedReader br = new BufferedReader(new FileReader(
+					IMPORTED_VIDEOS_PATH));
 			importedVideos = GSON_BUILDER.create().fromJson(br,
-					new TypeToken<List<ImportedFile>>() {}.getType());
+					new TypeToken<List<ImportedFile>>() {
+					}.getType());
 		} catch (IOException e) {
 			new ErrorPopup(IMPORTED_FILES_READ_ERROR);
 		}
-		if(importedVideos == null) {
+		if (importedVideos == null) {
 			importedVideos = new ArrayList<ImportedFile>();
 		}
 		return importedVideos;
 	}
-
 }

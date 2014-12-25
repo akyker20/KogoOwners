@@ -5,8 +5,6 @@ import menus.filemenuitems.BackToTableItem;
 import menus.filemenuitems.ConsumeDriverFiles;
 import menus.filemenuitems.GenerateDriverFileMenu;
 import menus.filemenuitems.ImportDriverFiles;
-import menus.filemenuitems.RemoveVideoItem;
-import menus.filemenuitems.UndoRemoveVideoItem;
 import control.FileControl;
 
 /**
@@ -18,19 +16,14 @@ import control.FileControl;
  */
 public class FileMenu extends Menu {
 
-	private UndoRemoveVideoItem myUndoRemoveVideo;
-	private RemoveVideoItem myRemoveVideo;
 	private GenerateDriverFileMenu myGenerateDriverFileMenu;
 	private ImportDriverFiles myUploadDriverFiles;
 	private ConsumeDriverFiles myConsumeDriverFiles;
 	private BackToTableItem myReturnToTable;
 
 	public FileMenu(FileControl control) {
-
 		this.setText("File");
 		myReturnToTable = new BackToTableItem(control);
-		myUndoRemoveVideo = new UndoRemoveVideoItem();
-		myRemoveVideo = new RemoveVideoItem();
 		myGenerateDriverFileMenu = new GenerateDriverFileMenu(control);
 		myUploadDriverFiles = new ImportDriverFiles(control);
 		myConsumeDriverFiles = new ConsumeDriverFiles(control);
@@ -41,15 +34,12 @@ public class FileMenu extends Menu {
 	}
 
 	public void configureImportFileMenuOptions() {
-		this.getItems().removeAll(myRemoveVideo, myUndoRemoveVideo,
-				myGenerateDriverFileMenu, myUploadDriverFiles);
+		this.getItems().removeAll(myGenerateDriverFileMenu, myUploadDriverFiles);
 		this.getItems().addAll(myConsumeDriverFiles, myReturnToTable);
 	}
 
 	public void configureVideoTableMenuOptions() {
 		this.getItems().removeAll(myConsumeDriverFiles, myReturnToTable);
-		this.getItems().addAll(myRemoveVideo, myUndoRemoveVideo,
-				myGenerateDriverFileMenu, myUploadDriverFiles);
-
+		this.getItems().addAll(myGenerateDriverFileMenu, myUploadDriverFiles);
 	}
 }
