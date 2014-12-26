@@ -30,7 +30,10 @@ public class ImportedFilesManager {
 	 * there are no previously imported files with the same name.
 	 */
 	public boolean canImport(File file) {
+		myPreviouslyImportedFiles = Controller.GSON_READER.readImportedVideoFiles();
 		for(ImportedFile importedFile:myPreviouslyImportedFiles) {
+			System.out.println(file.getName());
+			System.out.println(importedFile.getFileName());
 			if(file.getName().equalsIgnoreCase(importedFile.getFileName())) {
 				new ErrorPopup(FILE_ALREADY_IMPORTED_ERROR);
 				return false;

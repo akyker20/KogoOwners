@@ -46,9 +46,11 @@ public class GSONFileWriter {
 	public void writeToFile(String fileName, String json) {
 		try {
 			File file = new File(fileName);
+			file.setWritable(true);
 			FileWriter writer = new FileWriter(file);
 			writer.write(json);
 			writer.close();
+			file.setReadOnly();
 		} catch (IOException e) {
 			new ErrorPopup("Could not write to " + fileName);
 		}
