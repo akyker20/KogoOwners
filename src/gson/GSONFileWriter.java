@@ -5,6 +5,7 @@ import gui.ImportedFile;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import utilities.popups.ErrorPopup;
@@ -21,8 +22,8 @@ public class GSONFileWriter {
 	private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
 	private static final String DRIVER_IMPORTED_FILES_PATH = "./src/json/imported_videos.json";
 
-	public void writeDriverFile(String fileName, List<ActiveVideo> videos) {
-		TransferVideoData data = new TransferVideoData(videos);
+	public void writeDriverFile(String fileName, List<ActiveVideo> videos, LocalDate date) {
+		TransferVideoData data = new TransferVideoData(videos, date);
 		writeToFile(fileName,
 				GSON_BUILDER.create().toJson(data, TransferVideoData.class));
 	}

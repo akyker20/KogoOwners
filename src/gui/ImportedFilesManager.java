@@ -22,7 +22,7 @@ public class ImportedFilesManager {
 		myVideosToRefreshed = new ArrayList<ActiveVideo>();
 		myImportedFiles = new ArrayList<ImportedFile>();
 		myCurrentlyImportedVideos = FXCollections.observableArrayList();
-		myPreviouslyImportedFiles = Controller.GSON_READER.readImportedVideoFiles();
+		myPreviouslyImportedFiles = Controller.GSON_READER.readImportedFiles();
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class ImportedFilesManager {
 	 * there are no previously imported files with the same name.
 	 */
 	public boolean canImport(File file) {
-		myPreviouslyImportedFiles = Controller.GSON_READER.readImportedVideoFiles();
+		myPreviouslyImportedFiles = Controller.GSON_READER.readImportedFiles();
 		for(ImportedFile importedFile:myPreviouslyImportedFiles) {
 			System.out.println(file.getName());
 			System.out.println(importedFile.getFileName());

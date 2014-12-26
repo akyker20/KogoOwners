@@ -3,6 +3,7 @@ package menus;
 import javafx.scene.control.Menu;
 import menus.filemenuitems.BackToTableItem;
 import menus.filemenuitems.ConsumeDriverFiles;
+import menus.filemenuitems.DriverStatsItem;
 import menus.filemenuitems.GenerateDriverFileMenu;
 import menus.filemenuitems.ImportDriverFiles;
 import control.FileControl;
@@ -20,6 +21,7 @@ public class FileMenu extends Menu {
 	private ImportDriverFiles myUploadDriverFiles;
 	private ConsumeDriverFiles myConsumeDriverFiles;
 	private BackToTableItem myReturnToTable;
+	private DriverStatsItem myDriverStatsItem;
 
 	public FileMenu(FileControl control) {
 		this.setText("File");
@@ -27,6 +29,7 @@ public class FileMenu extends Menu {
 		myGenerateDriverFileMenu = new GenerateDriverFileMenu(control);
 		myUploadDriverFiles = new ImportDriverFiles(control);
 		myConsumeDriverFiles = new ConsumeDriverFiles(control);
+		myDriverStatsItem = new DriverStatsItem(control);
 	}
 
 	public void disableConsumeDriverFilesItem(boolean disableStatus) {
@@ -34,12 +37,12 @@ public class FileMenu extends Menu {
 	}
 
 	public void configureImportFileMenuOptions() {
-		this.getItems().removeAll(myGenerateDriverFileMenu, myUploadDriverFiles);
+		this.getItems().removeAll(myGenerateDriverFileMenu, myUploadDriverFiles, myDriverStatsItem);
 		this.getItems().addAll(myConsumeDriverFiles, myReturnToTable);
 	}
 
 	public void configureVideoTableMenuOptions() {
 		this.getItems().removeAll(myConsumeDriverFiles, myReturnToTable);
-		this.getItems().addAll(myGenerateDriverFileMenu, myUploadDriverFiles);
+		this.getItems().addAll(myGenerateDriverFileMenu, myUploadDriverFiles, myDriverStatsItem);
 	}
 }

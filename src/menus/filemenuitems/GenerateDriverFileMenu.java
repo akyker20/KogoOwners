@@ -1,7 +1,7 @@
 package menus.filemenuitems;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.GregorianCalendar;
 
 import javafx.scene.control.Menu;
@@ -18,6 +18,7 @@ public class GenerateDriverFileMenu extends Menu {
 
 	private static final String ITEM_TITLE = "Make Driver Files";
 	private static final int NUM_DAYS_OPTION = 3;
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 	private FileControl myControl;
 
 	public GenerateDriverFileMenu(FileControl control){
@@ -27,31 +28,28 @@ public class GenerateDriverFileMenu extends Menu {
 	}
 
 	private void addDateOptionsItems() {
-		String[] dateStr = getArrayOfStringDays();	
-		MenuItem[] dates = new MenuItem[NUM_DAYS_OPTION];
-		for(int i = 0; i < dateStr.length; i++){
-			dates[i] = new MenuItem(dateStr[i]);
+		LocalDate[] dates = getArrayOfStringDays();	
+		MenuItem[] dateItems = new MenuItem[NUM_DAYS_OPTION];
+		for(int i = 0; i < dates.length; i++){
+			dateItems[i] = new MenuItem(dates[i].format(FORMATTER));
 			final int index = i;
-			dates[i].setOnAction(event->
-			myControl.buildDriverFile(dateStr[index].replace('/', '-')));
-			getItems().add(dates[i]);
+			dateItems[i].setOnAction(event->
+			myControl.buildDriverFile(dates[index]));
+			getItems().add(dateItems[i]);
 		}
 	}
 
-	private String[] getArrayOfStringDays() {
+	private LocalDate[] getArrayOfStringDays() {
 		GregorianCalendar cal = new GregorianCalendar();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		int day = cal.get(GregorianCalendar.DAY_OF_MONTH);
-		int month = cal.get(GregorianCalendar.MONTH);
+		int month = cal.get(GregorianCalendar.MONTH)+1;
 		int year = cal.get(GregorianCalendar.YEAR);
-		String[] dateStr = new String[NUM_DAYS_OPTION];
+		LocalDate[] dates = new LocalDate[NUM_DAYS_OPTION];
 		int r = 0;
 		for(int i=day; i < (day+NUM_DAYS_OPTION); i++){
-			cal.set(year, month, i);
-			Date date = cal.getTime();
-			dateStr[r] = sdf.format(date);
+			dates[r] = LocalDate.of(year, month, i);
 			r++;
 		}
-		return dateStr;
+		return dates;
 	}
 }

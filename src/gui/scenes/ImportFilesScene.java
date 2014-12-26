@@ -1,6 +1,6 @@
 package gui.scenes;
 
-import gui.tableviews.DrivingSessionTable;
+import gui.tableviews.DrivingImportStatsTable;
 import gui.tableviews.ImportedFilesTable;
 import javafx.geometry.Insets;
 import javafx.scene.control.DatePicker;
@@ -19,7 +19,7 @@ public class ImportFilesScene extends GUIScene {
 
 	private static final int DATE_PICKER_WIDTH = 260;
 	private ImportedFilesTable myImportedFilesTable;
-	private DrivingSessionTable myDriverSessionTable;
+	private DrivingImportStatsTable myDriverSessionTable;
 	private DatePicker myDatePicker;
 	private FileControl myControl;
 
@@ -46,7 +46,7 @@ public class ImportFilesScene extends GUIScene {
 	}
 
 	private void createTablesToBeShownInScene() {
-		myDriverSessionTable = new DrivingSessionTable();
+		myDriverSessionTable = new DrivingImportStatsTable();
 		myImportedFilesTable = new ImportedFilesTable(myDriverSessionTable, myControl);
 	}
 

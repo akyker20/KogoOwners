@@ -7,13 +7,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import video.ActiveVideo;
 
-public class DrivingSessionTable extends TableView<ActiveVideo> {
+public class DrivingImportStatsTable extends TableView<ActiveVideo> {
 
 	public static final int NUM_COLS = 4;
 
 	private ObservableList<ActiveVideo> myCurrentlyImportedVideos;
 
-	public DrivingSessionTable() {
+	public DrivingImportStatsTable() {
 		myCurrentlyImportedVideos = Controller.IMPORT_MANAGER
 				.getCurrentlyImportedVideos();
 		createColsAndAddToTable();

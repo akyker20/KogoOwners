@@ -1,6 +1,6 @@
 package gui.tablecolumns;
 
-import gui.tableviews.DrivingSessionTable;
+import gui.tableviews.DrivingImportStatsTable;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,6 +20,6 @@ public class PlayedVideoIntTableCol extends TableColumn<ActiveVideo, Integer> {
 		setCellValueFactory(new PropertyValueFactory<ActiveVideo, Integer>(
 				videoAttrStr));
 		prefWidthProperty().bind(
-				tableWidth.divide(DrivingSessionTable.NUM_COLS));
+				tableWidth.divide(DrivingImportStatsTable.NUM_COLS));
 	}
 }

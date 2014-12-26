@@ -6,12 +6,15 @@ import gson.GSONFileWriter;
 import gui.DriverDeliverableBuilder;
 import gui.ImportedFilesManager;
 import gui.NewVideoPrompt;
+import gui.scenes.DriverStatsScene;
 import gui.scenes.ImportFilesScene;
 import gui.scenes.TableScene;
 import gui.tableviews.VideoTable;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -37,7 +40,7 @@ import video.LoadedVideo;
  *
  */
 public class Controller extends Application implements FileControl, Observer {
-	
+
 
 	private static final String SUCCESS_ADD_MSG = "Successfully added new ad!";
 	private static final String CREATED_DRIVER_DEL_MSG = "Successfully created driver deliverable. "
@@ -51,12 +54,14 @@ public class Controller extends Application implements FileControl, Observer {
 	private static final String IMPORT_FILES_TITLE = "Import Files";
 	private static final String FILE_CHOOSER_TITLE = "Select Video File";
 	private static final String VIDEOS_DIR = "./videos/";
+	private static final String DRIVER_STATS_TITLE = "Driver Information";
 
 	private ObservableList<LoadedVideo> myVideosList;
 	private Stage myStage;
 	private TableScene myTableScene;
 	private NewVideoPrompt myVideoPrompt;
 	private ImportFilesScene myImportFilesScene;
+	private DriverStatsScene myDriverStatsScene;
 	private FileMenu myFileMenu;
 	private Scene myScene;
 	private BorderPane myPane;
@@ -82,6 +87,7 @@ public class Controller extends Application implements FileControl, Observer {
 		myVideoTable = new VideoTable(myVideosList);
 		myTableScene = new TableScene(myVideoTable,	myVideoPrompt);
 		myImportFilesScene = new ImportFilesScene((FileControl) this);
+		myDriverStatsScene = new DriverStatsScene();
 	}
 
 	private void setupMenu() {
@@ -136,14 +142,16 @@ public class Controller extends Application implements FileControl, Observer {
 		showVideosPane();
 	}
 
-	public void buildDriverFile(String dateStr) {
+	public void buildDriverFile(LocalDate date) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+		String dateStr = date.format(formatter);
 		DRIVER_DELIVERABLE_BUILDER.buildDriverDeliverableFolder(dateStr);
 		List<ActiveVideo> videos = myVideosList.stream()
 				.map(video -> new ActiveVideo(video, NUM_DRIVERS))
 				.collect(Collectors.toList());
 		String driverJSONFileName = "./driver/deliverable_" + dateStr
 				+ "/kogo_" + dateStr + ".json";
-		GSON_WRITER.writeDriverFile(driverJSONFileName, videos);
+		GSON_WRITER.writeDriverFile(driverJSONFileName, videos, date);
 		new SuccessPopup(CREATED_DRIVER_DEL_MSG);
 	}
 
@@ -218,5 +226,11 @@ public class Controller extends Application implements FileControl, Observer {
 	@Override
 	public void update(Observable arg0, Object createdAd) {
 		attemptToAddNewAdvertisement((LoadedVideo) createdAd);		
+	}
+
+	@Override
+	public void viewDriverStats() {
+		myStage.setTitle(DRIVER_STATS_TITLE);
+		myPane.setCenter(myDriverStatsScene);		
 	}
 }

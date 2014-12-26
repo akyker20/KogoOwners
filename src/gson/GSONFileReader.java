@@ -1,6 +1,7 @@
 package gson;
 
 import gui.ImportedFile;
+import gui.scenes.Driver;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,6 +27,8 @@ public class GSONFileReader {
 	private static final String MASTER_VIDEOS_PATH = "./src/json/videos.json";
 	private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
 	private static final String IMPORTED_VIDEOS_PATH = "./src/json/imported_videos.json";
+	private static final String DRIVERS_PATH = "./src/json/drivers.json";
+	private static final String DRIVER_ERROR = "Could not read drivers from drivers.json";
 
 	public ObservableList<LoadedVideo> readVideosFromMasterJSON() {
 		List<LoadedVideo> videos = null;
@@ -58,20 +61,31 @@ public class GSONFileReader {
 		return data;
 	}
 
-	public List<ImportedFile> readImportedVideoFiles() {
-		List<ImportedFile> importedVideos = null;
+	public List<ImportedFile> readImportedFiles() {
+		List<ImportedFile> importedFiles = null;
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(
 					IMPORTED_VIDEOS_PATH));
-			importedVideos = GSON_BUILDER.create().fromJson(br,
-					new TypeToken<List<ImportedFile>>() {
-					}.getType());
+			importedFiles = GSON_BUILDER.create().fromJson(br,
+					new TypeToken<List<ImportedFile>>() {}.getType());
 		} catch (IOException e) {
 			new ErrorPopup(IMPORTED_FILES_READ_ERROR);
 		}
-		if (importedVideos == null) {
-			importedVideos = new ArrayList<ImportedFile>();
+		if (importedFiles == null) {
+			importedFiles = new ArrayList<ImportedFile>();
 		}
-		return importedVideos;
+		return importedFiles;
+	}
+
+	public List<Driver> readDrivers() {
+		List<Driver> drivers = null;
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(DRIVERS_PATH));
+			drivers = GSON_BUILDER.create().fromJson(br,
+					new TypeToken<List<Driver>>() {}.getType());
+		} catch (IOException e) {
+			new ErrorPopup(DRIVER_ERROR);
+		}
+		return drivers;
 	}
 }
