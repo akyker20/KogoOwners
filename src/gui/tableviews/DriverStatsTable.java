@@ -1,20 +1,18 @@
 package gui.tableviews;
 
-import gui.ImportedFile;
-
 import java.util.List;
 
 import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import video.DriverSessionData;
 
-public class DriverStatsTable extends TableView<ImportedFile> {
+public class DriverStatsTable extends TableView<DriverSessionData> {
 
 	private static final int TABLE_WIDTH = 450;
 
-	public DriverStatsTable(List<ImportedFile> files) {
+	public DriverStatsTable(List<DriverSessionData> files) {
 		this.setId("table");
 		addColToTable();
 		setPrefWidth(TABLE_WIDTH);
@@ -27,9 +25,9 @@ public class DriverStatsTable extends TableView<ImportedFile> {
 		this.getColumns().add(makeCol("Revenue ($)", "totalRevenue"));
 	}
 	
-	private TableColumn<ImportedFile, String> makeCol(String heading, String method) {
-		TableColumn<ImportedFile, String> col = new TableColumn<ImportedFile, String>(heading);
-		col.setCellValueFactory(new PropertyValueFactory<ImportedFile, String>(method));
+	private TableColumn<DriverSessionData, String> makeCol(String heading, String method) {
+		TableColumn<DriverSessionData, String> col = new TableColumn<DriverSessionData, String>(heading);
+		col.setCellValueFactory(new PropertyValueFactory<DriverSessionData, String>(method));
 		col.prefWidthProperty().bind(this.widthProperty().divide(3));
 		return col;
 	}

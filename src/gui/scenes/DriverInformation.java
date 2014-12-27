@@ -1,14 +1,13 @@
 package gui.scenes;
 
-import gui.ImportedFile;
 import gui.tableviews.DriverStatsTable;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import video.DriverSessionData;
 import control.Controller;
 
 public class DriverInformation extends BorderPane {
@@ -20,7 +19,7 @@ public class DriverInformation extends BorderPane {
 	}
 
 	public void showInformation(Driver driver) {
-		List<ImportedFile> driversFiles = 
+		List<DriverSessionData> driversFiles = 
 				Controller.GSON_READER.readImportedFiles()
 				.stream()
 				.filter(file -> file.getFileName().contains(driver.getMyInitials()))

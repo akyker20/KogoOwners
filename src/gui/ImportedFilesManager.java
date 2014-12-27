@@ -9,18 +9,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import utilities.popups.ErrorPopup;
 import video.ActiveVideo;
+import video.DriverSessionData;
 import video.LoadedVideo;
 
 public class ImportedFilesManager {
 	private static final String FILE_ALREADY_IMPORTED_ERROR = "The file you are trying to import has already been imported.";
-	private List<ImportedFile> myImportedFiles;
+	private List<DriverSessionData> myImportedFiles;
 	private List<ActiveVideo> myCurrentlyImportedVideos;
-	private List<ImportedFile> myPreviouslyImportedFiles;
+	private List<DriverSessionData> myPreviouslyImportedFiles;
 	private List<ActiveVideo> myVideosToRefreshed;
 
 	public ImportedFilesManager() {
 		myVideosToRefreshed = new ArrayList<ActiveVideo>();
-		myImportedFiles = new ArrayList<ImportedFile>();
+		myImportedFiles = new ArrayList<DriverSessionData>();
 		myCurrentlyImportedVideos = FXCollections.observableArrayList();
 		myPreviouslyImportedFiles = Controller.GSON_READER.readImportedFiles();
 	}
@@ -31,7 +32,7 @@ public class ImportedFilesManager {
 	 */
 	public boolean canImport(File file) {
 		myPreviouslyImportedFiles = Controller.GSON_READER.readImportedFiles();
-		for(ImportedFile importedFile:myPreviouslyImportedFiles) {
+		for(DriverSessionData importedFile:myPreviouslyImportedFiles) {
 			System.out.println(file.getName());
 			System.out.println(importedFile.getFileName());
 			if(file.getName().equalsIgnoreCase(importedFile.getFileName())) {
@@ -43,9 +44,9 @@ public class ImportedFilesManager {
 	}
 
 	public void importVideoFile(File file) {
-		ImportedFile importedFile = new ImportedFile(file);
+		DriverSessionData importedFile = Controller.GSON_READER.extractVideoData(file);
 		myImportedFiles.add(importedFile);
-		for (ActiveVideo vid : importedFile.getVideoData()) {
+		for (ActiveVideo vid : importedFile.getVideos()) {
 			importVideo(vid);
 		}
 		refreshTable();
@@ -81,8 +82,8 @@ public class ImportedFilesManager {
 
 	public List<LoadedVideo> recalculateVideoData() {
 		List<LoadedVideo> updatedVideos = new ArrayList<LoadedVideo>();
-		for(ImportedFile file:getAllImportedFiles()) {
-			for(ActiveVideo importedVid:file.getVideoData()) {
+		for(DriverSessionData file:getAllImportedFiles()) {
+			for(ActiveVideo importedVid:file.getVideos()) {
 				int indexOfVideo = updatedVideos.indexOf(importedVid);
 				if(indexOfVideo != -1) {
 					updatedVideos.get(indexOfVideo).addStudentViews(importedVid.getMyPlays());			
@@ -99,12 +100,12 @@ public class ImportedFilesManager {
 	 * Updates the stored imported files in json.
 	 */
 	public void rewriteImportFiles() {
-		List<ImportedFile> allImportedFiles = getAllImportedFiles();
+		List<DriverSessionData> allImportedFiles = getAllImportedFiles();
 		Controller.GSON_WRITER.writeImportedFiles(allImportedFiles);		
 	}
 
-	private List<ImportedFile> getAllImportedFiles() {
-		List<ImportedFile> allImportedFiles = new ArrayList<ImportedFile>();
+	private List<DriverSessionData> getAllImportedFiles() {
+		List<DriverSessionData> allImportedFiles = new ArrayList<DriverSessionData>();
 		allImportedFiles.addAll(myPreviouslyImportedFiles);
 		allImportedFiles.addAll(myImportedFiles);
 		return allImportedFiles;

@@ -1,6 +1,5 @@
 package gson;
 
-import gui.ImportedFile;
 import gui.scenes.Driver;
 
 import java.io.BufferedReader;
@@ -13,8 +12,8 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import utilities.popups.ErrorPopup;
+import video.DriverSessionData;
 import video.LoadedVideo;
-import video.TransferVideoData;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -50,29 +49,29 @@ public class GSONFileReader {
 	/**
 	 * Used in owner application to extract the imported file video data.
 	 */
-	public TransferVideoData extractVideoData(File importedJson) {
-		TransferVideoData data = null;
+	public DriverSessionData extractVideoData(File importedJson) {
+		DriverSessionData data = null;
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(importedJson));
-			data = GSON_BUILDER.create().fromJson(br, TransferVideoData.class);
+			data = GSON_BUILDER.create().fromJson(br, DriverSessionData.class);
 		} catch (IOException e) {
 			new ErrorPopup(VID_DATA_EXTRACTION_ERROR);
 		}
 		return data;
 	}
 
-	public List<ImportedFile> readImportedFiles() {
-		List<ImportedFile> importedFiles = null;
+	public List<DriverSessionData> readImportedFiles() {
+		List<DriverSessionData> importedFiles = null;
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(
 					IMPORTED_VIDEOS_PATH));
 			importedFiles = GSON_BUILDER.create().fromJson(br,
-					new TypeToken<List<ImportedFile>>() {}.getType());
+					new TypeToken<List<DriverSessionData>>() {}.getType());
 		} catch (IOException e) {
 			new ErrorPopup(IMPORTED_FILES_READ_ERROR);
 		}
 		if (importedFiles == null) {
-			importedFiles = new ArrayList<ImportedFile>();
+			importedFiles = new ArrayList<DriverSessionData>();
 		}
 		return importedFiles;
 	}
