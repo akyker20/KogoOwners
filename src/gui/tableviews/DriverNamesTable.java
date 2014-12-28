@@ -14,7 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class DriverNamesTable extends Observable {
 
-	private static final int TABLE_WIDTH = 150;
+	private static final int TABLE_WIDTH = 110;
 
 	private TableView<Driver> myTable;
 
