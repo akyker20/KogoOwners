@@ -2,6 +2,8 @@ package menus.filemenuitems;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javafx.scene.control.Menu;
@@ -41,14 +43,11 @@ public class GenerateDriverFileMenu extends Menu {
 
 	private LocalDate[] getArrayOfStringDays() {
 		GregorianCalendar cal = new GregorianCalendar();
-		int day = cal.get(GregorianCalendar.DAY_OF_MONTH);
-		int month = cal.get(GregorianCalendar.MONTH)+1;
-		int year = cal.get(GregorianCalendar.YEAR);
 		LocalDate[] dates = new LocalDate[NUM_DAYS_OPTION];
-		int r = 0;
-		for(int i=day; i < (day+NUM_DAYS_OPTION); i++){
-			dates[r] = LocalDate.of(year, month, i);
-			r++;
+		for(int i=0; i < NUM_DAYS_OPTION; i++){			
+			cal.add(Calendar.DATE, 1);
+			dates[i] = LocalDate.of(cal.get(Calendar.YEAR), 
+					cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH));
 		}
 		return dates;
 	}
